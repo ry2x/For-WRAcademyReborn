@@ -1,0 +1,40 @@
+{
+  "type": "module",
+  "packageManager": "pnpm@10.0.0+sha256.43abf6e720fb7bc53c591b0862605c7d323d0a9d2dd33bcac07b062e13cf4948",
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,css,md}": "prettier --write"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "eslint --cache --fix src",
+    "prettier": "prettier --write src",
+    "compile": "tsc && pnpm run copy",
+    "copy": "npx copyfiles -u 1 src/.env src/**/*.json dist/",
+    "start": "pnpm run compile && cd dist &&node index.js",
+    "clean": "npx rimraf dist"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^2.4.2",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.4.1",
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0"
+  }
+}
