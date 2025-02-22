@@ -1,3 +1,4 @@
 {
-  "prefix": "!"
+  "prefix": "!",
+  "urlChampions": "https://ry2x.github.io/wildrift_data/champions.json"
 }

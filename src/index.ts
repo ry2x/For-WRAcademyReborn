@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import { readdirSync } from 'fs';
 import { Client, GatewayIntentBits, Collection, Partials } from 'discord.js';
-import deployGlobalCommands from './deployGlobalCommands.js';
 import logger from './logger.js';
 import type ApplicationCommand from './templates/ApplicationCommand.js';
 import type Event from './templates/Event.js';
@@ -14,14 +13,14 @@ import {
 } from './templates/InteractionCommands.js';
 import type MessageCommand from './templates/MessageCommand.js';
 import type { commandModule } from './types/interface.js';
+import { fetchChampionData } from './utils/championData.js';
+
+logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
 const { TOKEN } = process.env;
+await fetchChampionData();
 
 logger.info('[INITIALIZING CLIENT]');
-
-await deployGlobalCommands();
-
-logger.info('[FINISHED DEPLOYING GLOBAL COMMANDS]');
 
 // Discord client object
 logger.info('Create Discord Client Object');
@@ -31,6 +30,7 @@ global.client = Object.assign(
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
       GatewayIntentBits.DirectMessages,
+      GatewayIntentBits.MessageContent,
     ],
     partials: [Partials.Channel],
   }),
