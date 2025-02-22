@@ -1,6 +1,7 @@
 import type {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
   SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 import logger from '../logger.js';
@@ -11,19 +12,19 @@ import type SubCommand from './SubCommand.js';
  * Represents an Slash Command
  */
 export default class ApplicationCommand {
-  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
   hasSubCommands: boolean;
   execute: (interaction: ChatInputCommandInteraction) => Promise<void> | void;
 
   /**
    * @param {{
-   *      data: SlashCommandBuilder  | SlashCommandSubcommandsOnlyBuilder
+   *      data: SlashCommandBuilder  | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder
    *      hasSubCommands?: boolean
    *      execute?: (interaction: ChatInputCommandInteraction) => Promise<void> | void
    *  }} options - The options for the slash command
    */
   constructor(options: {
-    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder;
+    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
     hasSubCommands?: boolean;
     execute?: (interaction: ChatInputCommandInteraction) => Promise<void> | void;
   }) {
