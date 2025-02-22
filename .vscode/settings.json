@@ -4,6 +4,15 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "cSpell.words": ["grouptest", "hasky", "nodenext", "pingping", "subcommandtest"],
+  "cSpell.words": [
+    "ACCESSKEY",
+    "championname",
+    "grouptest",
+    "hasky",
+    "nodenext",
+    "pingping",
+    "SECRETACCESS",
+    "subcommandtest"
+  ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
