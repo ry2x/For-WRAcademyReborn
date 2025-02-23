@@ -24,7 +24,7 @@ async function pingButton(interaction: ChatInputCommandInteraction<CacheType>): 
     .setDescription('Push Button');
 
   const button = new ButtonBuilder()
-    .setCustomId('button-ping')
+    .setCustomId('ButtonPing')
     .setStyle(ButtonStyle.Primary)
     .setLabel('Ping!');
 
