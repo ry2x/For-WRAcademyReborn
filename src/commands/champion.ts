@@ -15,12 +15,12 @@ function getRoles(champion: Champion): string {
 
 function getTags(champion: Champion): string {
   let tags = '→　';
-  if (champion.is_fighter) tags += 'ファイター　';
-  if (champion.is_mage) tags += 'メイジ　';
-  if (champion.is_assassin) tags += 'アサシン　';
-  if (champion.is_marksman) tags += 'マークスマン　';
-  if (champion.is_support) tags += 'サポート　';
-  if (champion.is_tank) tags += 'タンク　';
+  if (champion.is_fighter) tags += 'ファイター<:fighter:1343296794343247985>　';
+  if (champion.is_mage) tags += 'メイジ<:mage:1343296818775326780>　';
+  if (champion.is_assassin) tags += 'アサシン<:assassin:1343296727712530494>　';
+  if (champion.is_marksman) tags += 'マークスマン<:marksman:1343296831781605376>　';
+  if (champion.is_support) tags += 'サポート<:support:1343296844586946681>　';
+  if (champion.is_tank) tags += 'タンク<:tank:1343296805575589939>　';
   return tags;
 }
 
