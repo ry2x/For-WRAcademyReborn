@@ -41,7 +41,9 @@ export default new Event({
           | SelectCommand
           | ModalCommand;
         if (interaction.isButton()) {
-          command = client.components.buttons.get(interaction.customId) as ButtonCommand;
+          command = client.components.buttons.get(
+            interaction.customId.split('-')[0],
+          ) as ButtonCommand;
           await command.execute(interaction);
         } else if (interaction.isContextMenuCommand()) {
           command = client.contextCommands.get(interaction.commandName) as ContextCommand;
