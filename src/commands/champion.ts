@@ -60,7 +60,7 @@ export default new ApplicationCommand({
       return;
     }
     const embed = new EmbedBuilder()
-      .setColor(Colors.Blue)
+      .setColor(Colors.Orange)
       .setTitle(champion.name)
       .setDescription(champion.title)
       .setThumbnail(
