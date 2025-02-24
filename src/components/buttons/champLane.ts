@@ -1,3 +1,4 @@
+import { MessageFlags } from 'discord.js';
 import { CHAMP_PER_PAGE, createPageButton, createPageEmbed } from '../../commands/championLane.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
 import { getChampionsByLane } from '../../utils/championData.js';
@@ -25,7 +26,7 @@ export default new ButtonCommand({
     if (interaction.message.member?.id === interaction.user.id) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌このボタンは使用できません。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -35,7 +36,7 @@ export default new ButtonCommand({
     if (!champions || champions.length === 0) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }

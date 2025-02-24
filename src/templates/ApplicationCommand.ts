@@ -1,8 +1,9 @@
-import type {
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  SlashCommandOptionsOnlyBuilder,
-  SlashCommandSubcommandsOnlyBuilder,
+import {
+  MessageFlags,
+  type ChatInputCommandInteraction,
+  type SlashCommandBuilder,
+  type SlashCommandOptionsOnlyBuilder,
+  type SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 import logger from '../logger.js';
 import type { commandModule } from '../types/interface.js';
@@ -36,7 +37,7 @@ export default class ApplicationCommand {
         if (!commandName) {
           await interaction.reply({
             content: "I couldn't understand that command!",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         } else {
           try {
@@ -49,7 +50,7 @@ export default class ApplicationCommand {
             logger.error(error);
             await interaction.reply({
               content: 'An error occurred when attempting to execute that command!',
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
           }
         }

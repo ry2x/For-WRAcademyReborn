@@ -1,4 +1,4 @@
-import { Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
 
 export default new ApplicationCommand({
@@ -13,6 +13,9 @@ export default new ApplicationCommand({
         .setDescription(`ping値は${description}msです`);
     };
 
-    await interaction.reply({ embeds: [embed(client.ws.ping.toString())], ephemeral: true });
+    await interaction.reply({
+      embeds: [embed(client.ws.ping.toString())],
+      flags: MessageFlags.Ephemeral,
+    });
   },
 });

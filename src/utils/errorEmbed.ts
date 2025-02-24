@@ -1,4 +1,4 @@
-import { Colors, EmbedBuilder, type InteractionReplyOptions } from 'discord.js';
+import { Colors, EmbedBuilder, MessageFlags, type InteractionReplyOptions } from 'discord.js';
 
 export function interactionErrorEmbed(msg: string): EmbedBuilder {
   return new EmbedBuilder().setColor(Colors.Red).setTitle(msg);
@@ -6,5 +6,5 @@ export function interactionErrorEmbed(msg: string): EmbedBuilder {
 
 export const interactionError: InteractionReplyOptions = {
   embeds: [interactionErrorEmbed('❌An error occurred when attempting to execute that command!')],
-  ephemeral: true,
+  flags: MessageFlags.Ephemeral,
 };

@@ -4,6 +4,7 @@ import {
   ButtonStyle,
   Colors,
   EmbedBuilder,
+  MessageFlags,
   SlashCommandBuilder,
 } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
@@ -76,7 +77,7 @@ export default new ApplicationCommand({
     if (champions.length === 0) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌該当するチャンピョンがいません。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }

@@ -1,12 +1,12 @@
-import { Colors, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
 import type { Champion } from '../types/interface.js';
 import { getChampionByName } from '../utils/championData.js';
 
 function getRoles(champion: Champion): string {
-  let roles = '→　';
+  let roles = '→';
   if (champion.is_top) roles += 'トップ<:Lane_Top:1342957411408941167>　';
-  if (champion.is_jg) roles += 'ジャングル<:Lane_Jungle:1342957406266593311> 　 ';
+  if (champion.is_jg) roles += 'ジャングル<:Lane_Jungle:1342957406266593311> 　';
   if (champion.is_mid) roles += 'ミッド<:Lane_Mid:1342957408040783963>　';
   if (champion.is_ad) roles += 'ボット<:Lane_Bot:1342957400495231067>　';
   if (champion.is_sup) roles += 'サポート<:Lane_Support:1342957409747992576>　';
@@ -14,7 +14,7 @@ function getRoles(champion: Champion): string {
 }
 
 function getTags(champion: Champion): string {
-  let tags = '→　';
+  let tags = '→';
   if (champion.is_fighter) tags += 'ファイター<:fighter:1343296794343247985>　';
   if (champion.is_mage) tags += 'メイジ<:mage:1343296818775326780>　';
   if (champion.is_assassin) tags += 'アサシン<:assassin:1343296727712530494>　';
@@ -44,7 +44,7 @@ export default new ApplicationCommand({
     if (!championName) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌チャンピオンの名前が指定されていません。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -55,7 +55,7 @@ export default new ApplicationCommand({
         embeds: [
           interactionErrorEmbed(`❌チャンピオン「${championName}」は見つかりませんでした。`),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
