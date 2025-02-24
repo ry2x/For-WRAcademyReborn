@@ -14,11 +14,13 @@ import {
 import type MessageCommand from './templates/MessageCommand.js';
 import type { commandModule } from './types/interface.js';
 import { fetchChampionData } from './utils/championData.js';
+import { fetchWildRiftData } from './utils/wildriftRss.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
 const { TOKEN } = process.env;
 await fetchChampionData();
+await fetchWildRiftData();
 
 logger.info('[INITIALIZING CLIENT]');
 

@@ -1,10 +1,15 @@
 import { Colors, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getTipsFromContent, getWildriftFaivcon, getWildriftNews } from '../utils/wildriftRss.js';
+import {
+  getTipsFromContent,
+  getWildriftFaivcon,
+  getWildriftNews,
+  unixMsToYMD,
+} from '../utils/wildriftRss.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
-    .setName('showLatestNews')
+    .setName('showlatestnews')
     .setDescription('ワイルドリフト公式ページから最新のニュースを表示します。'),
   async execute(interaction) {
     await interaction.deferReply();
@@ -14,9 +19,10 @@ export default new ApplicationCommand({
       color: Colors.Green,
       fields: news.map((item) => ({
         name: item.title,
-        value: `[リンク](${item.link})\n${getTipsFromContent(item.content)}`,
+        value: `[ここから確認する](${item.link})\n概要：${getTipsFromContent(item.contents)}`,
       })),
       thumbnail: { url: getWildriftFaivcon() },
+      footer: { text: unixMsToYMD(news[0].retrieved) },
     };
     await interaction.editReply({ embeds: [embed] });
   },
