@@ -5,6 +5,7 @@ export interface commandModule<T> {
 export interface Config {
   prefix: string;
   urlChampions: string;
+  urlRssWildRift: string;
 }
 
 export interface Champion {
@@ -30,4 +31,17 @@ export interface Champion {
 
 export interface Champions {
   [key: string]: Champion;
+}
+
+export interface RssWildRiftItem {
+  title: string;
+  contents: string;
+  link: string;
+  content: string;
+}
+
+export interface RssWildRift {
+  title: string;
+  favicon: string;
+  elements: RssWildRiftItem[];
 }
