@@ -13,7 +13,8 @@
     "nodenext",
     "pingping",
     "SECRETACCESS",
-    "subcommandtest"
+    "subcommandtest",
+    "Wildrift"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
