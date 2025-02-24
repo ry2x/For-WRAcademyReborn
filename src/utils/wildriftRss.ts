@@ -29,7 +29,7 @@ export function getWildriftNews(count: number): RssWildRiftItem[] {
   return data.elements.slice(0, count - 1);
 }
 
-export function getWilrdiftFaivcon(): string {
+export function getWildriftFaivcon(): string {
   return data.favicon;
 }
 
