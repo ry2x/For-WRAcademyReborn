@@ -14,7 +14,8 @@
     "pingping",
     "SECRETACCESS",
     "subcommandtest",
-    "Wildrift"
+    "Wildrift",
+    "Faivcon"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
