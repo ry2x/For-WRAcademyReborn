@@ -37,7 +37,7 @@ export interface RssWildRiftItem {
   title: string;
   contents: string;
   link: string;
-  content: string;
+  retrieved: string;
 }
 
 export interface RssWildRift {
