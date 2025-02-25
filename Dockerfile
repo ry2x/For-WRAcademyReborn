@@ -1,0 +1,44 @@
+# Stage 1: Build the application
+FROM node:18 AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and pnpm-lock.yaml
+COPY package.json pnpm-lock.yaml ./ 
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+RUN pnpm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the application
+RUN pnpm run compile
+
+# Stage 2: Create the production image
+FROM node:18-slim
+
+# Set working directory
+WORKDIR /home/node/app
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml /home/node/app/
+COPY --from=builder /app/dist /home/node/app/dist
+COPY --from=builder /app/src/config.json /home/node/app/dist/
+
+# Install production dependencies
+RUN npm install -g pnpm
+RUN pnpm install --prod --frozen-lockfile
+
+# Use a non-root user
+USER node
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Start the application
+CMD ["pnpm", "start"]
