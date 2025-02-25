@@ -20,6 +20,11 @@ export default new ButtonCommand({
         embeds: [embed],
         components: [],
       });
+
+      await interaction.followUp({
+        embeds: [interactionErrorEmbed('❌このボタンは3分が経過したので使用できません。')],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
