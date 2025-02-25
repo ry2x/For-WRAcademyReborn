@@ -1,4 +1,5 @@
 import config from '../config.json' with { type: 'json' };
+import logger from '../logger.js';
 import MessageCommand from '../templates/MessageCommand.js';
 
 export default new MessageCommand({
@@ -13,6 +14,8 @@ export default new MessageCommand({
       );
       return;
     }
+
+    logger.info('${message.author.tag} is un-deploying the commands');
 
     if (args[0].toLowerCase() === 'global') {
       // global un-deployment

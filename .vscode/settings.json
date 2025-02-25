@@ -8,14 +8,15 @@
     "ACCESSKEY",
     "championlane",
     "championname",
+    "Faivcon",
     "grouptest",
     "hasky",
+    "Logtail",
     "nodenext",
     "pingping",
     "SECRETACCESS",
     "subcommandtest",
-    "Wildrift",
-    "Faivcon"
+    "Wildrift"
   ],
   "typescript.tsdk": "node_modules\\typescript\\lib"
 }
