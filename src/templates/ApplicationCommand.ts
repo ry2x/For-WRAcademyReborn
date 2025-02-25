@@ -49,10 +49,11 @@ export default class ApplicationCommand {
             await command.execute(interaction);
           } catch (error) {
             logger.error(error);
-            await interaction.reply({
-              content: 'An error occurred when attempting to execute that command!',
-              flags: MessageFlags.Ephemeral,
-            });
+            if (interaction.deferred || interaction.replied) {
+              await interaction.followUp(interactionError);
+            } else {
+              await interaction.reply(interactionError);
+            }
           }
         }
       };
@@ -63,7 +64,6 @@ export default class ApplicationCommand {
         } catch (error) {
           logger.error(error);
           if (interaction.deferred || interaction.replied) {
-            await interaction.deleteReply();
             await interaction.followUp(interactionError);
           } else {
             await interaction.reply(interactionError);

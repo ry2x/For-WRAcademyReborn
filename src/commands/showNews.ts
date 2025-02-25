@@ -1,4 +1,4 @@
-import { Colors, SlashCommandBuilder } from 'discord.js';
+import { Colors, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
 import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 import {
@@ -16,9 +16,9 @@ export default new ApplicationCommand({
     await interaction.deferReply();
     const news = getWildriftNews(6);
     if (news.length === 0) {
-      await interaction.deleteReply();
       await interaction.followUp({
         embeds: [interactionErrorEmbed('❌ニュースの取得に失敗しました。')],
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
