@@ -67,7 +67,7 @@ export default new ApplicationCommand({
     const champions = lane === 'all' ? getAllChampions() : getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed('❌該当するチャンピョンがいません。')],
+        embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
         flags: MessageFlags.Ephemeral,
       });
       return;

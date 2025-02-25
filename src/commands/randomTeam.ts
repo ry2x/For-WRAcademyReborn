@@ -12,7 +12,7 @@ export default new ApplicationCommand({
     .addBooleanOption((option) =>
       option
         .setName('wr_only')
-        .setDescription('Wild Riftに実装されているチャンプ限定にするか (デフォルト: true)')
+        .setDescription('Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)')
         .setRequired(false),
     ),
   async execute(interaction) {
