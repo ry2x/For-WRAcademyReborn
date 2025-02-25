@@ -29,7 +29,7 @@ export default new ButtonCommand({
     }
 
     if (interaction.message.member?.id === interaction.user.id) {
-      await interaction.reply({
+      await interaction.followUp({
         embeds: [interactionErrorEmbed('❌このボタンは使用できません。')],
         flags: MessageFlags.Ephemeral,
       });
@@ -39,7 +39,7 @@ export default new ButtonCommand({
     const page = parseInt(strPage, 10);
     const champions = getChampionsByLane(lane);
     if (!champions || champions.length === 0) {
-      await interaction.reply({
+      await interaction.followUp({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
         flags: MessageFlags.Ephemeral,
       });
