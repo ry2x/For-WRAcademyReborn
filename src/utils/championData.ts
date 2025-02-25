@@ -5,8 +5,7 @@ import type { Champion, Champions, Config } from '../types/interface.js';
 
 const config: Config = JSON.parse(readFileSync('./config.json', 'utf-8')) as Config;
 
-export const lanes = ['トップ', 'ジャングル', 'ミッド', 'ボット', 'サポート'];
-
+export const lanes = ['all', 'top', 'jg', 'mid', 'ad', 'sup'];
 let champions: Champions = {};
 
 export async function fetchChampionData() {
@@ -27,6 +26,10 @@ export function getChampionByName(name: string) {
   );
 }
 
+export function getAllChampions() {
+  return Object.values(champions);
+}
+
 export function getChampionNames() {
   return Object.values(champions).map((champ: Champion) => champ.name);
 }
@@ -34,18 +37,37 @@ export function getChampionNames() {
 export function getChampionsByLane(lane: string) {
   return Object.values(champions).filter((champ: Champion) => {
     switch (lane) {
-      case lanes[0]:
-        return champ.is_top;
       case lanes[1]:
-        return champ.is_jg;
+        return champ.is_top;
       case lanes[2]:
-        return champ.is_mid;
+        return champ.is_jg;
       case lanes[3]:
-        return champ.is_ad;
+        return champ.is_mid;
       case lanes[4]:
+        return champ.is_ad;
+      case lanes[5]:
         return champ.is_sup;
       default:
         return false;
     }
   });
+}
+
+export function getLaneEmoji(lane: string) {
+  switch (lane) {
+    case lanes[0]:
+      return '<:Lane_All:1343842075464175616>';
+    case lanes[1]:
+      return '<:Lane_Top:1343276732194750485>';
+    case lanes[2]:
+      return '<:Lane_Jungle:1343276691853934647>';
+    case lanes[3]:
+      return '<:Lane_Mid:1343276706143932447>';
+    case lanes[4]:
+      return '<:Lane_Bot:1343276674044792974>';
+    case lanes[5]:
+      return '<:Lane_Support:1343276719049543803>';
+    default:
+      return '';
+  }
 }
