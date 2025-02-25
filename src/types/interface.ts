@@ -2,12 +2,6 @@ export interface commandModule<T> {
   default: T;
 }
 
-export interface Config {
-  prefix: string;
-  urlChampions: string;
-  urlRssWildRift: string;
-}
-
 export interface Champion {
   id: string;
   key: number;

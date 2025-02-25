@@ -1,11 +1,8 @@
-import { readFileSync } from 'fs';
 import { Events, type Message } from 'discord.js';
+import config from '../config.json' with { type: 'json' };
 import logger from '../logger.js';
 import Event from '../templates/Event.js';
 import type MessageCommand from '../templates/MessageCommand.js';
-import type { Config } from '../types/interface.js';
-
-const config: Config = JSON.parse(readFileSync('./config.json', 'utf-8')) as Config;
 
 export default new Event({
   name: Events.MessageCreate,

@@ -1,9 +1,7 @@
-import { readFileSync } from 'fs';
 import axios, { type AxiosResponse } from 'axios';
+import config from '../config.json' with { type: 'json' };
 import logger from '../logger.js';
-import type { Champion, Champions, Config } from '../types/interface.js';
-
-const config: Config = JSON.parse(readFileSync('./config.json', 'utf-8')) as Config;
+import type { Champion, Champions } from '../types/interface.js';
 
 export const lanes = ['all', 'top', 'jg', 'mid', 'ad', 'sup'];
 let champions: Champions = {};

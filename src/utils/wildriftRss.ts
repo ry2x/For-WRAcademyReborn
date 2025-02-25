@@ -1,11 +1,9 @@
-import { readFileSync } from 'fs';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
+import config from '../config.json' with { type: 'json' };
 import logger from '../logger.js';
-import type { Config, RssWildRift, RssWildRiftItem } from '../types/interface.js';
-
-const config: Config = JSON.parse(readFileSync('./config.json', 'utf-8')) as Config;
+import type { RssWildRift, RssWildRiftItem } from '../types/interface.js';
 
 let data: RssWildRift = {
   title: '',
