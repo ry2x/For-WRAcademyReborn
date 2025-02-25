@@ -17,9 +17,9 @@ export async function fetchWildRiftData() {
   try {
     const res: AxiosResponse<RssWildRift> = await axios.get(config.urlRssWildRift);
     data = res.data;
-    logger.info('[INFO] WildRift RSS  data updated!');
+    logger.info('WildRift RSS  data updated!');
   } catch (error: unknown) {
-    logger.error('[ERROR] Failed to fetch WildRift RSS data:', error);
+    logger.error('Failed to fetch WildRift RSS data:', error);
   }
 }
 
@@ -48,7 +48,7 @@ export function getTipsFromContent(content: string): string {
     const document = dom.window.document;
     return document.querySelector('[data-testid="rich-text-html"] div')?.textContent?.trim() || '';
   } catch (error) {
-    logger.error('[ERROR] Failed to parse content:', error);
+    logger.error('Failed to parse content:', error);
     return '';
   }
 }

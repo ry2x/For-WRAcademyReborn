@@ -12,9 +12,9 @@ export async function fetchChampionData() {
   try {
     const res: AxiosResponse<Champions> = await axios.get(config.urlChampions);
     champions = res.data;
-    logger.info('[INFO] Champion data updated!');
+    logger.info('Champion data updated!');
   } catch (error: unknown) {
-    logger.error('[ERROR] Failed to fetch champion data:', error);
+    logger.error('Failed to fetch champion data:', error);
   }
 }
 
