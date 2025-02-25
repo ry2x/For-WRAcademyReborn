@@ -1,5 +1,6 @@
 import { Colors, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
+import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 import {
   getTipsFromContent,
   getWildriftFaivcon,
@@ -14,6 +15,13 @@ export default new ApplicationCommand({
   async execute(interaction) {
     await interaction.deferReply();
     const news = getWildriftNews(6);
+    if (news.length === 0) {
+      await interaction.deleteReply();
+      await interaction.followUp({
+        embeds: [interactionErrorEmbed('❌ニュースの取得に失敗しました。')],
+      });
+      return;
+    }
     const embed = {
       title: 'ワイルドリフト公式ニュース',
       color: Colors.Green,

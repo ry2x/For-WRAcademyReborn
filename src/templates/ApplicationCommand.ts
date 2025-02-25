@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import logger from '../logger.js';
 import type { commandModule } from '../types/interface.js';
+import { interactionError } from '../utils/errorEmbed.js';
 import type SubCommand from './SubCommand.js';
 
 /**
@@ -56,7 +57,19 @@ export default class ApplicationCommand {
         }
       };
     } else if (options.execute) {
-      this.execute = options.execute;
+      this.execute = async (interaction: ChatInputCommandInteraction) => {
+        try {
+          await options.execute?.(interaction);
+        } catch (error) {
+          logger.error(error);
+          if (interaction.deferred || interaction.replied) {
+            await interaction.deleteReply();
+            await interaction.followUp(interactionError);
+          } else {
+            await interaction.reply(interactionError);
+          }
+        }
+      };
     } else {
       throw new Error('No execute function provided');
     }
