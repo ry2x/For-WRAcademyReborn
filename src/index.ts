@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { readdirSync } from 'fs';
 import { Client, GatewayIntentBits, Collection, Partials } from 'discord.js';
 import logger from './logger.js';

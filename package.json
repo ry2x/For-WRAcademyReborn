@@ -6,19 +6,16 @@
     "*.{ts,css,md}": "prettier --write"
   },
   "scripts": {
-    "prepare": "husky install",
+    "dev-prepare": "husky install",
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
-    "compile": "tsc && pnpm run copy",
-    "copy": "npx copyfiles -u 1 src/.env src/**/*.json dist/",
-    "start": "pnpm run compile && cd dist &&node index.js",
-    "clean": "npx rimraf dist"
+    "compile": "tsc",
+    "start": "cd ./dist && node ./index.js"
   },
   "dependencies": {
     "@discordjs/rest": "^2.4.2",
     "axios": "^1.7.9",
     "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7",
     "jsdom": "^26.0.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0"
