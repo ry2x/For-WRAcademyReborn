@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs';
-import { Client, GatewayIntentBits, Collection, Partials } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, Partials, WebhookClient } from 'discord.js';
 import logger from './logger.js';
 import type ApplicationCommand from './templates/ApplicationCommand.js';
 import type Event from './templates/Event.js';
@@ -17,7 +17,7 @@ import { fetchWildRiftData } from './utils/wildriftRss.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
-const { TOKEN } = process.env;
+const { TOKEN, ADMIN_WEBHOOK } = process.env;
 await fetchChampionData();
 await fetchWildRiftData();
 
@@ -125,6 +125,16 @@ for (const file of eventFiles) {
     });
   }
 }
+
+// Process exit handling
+logger.info('ProcessExitHandler');
+process.on('exit', (code) => {
+  void (async () => {
+    logger.error(`⚠️ プロセス終了 (コード: ${code})`);
+    const webhook = new WebhookClient({ url: ADMIN_WEBHOOK || '' });
+    await webhook.send(`⚠️ プロセス終了 (コード: ${code})`);
+  })();
+});
 
 await client.login(TOKEN);
 logger.info('[END STARTING]');
