@@ -29,7 +29,7 @@ export default new ButtonCommand({
     await interaction.update({ embeds: [originalEmbed], components: [] });
 
     const result = rollSlots();
-    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n${result.join(' | ')}\n${rollResult(result)}`;
+    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${rollResult(result)}`;
     const win = result[0] === result[1] && result[1] === result[2];
 
     const embed = new EmbedBuilder()

@@ -44,7 +44,7 @@ export default new ApplicationCommand({
     await interaction.deferReply();
 
     const result = rollSlots();
-    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n${result.join(' | ')}\n${rollResult(result)}`;
+    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${rollResult(result)}`;
     const win = result[0] === result[1] && result[1] === result[2];
     const embed = new EmbedBuilder()
       .setDescription(message)
