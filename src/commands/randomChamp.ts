@@ -6,7 +6,9 @@ import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('randomchamp')
-    .setDescription('指定したレーンまたは全レーンからチャンピオンをランダムに表示します。')
+    .setDescription(
+      '指定したレーンまたは全レーンからチャンピオンをランダムに表示します。(1体~10体:デフォルト1体)',
+    )
     .addStringOption((option) =>
       option
         .setName('lane')
@@ -24,10 +26,10 @@ export default new ApplicationCommand({
     .addIntegerOption((option) =>
       option
         .setName('count')
-        .setDescription('ランダムに選ぶチャンピオンの数（1〜5）')
+        .setDescription('ランダムに選ぶチャンピオンの数（1〜10）')
         .setRequired(false)
         .setMinValue(1)
-        .setMaxValue(5),
+        .setMaxValue(10),
     )
     .addBooleanOption((option) =>
       option
