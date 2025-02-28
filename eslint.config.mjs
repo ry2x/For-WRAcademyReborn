@@ -26,7 +26,7 @@ export default tseslint.config(
         client: 'writable',
       },
     },
-    ignores: ['node_modules/', 'dist/', 'build/', '.env', '.env.test'],
+    ignores: ['node_modules/', 'dist/', 'build/', '.env', '.env.test', 'pnpm-store/'],
     plugins: {
       'unused-imports': unusedImports,
     },

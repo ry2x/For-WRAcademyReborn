@@ -30,7 +30,11 @@ export default new ButtonCommand({
 
     if (interaction.message.member?.id === interaction.user.id) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed('❌このボタンは使用できません。')],
+        embeds: [
+          interactionErrorEmbed(
+            '❌ 利用者以外はボタンは使用できません。\n自分で実行するには**`/lanechamp`**を実行して下さい。',
+          ),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;

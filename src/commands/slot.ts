@@ -18,41 +18,40 @@ const slot: string[] = [
   '<:heart:1344792203347623996>',
   '<:lemon:1344792219848151110>',
   '<:orange:1344792238890418197>',
-  '<:watermelon:1344792252756529192>',
 ];
 
 export function rollSlots() {
-  return [
+  const result = [
     slot[Math.floor(Math.random() * slot.length)],
     slot[Math.floor(Math.random() * slot.length)],
     slot[Math.floor(Math.random() * slot.length)],
   ];
+  const isWin = result[0] === result[1] && result[1] === result[2];
+  const message = isWin
+    ? '**🎉 大当たり！3つ揃いました！ 🎉**'
+    : result[0] === result[1] || result[1] === result[2] || result[0] === result[2]
+      ? '**😲 惜しい！2つ揃いました！**'
+      : '**💀 残念！また挑戦してね！**';
+
+  return { result, isWin, message };
 }
 
-export function rollResult(result: string[]) {
-  if (result[0] === result[1] && result[1] === result[2]) {
-    return '**🎉 大当たり！3つ揃いました！ 🎉**';
-  } else if (result[0] === result[1] || result[1] === result[2] || result[0] === result[2]) {
-    return '**😲 惜しい！2つ揃いました！**';
-  } else {
-    return '**💀 残念！また挑戦してね！**';
-  }
-}
 export default new ApplicationCommand({
   data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
   async execute(interaction) {
     await interaction.deferReply();
 
-    const result = rollSlots();
-    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n${result.join(' | ')}\n${rollResult(result)}`;
-    const win = result[0] === result[1] && result[1] === result[2];
+    const { result, isWin, message } = rollSlots();
     const embed = new EmbedBuilder()
-      .setDescription(message)
-      .setColor(win ? Colors.Yellow : Colors.Grey);
+      .setDescription(
+        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${message}`,
+      )
+      .setColor(isWin ? Colors.Yellow : Colors.Grey)
+      .setFooter({ text: '1回目の挑戦' });
 
     const reRollButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId(`slotroll-${interaction.user.id}`)
+        .setCustomId(`slotroll-${interaction.user.id}-1-${Date.now()}`)
         .setLabel('🎰 Reroll!')
         .setStyle(ButtonStyle.Primary),
     );
