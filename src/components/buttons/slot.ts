@@ -6,15 +6,17 @@ import {
   EmbedBuilder,
   MessageFlags,
 } from 'discord.js';
-import { rollResult, rollSlots } from '../../commands/slot.js';
+import { rollSlots } from '../../commands/slot.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
+import { interactionErrorEmbed } from '../../utils/errorEmbed.js';
 
 export default new ButtonCommand({
   data: {
     name: 'slotroll',
   },
   async execute(interaction): Promise<void> {
-    const [, userId] = interaction.customId.split('-');
+    const [, userId, count] = interaction.customId.split('-');
+    let current: number = Number(count) + 1;
 
     if (!(interaction.user.id === userId)) {
       await interaction.reply({
@@ -29,20 +31,25 @@ export default new ButtonCommand({
     const originalEmbed = msg.embeds[0];
     await interaction.update({ embeds: [originalEmbed], components: [] });
     if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
+      await interaction.followUp({
+        embeds: [interactionErrorEmbed('❌このボタンは3分が経過したので使用できません。')],
+        flags: MessageFlags.Ephemeral,
+      });
       return;
     }
 
-    const result = rollSlots();
-    const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${rollResult(result)}`;
-    const win = result[0] === result[1] && result[1] === result[2];
-
+    const { result, isWin, message } = rollSlots();
     const embed = new EmbedBuilder()
-      .setDescription(message)
-      .setColor(win ? Colors.Yellow : Colors.Grey);
+      .setDescription(
+        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${message}`,
+      )
+      .setColor(isWin ? Colors.Yellow : Colors.Grey)
+      .setFooter({ text: `${current}回目の挑戦` });
 
+    current = isWin ? 0 : current;
     const reRollButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId(`slotroll-${interaction.user.id}`)
+        .setCustomId(`slotroll-${interaction.user.id}-${current}-${Date.now()}`)
         .setLabel('🎰 Reroll!')
         .setStyle(ButtonStyle.Primary),
     );
