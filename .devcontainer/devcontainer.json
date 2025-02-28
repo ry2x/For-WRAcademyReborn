@@ -1,0 +1,17 @@
+{
+  "name": "For-WRAcademyReborn Dev Container",
+  "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:0-18",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
+  "postCreateCommand": "npm install -g pnpm && pnpm install && pnpm run dev-prepare",
+  "remoteUser": "node",
+  "mounts": ["source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"],
+  "forwardPorts": [3000]
+}
