@@ -18,7 +18,8 @@ export default new ButtonCommand({
 
     if (!(interaction.user.id === userId)) {
       await interaction.reply({
-        content: '❌ このボタンは使用できません。',
+        content:
+          '❌ 利用者以外はボタンは使用できません。\n自分で実行するには**`/slot`**を実行して下さい。',
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -27,6 +28,9 @@ export default new ButtonCommand({
     const msg = interaction.message;
     const originalEmbed = msg.embeds[0];
     await interaction.update({ embeds: [originalEmbed], components: [] });
+    if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
+      return;
+    }
 
     const result = rollSlots();
     const message = `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${rollResult(result)}`;
