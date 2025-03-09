@@ -54,7 +54,7 @@ export default new ButtonCommand({
       new ButtonBuilder()
         .setCustomId(`slotroll-${interaction.user.id}-${current}-${Date.now()}`)
         .setLabel('🎰 Reroll!')
-        .setStyle(ButtonStyle.Primary),
+        .setStyle(ButtonStyle.Danger),
     );
 
     await interaction.followUp({
