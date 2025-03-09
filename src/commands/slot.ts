@@ -8,28 +8,43 @@ import {
 } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
 
-const slot: string[] = [
-  '<:seven:1344792025119330434>',
-  '<:bar:1344792101384228975>',
-  '<:bell:1344792119520264263>',
-  '<:cherry:1344792157705338964>',
-  '<:diamond:1344792171248877688>',
-  '<:grapes:1344792186042191935>',
-  '<:heart:1344792203347623996>',
-  '<:lemon:1344792219848151110>',
-  '<:orange:1344792238890418197>',
+const probabilitySlots: { emoji: string; probability: number }[] = [
+  { emoji: '<:seven:1344792025119330434>', probability: 0.02 },
+  { emoji: '<:bar:1344792101384228975>', probability: 0.12 },
+  { emoji: '<:bell:1344792119520264263>', probability: 0.12 },
+  { emoji: '<:cherry:1344792157705338964>', probability: 0.14 },
+  { emoji: '<:diamond:1344792171248877688>', probability: 0.12 },
+  { emoji: '<:grapes:1344792186042191935>', probability: 0.12 },
+  { emoji: '<:heart:1344792203347623996>', probability: 0.12 },
+  { emoji: '<:lemon:1344792219848151110>', probability: 0.12 },
+  { emoji: '<:orange:1344792238890418197>', probability: 0.12 },
 ];
 
+function getRandomSlot() {
+  const random = Math.random();
+  let cumulativeProbability = 0;
+  for (const slot of probabilitySlots) {
+    cumulativeProbability += slot.probability;
+    if (random < cumulativeProbability) {
+      return slot.emoji;
+    }
+  }
+  return probabilitySlots[probabilitySlots.length - 1].emoji;
+}
+
 export function rollSlots() {
-  const result = [
-    slot[Math.floor(Math.random() * slot.length)],
-    slot[Math.floor(Math.random() * slot.length)],
-    slot[Math.floor(Math.random() * slot.length)],
-  ];
-  const isWin = result[0] === result[1] && result[1] === result[2];
+  const result = [getRandomSlot(), getRandomSlot(), getRandomSlot()];
+
+  // 3つのスロットの結果が全て同じかどうかを判定する BARはすべての絵柄と合致する
+  const nonBarSymbols = result.filter((emoji) => emoji !== '<:bar:1344792101384228975>');
+  const uniqueCount = new Set(nonBarSymbols).size;
+
+  const isWin = uniqueCount <= 1;
+  const isAlmostWin = uniqueCount === 2;
+
   const message = isWin
     ? '**🎉 大当たり！3つ揃いました！ 🎉**'
-    : result[0] === result[1] || result[1] === result[2] || result[0] === result[2]
+    : isAlmostWin
       ? '**😲 惜しい！2つ揃いました！**'
       : '**💀 残念！また挑戦してね！**';
 
