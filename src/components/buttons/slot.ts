@@ -41,7 +41,7 @@ export default new ButtonCommand({
     const { result, isWin, message } = rollSlots();
     const embed = new EmbedBuilder()
       .setDescription(
-        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**\`${result.join(' | ')}\`**\n${message}`,
+        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**${result.join(' | ')}**\n${message}`,
       )
       .setColor(isWin ? Colors.Yellow : Colors.Grey)
       .setFooter({ text: `${current}回目の挑戦` });
