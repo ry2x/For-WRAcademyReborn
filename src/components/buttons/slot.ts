@@ -10,6 +10,8 @@ import { rollSlots } from '../../commands/slot.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
 import { interactionErrorEmbed } from '../../utils/errorEmbed.js';
 
+const slotCommand = '</slot:1344816455035781233>';
+
 export default new ButtonCommand({
   data: {
     name: 'slotroll',
@@ -20,8 +22,7 @@ export default new ButtonCommand({
 
     if (!(interaction.user.id === userId)) {
       await interaction.reply({
-        content:
-          '❌ 利用者以外はボタンは使用できません。\n自分で実行するには**`/slot`**を実行して下さい。',
+        content: `❌ 利用者以外はボタンは使用できません。\n自分で実行するには${slotCommand}を実行して下さい。`,
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -32,7 +33,11 @@ export default new ButtonCommand({
     await interaction.update({ embeds: [originalEmbed], components: [] });
     if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed('❌このボタンは3分が経過したので使用できません。')],
+        embeds: [
+          interactionErrorEmbed(
+            `❌このボタンは3分が経過したので使用できません。\n再度で実行するには${slotCommand}を実行して下さい。`,
+          ),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
