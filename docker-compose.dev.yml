@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    container_name: reborn_wr
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+
+      - type: bind
+        source: ./node_modules
+        target: /app/node_modules
