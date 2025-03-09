@@ -58,9 +58,7 @@ export default new ApplicationCommand({
 
     const { result, isWin, message } = rollSlots();
     const embed = new EmbedBuilder()
-      .setDescription(
-        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**${result.join(' | ')}**\n${message}`,
-      )
+      .setDescription(message)
       .setColor(isWin ? Colors.Yellow : Colors.Grey)
       .setFooter({ text: '1回目の挑戦' });
 
@@ -68,9 +66,13 @@ export default new ApplicationCommand({
       new ButtonBuilder()
         .setCustomId(`slotroll-${interaction.user.id}-1-${Date.now()}`)
         .setLabel('🎰 Reroll!')
-        .setStyle(ButtonStyle.Primary),
+        .setStyle(ButtonStyle.Danger),
     );
 
-    await interaction.editReply({ embeds: [embed], components: [reRollButton] });
+    await interaction.editReply({
+      embeds: [embed],
+      components: [reRollButton],
+      content: `**${result.join(' | ')}**`,
+    });
   },
 });
