@@ -16,14 +16,8 @@ RUN pnpm install
 # Copy the rest of the application code
 COPY . .
 
-# Copy only the necessary files from the builder stage
-COPY /src/config.json ./dist/
-
-# Build the application
-RUN pnpm run compile
-
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Start the application
-CMD ["pnpm", "start"]
+CMD ["pnpm", "dev-prepare"]
