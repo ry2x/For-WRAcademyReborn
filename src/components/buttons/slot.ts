@@ -45,9 +45,7 @@ export default new ButtonCommand({
 
     const { result, isWin, message } = rollSlots();
     const embed = new EmbedBuilder()
-      .setDescription(
-        `🎰 **スロットマシン <@${interaction.user.id}>** 🎰\n**${result.join(' | ')}**\n${message}`,
-      )
+      .setDescription(message)
       .setColor(isWin ? Colors.Yellow : Colors.Grey)
       .setFooter({ text: `${current}回目の挑戦` });
 
@@ -59,6 +57,10 @@ export default new ButtonCommand({
         .setStyle(ButtonStyle.Primary),
     );
 
-    await interaction.followUp({ embeds: [embed], components: [reRollButton] });
+    await interaction.followUp({
+      embeds: [embed],
+      components: [reRollButton],
+      content: `**${result.join(' | ')}**`,
+    });
   },
 });
