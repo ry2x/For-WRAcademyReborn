@@ -26,7 +26,7 @@ export default new ApplicationCommand({
       title: 'ワイルドリフト公式ニュース',
       color: Colors.Green,
       fields: news.map((item) => ({
-        name: `${unixMsToYMD(item.retrieved)} : ${item.title}`,
+        name: `★${unixMsToYMD(item.retrieved)} : ${item.title}`,
         value: `[ここから確認する](${item.link})\n概要 : ${getTipsFromContent(item.contents)}`,
       })),
       thumbnail: { url: getWildriftFaivcon() },
