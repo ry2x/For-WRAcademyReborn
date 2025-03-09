@@ -24,10 +24,6 @@ export function getChampionByName(name: string) {
   );
 }
 
-export function getAllChampions() {
-  return Object.values(champions);
-}
-
 export function getChampionNames() {
   return Object.values(champions).map((champ: Champion) => champ.name);
 }
@@ -35,6 +31,8 @@ export function getChampionNames() {
 export function getChampionsByLane(lane: string) {
   return Object.values(champions).filter((champ: Champion) => {
     switch (lane) {
+      case lanes[0]:
+        return Object.values(champions);
       case lanes[1]:
         return champ.is_top;
       case lanes[2]:

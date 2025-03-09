@@ -8,7 +8,7 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getAllChampions, getChampionsByLane, getLaneEmoji, lanes } from '../utils/championData.js';
+import { getChampionsByLane, getLaneEmoji, lanes } from '../utils/championData.js';
 import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 
 export const CHAMP_PER_PAGE = 15;
@@ -64,7 +64,7 @@ export default new ApplicationCommand({
     ),
   async execute(interaction): Promise<void> {
     const lane = interaction.options.getString('lane', true);
-    const champions = lane === 'all' ? getAllChampions() : getChampionsByLane(lane);
+    const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],

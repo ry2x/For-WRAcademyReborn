@@ -1,6 +1,6 @@
 import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getAllChampions, getChampionsByLane, lanes, getLaneEmoji } from '../utils/championData.js';
+import { getChampionsByLane, lanes, getLaneEmoji } from '../utils/championData.js';
 import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 
 export default new ApplicationCommand({
@@ -43,7 +43,7 @@ export default new ApplicationCommand({
     let count = interaction.options.getInteger('count', false) ?? 1;
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;
 
-    let champions = lane === 'all' ? getAllChampions() : getChampionsByLane(lane);
+    let champions = getChampionsByLane(lane);
     if (wrOnly) {
       champions = champions.filter((champ) => champ.is_wr);
     }
