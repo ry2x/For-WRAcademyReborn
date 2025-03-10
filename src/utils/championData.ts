@@ -8,32 +8,39 @@ export type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
 export type Lane = {
   name: string;
   value: LaneKey;
+  emoji: string;
 };
 
-export const lanes:Record<LaneKey, Lane> = {
+export const lanes: Record<LaneKey, Lane> = {
   all: {
     name: 'All (全レーン)',
     value: 'all',
+    emoji: '<:Lane_All:1343842075464175616>',
   },
   top: {
     name: 'Top (トップ)',
     value: 'top',
+    emoji: '<:Lane_Top:1343276732194750485>',
   },
   jg: {
     name: 'Jungle (ジャングル)',
     value: 'jg',
+    emoji: '<:Lane_Jungle:1343276691853934647>',
   },
   mid: {
     name: 'Mid (ミッド)',
     value: 'mid',
+    emoji: '<:Lane_Mid:1343276706143932447>',
   },
   ad: {
     name: 'ADC (ボット)',
     value: 'ad',
+    emoji: '<:Lane_Bot:1343276674044792974>',
   },
   sup: {
     name: 'Support (サポート)',
     value: 'sup',
+    emoji: '<:Lane_Support:1343276719049543803>',
   },
 };
 
@@ -62,41 +69,16 @@ export function getChampionNames() {
 }
 
 export function getChampionsByLane(lane: string) {
-  return Object.values(champions).filter((champ: Champion) => {
-    switch (lane) {
-      case lanes.all.value:
-        return Object.values(champions);
-      case lanes.top.value:
-        return champ.is_top;
-      case lanes.jg.value:
-        return champ.is_jg;
-      case lanes.mid.value:
-        return champ.is_mid;
-      case lanes.ad.value:
-        return champ.is_ad;
-      case lanes.sup.value:
-        return champ.is_sup;
-      default:
-        return false;
-    }
-  });
+  if (lane === lanes.all.value) {
+    return Object.values(champions);
+  }
+
+  const laneKey = `is_${lane}` as keyof Champion;
+
+  return Object.values(champions).filter((champ) => champ[laneKey] === true);
 }
 
-export function getLaneEmoji(lane: string) {
-  switch (lane) {
-    case lanes.all.value:
-      return '<:Lane_All:1343842075464175616>';
-    case lanes.top.value:
-      return '<:Lane_Top:1343276732194750485>';
-    case lanes.jg.value:
-      return '<:Lane_Jungle:1343276691853934647>';
-    case lanes.mid.value:
-      return '<:Lane_Mid:1343276706143932447>';
-    case lanes.ad.value:
-      return '<:Lane_Bot:1343276674044792974>';
-    case lanes.sup.value:
-      return '<:Lane_Support:1343276719049543803>';
-    default:
-      return '';
-  }
+
+export function getLaneEmoji(lane: string): string {
+  return lanes[lane as LaneKey]?.emoji ?? '';
 }
