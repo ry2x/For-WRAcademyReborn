@@ -54,12 +54,9 @@ export default new ApplicationCommand({
         .setDescription('レーンを指定')
         .setRequired(true)
         .addChoices(
-          { name: 'All (全レーン)', value: lanes.all },
-          { name: 'Top', value: lanes.top },
-          { name: 'Jungle', value: lanes.jg },
-          { name: 'Mid', value: lanes.mid },
-          { name: 'ADC', value: lanes.ad },
-          { name: 'Support', value: lanes.sup },
+          Object.entries(lanes).map(([, v]) => ({
+            name: v.name, value : v.value,
+          }))
         ),
     ),
   async execute(interaction): Promise<void> {
