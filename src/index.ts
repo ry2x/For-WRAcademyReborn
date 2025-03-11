@@ -1,5 +1,7 @@
 import { readdirSync } from 'fs';
 import { Client, GatewayIntentBits, Collection, Partials, WebhookClient } from 'discord.js';
+import { fetchChampionData } from './data/championData.js';
+import { fetchWildRiftData } from './data/wildriftRss.js';
 import logger from './logger.js';
 import type ApplicationCommand from './templates/ApplicationCommand.js';
 import type Event from './templates/Event.js';
@@ -12,8 +14,6 @@ import {
 } from './templates/InteractionCommands.js';
 import type MessageCommand from './templates/MessageCommand.js';
 import type { commandModule } from './types/interface.js';
-import { fetchChampionData } from './utils/championData.js';
-import { fetchWildRiftData } from './utils/wildriftRss.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
