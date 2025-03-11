@@ -1,4 +1,5 @@
 import { type BaseInteraction, Events } from 'discord.js';
+import { interactionError } from '../embeds/errorEmbed.js';
 import logger from '../logger.js';
 import type ApplicationCommand from '../templates/ApplicationCommand.js';
 import Event from '../templates/Event.js';
@@ -9,7 +10,6 @@ import {
   type ContextCommand,
   type AutocompleteCommand,
 } from '../templates/InteractionCommands.js';
-import { interactionError } from '../utils/errorEmbed.js';
 
 export default new Event({
   name: Events.InteractionCreate,

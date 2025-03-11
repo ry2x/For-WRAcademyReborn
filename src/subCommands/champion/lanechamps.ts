@@ -5,11 +5,11 @@ import {
   Colors,
   EmbedBuilder,
   MessageFlags,
-  SlashCommandBuilder,
+  type ChatInputCommandInteraction,
 } from 'discord.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getAllChampions, getChampionsByLane, getLaneEmoji, lanes } from '../utils/championData.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
+import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
+import SubCommand from '../../templates/SubCommand.js';
 
 export const CHAMP_PER_PAGE = 15;
 
@@ -44,27 +44,10 @@ export function createPageButton(page: number, lane: string, totalPages: number)
   );
 }
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('lanechamps')
-    .setDescription('指定したレーンのチャンピオン一覧を表示します')
-    .addStringOption((option) =>
-      option
-        .setName('lane')
-        .setDescription('レーンを指定')
-        .setRequired(true)
-        .addChoices(
-          { name: 'All (全レーン)', value: lanes[0] },
-          { name: 'Top', value: lanes[1] },
-          { name: 'Jungle', value: lanes[2] },
-          { name: 'Mid', value: lanes[3] },
-          { name: 'ADC', value: lanes[4] },
-          { name: 'Support', value: lanes[5] },
-        ),
-    ),
-  async execute(interaction): Promise<void> {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const lane = interaction.options.getString('lane', true);
-    const champions = lane === 'all' ? getAllChampions() : getChampionsByLane(lane);
+    const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],

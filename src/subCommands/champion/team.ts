@@ -1,21 +1,10 @@
-import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getChampionsByLane, getLaneEmoji } from '../utils/championData.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
+import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
+import SubCommand from '../../templates/SubCommand.js';
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('randomteam')
-    .setDescription(
-      '各レーン（Top, JG, Mid, ADC, Sup）から2体ずつ、計10体をランダムに選択（重複なし）',
-    )
-    .addBooleanOption((option) =>
-      option
-        .setName('wr_only')
-        .setDescription('Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)')
-        .setRequired(false),
-    ),
-  async execute(interaction) {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;

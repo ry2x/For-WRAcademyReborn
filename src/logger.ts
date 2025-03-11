@@ -11,10 +11,7 @@ const logtail = new Logtail(LOGTAIL_TOKEN || '', {
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
-  transports: [
-    new LogtailTransport(logtail), // Logtail へ送信
-    new winston.transports.Console(), // コンソール出力
-  ],
+  transports: [new LogtailTransport(logtail), new winston.transports.Console()],
 });
 
 export default logger;

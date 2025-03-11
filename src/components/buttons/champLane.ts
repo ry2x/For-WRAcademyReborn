@@ -1,8 +1,13 @@
 import { MessageFlags } from 'discord.js';
-import { CHAMP_PER_PAGE, createPageButton, createPageEmbed } from '../../commands/championLane.js';
+
+import { getChampionsByLane } from '../../data/championData.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
+import {
+  CHAMP_PER_PAGE,
+  createPageButton,
+  createPageEmbed,
+} from '../../subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
-import { getChampionsByLane } from '../../utils/championData.js';
-import { interactionErrorEmbed } from '../../utils/errorEmbed.js';
 
 export default new ButtonCommand({
   data: {

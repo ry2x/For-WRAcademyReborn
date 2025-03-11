@@ -7,8 +7,8 @@ import {
   MessageFlags,
 } from 'discord.js';
 import { rollSlots } from '../../commands/slot.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
-import { interactionErrorEmbed } from '../../utils/errorEmbed.js';
 
 const slotCommand = '</slot:1344816455035781233>';
 
@@ -54,7 +54,7 @@ export default new ButtonCommand({
       new ButtonBuilder()
         .setCustomId(`slotroll-${interaction.user.id}-${current}-${Date.now()}`)
         .setLabel('🎰 Reroll!')
-        .setStyle(ButtonStyle.Primary),
+        .setStyle(ButtonStyle.Danger),
     );
 
     await interaction.followUp({
