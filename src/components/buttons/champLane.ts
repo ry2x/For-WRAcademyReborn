@@ -1,7 +1,7 @@
 import { MessageFlags } from 'discord.js';
 
 import { getChampionsByLane } from '../../data/championData.js';
-import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
 import {
   CHAMP_PER_PAGE,
   createPageButton,
