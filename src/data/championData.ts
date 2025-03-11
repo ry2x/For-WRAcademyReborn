@@ -3,9 +3,9 @@ import config from '../config.json' with { type: 'json' };
 import logger from '../logger.js';
 import type { Champion, Champions } from '../types/interface.js';
 
-export type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
+type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
 
-export type Lane = {
+type Lane = {
   name: string;
   value: LaneKey;
   emoji: string;
@@ -77,7 +77,6 @@ export function getChampionsByLane(lane: string) {
 
   return Object.values(champions).filter((champ) => champ[laneKey] === true);
 }
-
 
 export function getLaneEmoji(lane: string): string {
   return lanes[lane as LaneKey]?.emoji ?? '';
