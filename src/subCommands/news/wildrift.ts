@@ -1,20 +1,20 @@
-import { Colors, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { Colors, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 import {
   getTipsFromContent,
   getWildriftFaivcon,
   getWildriftNews,
   unixMsToYMD,
-} from '../data/wildriftRss.js';
-import { interactionErrorEmbed } from '../embed/errorEmbed.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
+} from '../../data/wildriftRss.js';
+import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import SubCommand from '../../templates/SubCommand.js';
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('shownews')
-    .setDescription('ワイルドリフト公式ページから最新のニュース6件を表示します。'),
-  async execute(interaction) {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
-    const news = getWildriftNews(6);
+
+    const count = interaction.options.getNumber('count', false) ?? 6;
+
+    const news = getWildriftNews(count);
     if (news.length === 0) {
       await interaction.followUp({
         embeds: [interactionErrorEmbed('❌ニュースの取得に失敗しました。')],
