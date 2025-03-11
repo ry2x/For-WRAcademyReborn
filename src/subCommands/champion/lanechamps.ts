@@ -8,7 +8,7 @@ import {
   type ChatInputCommandInteraction,
 } from 'discord.js';
 import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
-import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
 import SubCommand from '../../templates/SubCommand.js';
 
 export const CHAMP_PER_PAGE = 15;

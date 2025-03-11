@@ -5,7 +5,7 @@ import {
   getWildriftNews,
   unixMsToYMD,
 } from '../../data/wildriftRss.js';
-import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
 import SubCommand from '../../templates/SubCommand.js';
 
 export default new SubCommand({
