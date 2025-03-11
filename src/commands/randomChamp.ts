@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { getChampionsByLane, lanes, getLaneEmoji } from '../data/championData.js';
+import { interactionErrorEmbed } from '../embed/errorEmbed.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getChampionsByLane, lanes, getLaneEmoji } from '../utils/championData.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
@@ -16,8 +16,9 @@ export default new ApplicationCommand({
         .setRequired(true)
         .addChoices(
           Object.entries(lanes).map(([, v]) => ({
-            name: v.name, value : v.value,
-          }))
+            name: v.name,
+            value: v.value,
+          })),
         ),
     )
     .addIntegerOption((option) =>

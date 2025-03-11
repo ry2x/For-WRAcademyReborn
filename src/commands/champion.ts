@@ -1,27 +1,35 @@
 import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { getChampionByName, lanes } from '../data/championData.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
 import type { Champion } from '../types/interface.js';
-import { getChampionByName } from '../utils/championData.js';
 
-function getRoles(champion: Champion): string {
-  let roles = '→';
-  if (champion.is_top) roles += 'トップ<:Lane_Top:1342957411408941167>　';
-  if (champion.is_jg) roles += 'ジャングル<:Lane_Jungle:1342957406266593311> 　';
-  if (champion.is_mid) roles += 'ミッド<:Lane_Mid:1342957408040783963>　';
-  if (champion.is_ad) roles += 'ボット<:Lane_Bot:1342957400495231067>　';
-  if (champion.is_sup) roles += 'サポート<:Lane_Support:1342957409747992576>　';
-  return roles;
+export function getRoles(champion: Champion): string {
+  return (
+    '→' +
+    Object.values(lanes)
+      .filter((lane) => champion[`is_${lane.value}` as keyof Champion])
+      .map((lane) => `${lane.name}${lane.emoji}`)
+      .join('/n')
+  );
 }
 
-function getTags(champion: Champion): string {
-  let tags = '→';
-  if (champion.is_fighter) tags += 'ファイター<:fighter:1343296794343247985>　';
-  if (champion.is_mage) tags += 'メイジ<:mage:1343296818775326780>　';
-  if (champion.is_assassin) tags += 'アサシン<:assassin:1343296727712530494>　';
-  if (champion.is_marksman) tags += 'マークスマン<:marksman:1343296831781605376>　';
-  if (champion.is_support) tags += 'サポート<:support:1343296844586946681>　';
-  if (champion.is_tank) tags += 'タンク<:tank:1343296805575589939>　';
-  return tags;
+const roleTags: Record<string, { name: string; emoji: string }> = {
+  is_fighter: { name: 'ファイター', emoji: '<:fighter:1343296794343247985>' },
+  is_mage: { name: 'メイジ', emoji: '<:mage:1343296818775326780>' },
+  is_assassin: { name: 'アサシン', emoji: '<:assassin:1343296727712530494>' },
+  is_marksman: { name: 'マークスマン', emoji: '<:marksman:1343296831781605376>' },
+  is_support: { name: 'サポート', emoji: '<:support:1343296844586946681>' },
+  is_tank: { name: 'タンク', emoji: '<:tank:1343296805575589939>' },
+};
+
+export function getTags(champion: Champion): string {
+  return (
+    '→' +
+    Object.entries(roleTags)
+      .filter(([key]) => champion[key as keyof Champion])
+      .map(([, tag]) => `${tag.name}${tag.emoji}`)
+      .join('/n')
+  );
 }
 
 export default new ApplicationCommand({

@@ -7,9 +7,9 @@ import {
   MessageFlags,
   SlashCommandBuilder,
 } from 'discord.js';
+import { getChampionsByLane, getLaneEmoji, lanes } from '../data/championData.js';
+import { interactionErrorEmbed } from '../embed/errorEmbed.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getChampionsByLane, getLaneEmoji, lanes } from '../utils/championData.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 
 export const CHAMP_PER_PAGE = 15;
 
@@ -55,8 +55,9 @@ export default new ApplicationCommand({
         .setRequired(true)
         .addChoices(
           Object.entries(lanes).map(([, v]) => ({
-            name: v.name, value : v.value,
-          }))
+            name: v.name,
+            value: v.value,
+          })),
         ),
     ),
   async execute(interaction): Promise<void> {
