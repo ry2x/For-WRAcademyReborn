@@ -7,8 +7,8 @@ import {
   MessageFlags,
 } from 'discord.js';
 import { rollSlots } from '../../commands/slot.js';
+import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
 import { ButtonCommand } from '../../templates/InteractionCommands.js';
-import { interactionErrorEmbed } from '../../utils/errorEmbed.js';
 
 const slotCommand = '</slot:1344816455035781233>';
 

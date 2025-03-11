@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { getChampionsByLane, getLaneEmoji } from '../data/championData.js';
+import { interactionErrorEmbed } from '../embed/errorEmbed.js';
 import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { getChampionsByLane, getLaneEmoji } from '../utils/championData.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()

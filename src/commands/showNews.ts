@@ -1,12 +1,12 @@
 import { Colors, MessageFlags, SlashCommandBuilder } from 'discord.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
-import { interactionErrorEmbed } from '../utils/errorEmbed.js';
 import {
   getTipsFromContent,
   getWildriftFaivcon,
   getWildriftNews,
   unixMsToYMD,
-} from '../utils/wildriftRss.js';
+} from '../data/wildriftRss.js';
+import { interactionErrorEmbed } from '../embed/errorEmbed.js';
+import ApplicationCommand from '../templates/ApplicationCommand.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
