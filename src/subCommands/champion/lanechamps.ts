@@ -5,11 +5,11 @@ import {
   Colors,
   EmbedBuilder,
   MessageFlags,
-  SlashCommandBuilder,
+  type ChatInputCommandInteraction,
 } from 'discord.js';
-import { getChampionsByLane, getLaneEmoji, lanes } from '../data/championData.js';
-import { interactionErrorEmbed } from '../embed/errorEmbed.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
+import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
+import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import SubCommand from '../../templates/SubCommand.js';
 
 export const CHAMP_PER_PAGE = 15;
 
@@ -44,23 +44,8 @@ export function createPageButton(page: number, lane: string, totalPages: number)
   );
 }
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('lanechamps')
-    .setDescription('指定したレーンのチャンピオン一覧を表示します')
-    .addStringOption((option) =>
-      option
-        .setName('lane')
-        .setDescription('レーンを指定')
-        .setRequired(true)
-        .addChoices(
-          Object.entries(lanes).map(([, v]) => ({
-            name: v.name,
-            value: v.value,
-          })),
-        ),
-    ),
-  async execute(interaction): Promise<void> {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const lane = interaction.options.getString('lane', true);
     const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
