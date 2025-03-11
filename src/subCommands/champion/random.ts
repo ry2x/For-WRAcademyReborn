@@ -1,41 +1,10 @@
-import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
-import { getChampionsByLane, lanes, getLaneEmoji } from '../data/championData.js';
-import { interactionErrorEmbed } from '../embed/errorEmbed.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
+import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
+import { interactionErrorEmbed } from '../../embed/errorEmbed.js';
+import SubCommand from '../../templates/SubCommand.js';
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('randomchamp')
-    .setDescription(
-      '指定したレーンまたは全レーンからチャンピオンをランダムに表示します。(1体~10体:デフォルト1体)',
-    )
-    .addStringOption((option) =>
-      option
-        .setName('lane')
-        .setDescription('レーンを指定')
-        .setRequired(true)
-        .addChoices(
-          Object.entries(lanes).map(([, v]) => ({
-            name: v.name,
-            value: v.value,
-          })),
-        ),
-    )
-    .addIntegerOption((option) =>
-      option
-        .setName('count')
-        .setDescription('ランダムに選ぶチャンピオンの数（1〜10）')
-        .setRequired(false)
-        .setMinValue(1)
-        .setMaxValue(10),
-    )
-    .addBooleanOption((option) =>
-      option
-        .setName('wr_only')
-        .setDescription('Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)')
-        .setRequired(false),
-    ),
-  async execute(interaction) {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
     const lane = interaction.options.getString('lane', true);
     let count = interaction.options.getInteger('count', false) ?? 1;

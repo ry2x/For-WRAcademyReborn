@@ -1,7 +1,7 @@
-import { Colors, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
-import { getChampionByName, lanes } from '../data/championData.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
-import type { Champion } from '../types/interface.js';
+import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import { getChampionByName, lanes } from '../../data/championData.js';
+import SubCommand from '../../templates/SubCommand.js';
+import type { Champion } from '../../types/interface.js';
 
 export function getRoles(champion: Champion): string {
   return (
@@ -32,18 +32,8 @@ export function getTags(champion: Champion): string {
   );
 }
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
-    .setName('champion')
-    .setDescription('指定したチャンピオンの情報を表示します')
-    .addStringOption((option) =>
-      option
-        .setName('championname')
-        .setDescription('チャンピオンの名前')
-        .setRequired(true)
-        .setAutocomplete(true),
-    ),
-  async execute(interaction): Promise<void> {
+export default new SubCommand({
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     function interactionErrorEmbed(msg: string): EmbedBuilder {
       return new EmbedBuilder().setColor(Colors.Red).setTitle(msg);
     }
