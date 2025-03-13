@@ -8,7 +8,7 @@ export default new Event({
   name: Events.MessageCreate,
   async execute(message: Message): Promise<void> {
     if (!message.author.bot) return;
-
+    const member = await message.guild?.members.fetch(message.author.id);
     if (!message.content.startsWith(config.prefix)) return;
 
     // fetches the application owner for the bot
