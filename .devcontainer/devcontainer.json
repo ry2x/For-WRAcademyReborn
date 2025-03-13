@@ -5,7 +5,7 @@
   "workspaceFolder": "/app",
   "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
   "mounts": ["target=${containerWorkspaceFolder}/node_modules,source=dev-steps-volume"],
-  "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
+  // "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
   "customizations": {
     "vscode": {
       "settings": {
