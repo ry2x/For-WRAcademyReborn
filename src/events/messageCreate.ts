@@ -7,12 +7,12 @@ import type MessageCommand from '../templates/MessageCommand.js';
 export default new Event({
   name: Events.MessageCreate,
   async execute(message: Message): Promise<void> {
-    // ! Message content is a privileged intent now!
 
-    // Handles non-slash commands, only recommended for deploy commands
+    if (!message.author.bot) return;
 
-    // filters out bots and non-prefixed messages
-    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    
+
+    if (!message.content.startsWith(config.prefix)) return;
 
     // fetches the application owner for the bot
     if (!client.application?.owner) await client.application?.fetch();

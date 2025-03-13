@@ -7,7 +7,7 @@ export default new MessageCommand({
   description: 'Deploys the slash commands',
   async execute(message): Promise<void> {
     if (message.author.id !== client.application?.owner?.id) return;
-    logger.info('${message.author.tag} is deploying the commands');
+    logger.info(`${message.author.tag} is deploying the commands`);
     await deployGlobalCommands();
     await message.reply('Deployed!');
   },
