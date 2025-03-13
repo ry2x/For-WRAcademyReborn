@@ -16,9 +16,14 @@
     "@discordjs/rest": "^2.4.2",
     "@logtail/node": "^0.5.2",
     "@logtail/winston": "^0.5.2",
+    "@neondatabase/serverless": "^0.10.4",
+    "@types/pg": "^8.11.11",
     "axios": "^1.7.9",
     "discord.js": "^14.17.3",
+    "drizzle-kit": "^0.30.5",
+    "drizzle-orm": "^0.40.0",
     "jsdom": "^26.0.0",
+    "pg": "^8.14.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
