@@ -7,10 +7,7 @@ import type MessageCommand from '../templates/MessageCommand.js';
 export default new Event({
   name: Events.MessageCreate,
   async execute(message: Message): Promise<void> {
-
     if (!message.author.bot) return;
-
-    
 
     if (!message.content.startsWith(config.prefix)) return;
 
