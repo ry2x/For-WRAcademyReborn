@@ -15,7 +15,7 @@ export default new MessageCommand({
       return;
     }
 
-    logger.info('${message.author.tag} is un-deploying the commands');
+    logger.info(`${message.author.tag} is un-deploying the commands`);
 
     if (args[0].toLowerCase() === 'global') {
       // global un-deployment
