@@ -1,14 +1,25 @@
 import { Events, type Message } from 'discord.js';
-import config from '../config.json' with { type: 'json' };
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
 import logger from '../logger.js';
 import Event from '../templates/Event.js';
 import type MessageCommand from '../templates/MessageCommand.js';
+import { type Config } from '../types/interface.js';
+import { grantXP } from '../utils/grantXp.js';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
 export default new Event({
   name: Events.MessageCreate,
   async execute(message: Message): Promise<void> {
-    if (!message.author.bot) return;
-    const member = await message.guild?.members.fetch(message.author.id);
+    if (message.author.bot) return;
+
+    if (message.member) {
+      await grantXP(message.member);
+    }
+
     if (!message.content.startsWith(config.prefix)) return;
 
     // fetches the application owner for the bot
