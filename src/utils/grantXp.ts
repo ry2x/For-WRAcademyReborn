@@ -1,7 +1,8 @@
-import { GuildMember } from 'discord.js';
+import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/index.js'; // Drizzle ORM のインスタンス
+import { db } from '../db/index.js';
 import { userLevels, users } from '../db/schema.js';
+import logger from '../logger.js';
 
 const { DEFAULT_CHANNEL_ID } = process.env;
 
@@ -9,11 +10,10 @@ function calculateRequiredXP(level: number): number {
   return Math.floor(100 * Math.pow(1.2, level));
 }
 
-async function grantXP(gMember: GuildMember) {
+export async function grantXP(gMember: GuildMember) {
   const xpGained = Math.floor(Math.random() * (15 - 5 + 1)) + 5;
   const userId = gMember.id;
 
-  // クールダウン判定
   let user = await db.query.users.findFirst({
     where: eq(users.id, userId),
   });
@@ -40,27 +40,31 @@ async function grantXP(gMember: GuildMember) {
   // レベルアップ判定
   while (newXP >= nextLevelXP) {
     newLevel++;
-    newXP -= nextLevelXP; // 次のレベル分のXPを引く
-    nextLevelXP = calculateRequiredXP(newLevel + 1); // 次のレベルに必要なXPを計算
+    newXP -= nextLevelXP;
+    nextLevelXP = calculateRequiredXP(newLevel + 1);
   }
 
-  // XP付与
-  await db.transaction(async (tx) => {
-    await tx.insert(userLevels).values({
+  try {
+    // XP獲得履歴を記録
+    await db.insert(userLevels).values({
       userId: userId,
       xpGained: xpGained,
     });
 
-    await tx
+    // ユーザー情報を更新
+    await db
       .update(users)
       .set({ xp: newXP, level: newLevel, nextLevelXp: nextLevelXP, lastXpAt: now })
       .where(eq(users.id, userId));
-  });
 
-  if (newLevel > user.level) {
-    const channel = client.channels.cache.get(DEFAULT_CHANNEL_ID || '');
-    if (channel?.isSendable()) {
-      channel.send(`🎉 ${userId} がレベル ${newLevel} にアップ！`);
+    // レベルアップ通知
+    if (newLevel > user.level) {
+      const channel = client.channels.cache.get(DEFAULT_CHANNEL_ID || '');
+      if (channel?.isSendable()) {
+        await channel.send(`🎉 ${gMember.nickname} がレベル ${newLevel} にアップ！`);
+      }
     }
+  } catch (error) {
+    logger.error('Failed to update XP:', error);
   }
 }
