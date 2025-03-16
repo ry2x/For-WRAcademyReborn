@@ -1,7 +1,7 @@
 import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
 import { db } from '../db/index.js';
-import { userLevels, users } from '../db/schema.js';
+import { users } from '../db/schema.js';
 import logger from '../logger.js';
 
 const { DEFAULT_CHANNEL_ID } = process.env;
@@ -45,12 +45,6 @@ export async function grantXP(gMember: GuildMember) {
   }
 
   try {
-    // XP獲得履歴を記録
-    await db.insert(userLevels).values({
-      userId: userId,
-      xpGained: xpGained,
-    });
-
     // ユーザー情報を更新
     await db
       .update(users)
