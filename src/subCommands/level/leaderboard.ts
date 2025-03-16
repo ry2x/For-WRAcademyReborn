@@ -55,7 +55,7 @@ export default new SubCommand({
       .map((user, index) => {
         const percentage = Math.round((user.xp / user.nextLevelXp) * 100);
         const progressBar = createProgressBar(user.xp, user.nextLevelXp);
-        return `${getRankEmoji(index + 1)} **${index + 1}位** <@${user.id}>\nレベル: **${user.level}** | XP: **${percentage}%*\n${progressBar}`;
+        return `${getRankEmoji(index + 1)} **${index + 1}位** <@${user.id}>\nレベル: **${user.level}** | XP: **${percentage}%**\n${progressBar}`;
       })
       .join('\n\n');
 
