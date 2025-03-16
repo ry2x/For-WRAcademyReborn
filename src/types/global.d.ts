@@ -3,9 +3,9 @@ import type ApplicationCommand from '../templates/ApplicationCommand.ts';
 import {
   type AutocompleteCommand,
   type ButtonCommand,
+  type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-  type ContextCommand,
 } from '../templates/InteractionCommands.js';
 import type MessageCommand from '../templates/MessageCommand.ts';
 
