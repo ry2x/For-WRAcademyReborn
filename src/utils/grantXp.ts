@@ -10,6 +10,13 @@ function calculateRequiredXP(level: number): number {
   return Math.floor(100 * Math.pow(1.2, level));
 }
 
+async function sendLevelUP(nickname: string, newLevel: number) {
+  const channel = client.channels.cache.get(DEFAULT_CHANNEL_ID || '');
+  if (channel?.isSendable()) {
+    await channel.send(`🎉 ${nickname} がレベル ${newLevel} にアップ！`);
+  }
+}
+
 export async function grantXP(gMember: GuildMember) {
   const xpGained = Math.floor(Math.random() * (15 - 5 + 1)) + 5;
   const userId = gMember.id;
@@ -28,6 +35,7 @@ export async function grantXP(gMember: GuildMember) {
       joinedAT: gMember.joinedAt ? gMember.joinedAt : new Date(0),
     };
     await db.insert(users).values(user);
+    await sendLevelUP(gMember.nickname || '', 1);
   }
 
   const now = new Date();
@@ -53,10 +61,7 @@ export async function grantXP(gMember: GuildMember) {
 
     // レベルアップ通知
     if (newLevel > user.level) {
-      const channel = client.channels.cache.get(DEFAULT_CHANNEL_ID || '');
-      if (channel?.isSendable()) {
-        await channel.send(`🎉 ${gMember.nickname} がレベル ${newLevel} にアップ！`);
-      }
+      await sendLevelUP(gMember.nickname || '', newLevel);
     }
   } catch (error) {
     logger.error('Failed to update XP:', error);
