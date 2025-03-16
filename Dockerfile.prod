@@ -29,6 +29,8 @@ WORKDIR /home/node/app
 COPY --from=builder /app/package.json /app/pnpm-lock.yaml /home/node/app/
 COPY --from=builder /app/dist /home/node/app/dist
 COPY --from=builder /app/src/config.json /home/node/app/dist/
+COPY --from=builder /app/migrate.js /home/node/app/
+COPY --from=builder /app/drizzle /home/node/app/drizzle
 
 # Install production dependencies
 RUN npm install -g pnpm
