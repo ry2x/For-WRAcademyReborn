@@ -39,3 +39,9 @@ export interface RssWildRift {
   favicon: string;
   elements: RssWildRiftItem[];
 }
+
+export interface Config {
+  prefix: string;
+  urlChampions: string;
+  urlRssWildRift: string;
+}

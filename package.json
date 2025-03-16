@@ -10,22 +10,29 @@
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
     "compile": "tsc",
-    "start": "cd ./dist && node ./index.js"
+    "start": "pnpm run migration && cd ./dist && node ./index.js",
+    "drizzle": "drizzle-kit generate",
+    "migration": "node ./migrate.js"
   },
   "dependencies": {
     "@discordjs/rest": "^2.4.2",
     "@logtail/node": "^0.5.2",
     "@logtail/winston": "^0.5.2",
+    "@neondatabase/serverless": "^0.10.4",
+    "@types/pg": "^8.11.11",
     "axios": "^1.7.9",
     "discord.js": "^14.17.3",
+    "drizzle-orm": "^0.40.0",
     "jsdom": "^26.0.0",
+    "pg": "^8.14.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node22": "^22.0.0",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/jsdom": "^21.1.7",
+    "drizzle-kit": "^0.30.5",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-import-resolver-typescript": "^3.7.0",
@@ -35,6 +42,7 @@
     "lint-staged": "^15.4.1",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0"
   }

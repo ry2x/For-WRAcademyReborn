@@ -1,8 +1,11 @@
 {
   "name": "reborn_wr",
-  "dockerComposeFile": ["../docker-compose.dev.yml"],
-  "service": "app",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node",
+  "remoteUser": "node",
   "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+  "mounts": ["target=${containerWorkspaceFolder}/node_modules,source=dev-steps-volume"],
+  "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
   "customizations": {
     "vscode": {
       "settings": {
@@ -41,7 +44,23 @@
         "javascript.format.enable": false,
         "typescript.format.enable": false
       },
-      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "SeyyedKhandon.firacode",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "cliffordfajardo.highlight-line-vscode",
+        "rsbondi.highlight-words",
+        "ms-vscode.vscode-typescript-next",
+        "PKief.material-icon-theme",
+        "stringham.move-ts",
+        "christian-kohler.path-intellisense",
+        "pmneo.tsimporter"
+      ]
     }
-  }
+  },
+  "postAttachCommand": "git config --global --add safe.directory /app",
+  "onCreateCommand": "sudo chown node node_modules && npm install -g pnpm"
 }

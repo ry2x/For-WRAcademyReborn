@@ -1,18 +1,26 @@
 import { Events, type Message } from 'discord.js';
-import config from '../config.json' with { type: 'json' };
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
 import logger from '../logger.js';
 import Event from '../templates/Event.js';
 import type MessageCommand from '../templates/MessageCommand.js';
+import { type Config } from '../types/interface.js';
+import { grantXP } from '../utils/grantXp.js';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
 export default new Event({
   name: Events.MessageCreate,
   async execute(message: Message): Promise<void> {
-    // ! Message content is a privileged intent now!
+    if (message.author.bot) return;
 
-    // Handles non-slash commands, only recommended for deploy commands
+    if (message.member) {
+      await grantXP(message.member);
+    }
 
-    // filters out bots and non-prefixed messages
-    if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+    if (!message.content.startsWith(config.prefix)) return;
 
     // fetches the application owner for the bot
     if (!client.application?.owner) await client.application?.fetch();
