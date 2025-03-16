@@ -9,6 +9,7 @@
     "target": "ES2022",
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
-    "incremental": true
+    "incremental": true,
+    "removeComments": true
   }
 }
