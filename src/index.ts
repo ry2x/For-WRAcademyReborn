@@ -1,5 +1,5 @@
+import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
 import { readdirSync } from 'fs';
-import { Client, GatewayIntentBits, Collection, Partials, WebhookClient } from 'discord.js';
 import { fetchChampionData } from './data/championData.js';
 import { fetchWildRiftData } from './data/wildriftRss.js';
 import logger from './logger.js';
@@ -7,10 +7,10 @@ import type ApplicationCommand from './templates/ApplicationCommand.js';
 import type Event from './templates/Event.js';
 import {
   type AutocompleteCommand,
+  type ButtonCommand,
+  type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-  type ContextCommand,
-  type ButtonCommand,
 } from './templates/InteractionCommands.js';
 import type MessageCommand from './templates/MessageCommand.js';
 import type { commandModule } from './types/interface.js';
@@ -24,7 +24,7 @@ await fetchWildRiftData();
 logger.info('[INITIALIZING CLIENT]');
 
 // Discord client object
-logger.info('Create Discord Client Object');
+logger.info('Creating  Discord Client Object...');
 global.client = Object.assign(
   new Client({
     intents: [
@@ -52,7 +52,7 @@ global.client = Object.assign(
 logger.info('[CREATING COMMANDS COLLECTIONS]');
 
 // Set SlashCommands
-logger.info('SlashCommands');
+logger.info('Adding SlashCommands...');
 const commandFiles: string[] = readdirSync('./commands').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
@@ -63,7 +63,7 @@ for (const file of commandFiles) {
 }
 
 // Set ContextCommands
-logger.info('ContextCommands');
+logger.info('Adding ContextCommands...');
 const contextCommandFiles: string[] = readdirSync('./contexts').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
@@ -74,7 +74,7 @@ for (const file of contextCommandFiles) {
 }
 
 // Set MessageCommands
-logger.info('MessageCommands');
+logger.info('Adding MessageCommands...');
 const msgCommandFiles: string[] = readdirSync('./messageCommands').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
@@ -85,7 +85,7 @@ for (const file of msgCommandFiles) {
 }
 
 // Set ComponentCommands
-logger.info('ComponentCommands');
+logger.info('Adding ComponentCommands...');
 for (const directory of readdirSync('./components')) {
   if (directory in client.components) {
     for (const file of readdirSync(`./components/${directory}`).filter(
@@ -107,7 +107,7 @@ for (const directory of readdirSync('./components')) {
 }
 
 // Event handling
-logger.info('EventHandler');
+logger.info('Adding EventHandler...');
 const eventFiles: string[] = readdirSync('./events').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
@@ -127,7 +127,7 @@ for (const file of eventFiles) {
 }
 
 // Process exit handling
-logger.info('ProcessExitHandler');
+logger.info('Adding ProcessExitHandler...');
 process.on('exit', (code) => {
   void (async () => {
     logger.error(`⚠️ プロセス終了 (コード: ${code})`);
