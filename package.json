@@ -10,21 +10,18 @@
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
     "compile": "tsc",
-    "start": "pnpm run migration && cd ./dist && node ./index.js",
-    "drizzle": "drizzle-kit generate",
-    "migration": "node ./migrate.js"
+    "start": "cd ./dist && node ./index.js",
+    "drizzle": "drizzle-kit generate"
   },
   "dependencies": {
     "@discordjs/rest": "^2.4.2",
     "@logtail/node": "^0.5.2",
     "@logtail/winston": "^0.5.2",
-    "@neondatabase/serverless": "^0.10.4",
-    "@types/pg": "^8.11.11",
     "axios": "^1.7.9",
     "discord.js": "^14.17.3",
     "drizzle-orm": "^0.40.0",
     "jsdom": "^26.0.0",
-    "pg": "^8.14.0",
+    "postgres": "^3.4.5",
     "winston": "^3.17.0"
   },
   "devDependencies": {
