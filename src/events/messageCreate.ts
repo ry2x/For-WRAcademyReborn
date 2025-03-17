@@ -17,8 +17,7 @@ export default new Event({
     if (message.author.bot) return;
 
     if (message.member) {
-      // temporary disabled keep crashing
-      //await grantXP(message.member);
+      await grantXP(message.member);
     }
 
     if (!message.content.startsWith(config.prefix)) return;
