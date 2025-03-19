@@ -2,10 +2,7 @@
   "name": "reborn_wr",
   "image": "mcr.microsoft.com/devcontainers/typescript-node",
   "remoteUser": "node",
-  "workspaceFolder": "/app",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
-  "mounts": ["target=${containerWorkspaceFolder}/node_modules,source=dev-steps-volume"],
-  "runArgs": ["--env-file", ".devcontainer/devcontainer.env"],
+  "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
       "settings": {
@@ -61,6 +58,5 @@
       ]
     }
   },
-  "postAttachCommand": "git config --global --add safe.directory /app",
-  "onCreateCommand": "sudo chown node node_modules && npm install -g pnpm"
+  "postCreateCommand": "npm install -g pnpm && pnpm i"
 }

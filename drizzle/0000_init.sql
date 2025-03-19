@@ -1,4 +1,4 @@
-CREATE TABLE "users" (
+CREATE TABLE "bot"."users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"level" integer DEFAULT 1 NOT NULL,
 	"xp" integer DEFAULT 0 NOT NULL,

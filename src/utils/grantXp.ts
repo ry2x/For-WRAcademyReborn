@@ -1,7 +1,7 @@
 import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
 import { db } from '../db/index.js';
-import { users } from '../db/schema.js';
+import * as schema from '../db/schema.js';
 import logger from '../logger.js';
 
 const { DEFAULT_CHANNEL_ID } = process.env;
@@ -18,12 +18,11 @@ async function sendLevelUP(nickname: string, newLevel: number) {
 }
 
 export async function grantXP(gMember: GuildMember) {
+  const users = schema.users;
   const xpGained = Math.floor(Math.random() * (15 - 5 + 1)) + 5;
   const userId = gMember.id;
 
-  let user = await db.query.users.findFirst({
-    where: eq(users.id, userId),
-  });
+  let user = (await db.select().from(users).where(eq(users.id, userId)).limit(1))[0];
 
   if (!user) {
     user = {

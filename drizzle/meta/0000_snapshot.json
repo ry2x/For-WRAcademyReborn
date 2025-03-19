@@ -1,12 +1,12 @@
 {
-  "id": "7e9942bb-fe68-42f8-9332-d7cca29b86e3",
+  "id": "785e6cd3-109d-49f4-9c20-1ac604177f84",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users": {
+    "bot.users": {
       "name": "users",
-      "schema": "",
+      "schema": "bot",
       "columns": {
         "id": {
           "name": "id",
