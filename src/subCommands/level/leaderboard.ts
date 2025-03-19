@@ -1,14 +1,12 @@
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 import { desc } from 'drizzle-orm';
 import { db } from '../../db/index.js';
-import { users } from '../../db/schema.js';
+import * as schema from '../../db/schema.js';
 import SubCommand from '../../templates/SubCommand.js';
 
 async function getLeaderboard(limit: number = 10) {
-  return await db.query.users.findMany({
-    orderBy: desc(users.xp),
-    limit: limit,
-  });
+  const users = schema.users;
+  return await db.select().from(users).orderBy(desc(users.level), desc(users.xp)).limit(limit);
 }
 
 function createProgressBar(current: number, max: number, length: number = 15): string {
