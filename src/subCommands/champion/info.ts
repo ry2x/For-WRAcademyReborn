@@ -13,6 +13,10 @@ export function getRoles(champion: Champion): string {
   );
 }
 
+function showLevel(level: number): string {
+  return level === 0 ? '⬜⬜⬜' : level === 1 ? '🟦⬜⬜' : level === 2 ? '🟨🟨⬜' : '🟧🟧🟧';
+}
+
 const roleTags: Record<string, { name: string; emoji: string }> = {
   is_fighter: { name: 'ファイター', emoji: '<:fighter:1343296794343247985>' },
   is_mage: { name: 'メイジ', emoji: '<:mage:1343296818775326780>' },
@@ -60,7 +64,9 @@ export default new SubCommand({
     const embed = new EmbedBuilder()
       .setColor(Colors.Orange)
       .setTitle(champion.name)
-      .setDescription(champion.title)
+      .setDescription(
+        champion.is_free ? `${champion.title}   フリーチャンピオン✅` : `${champion.title}`,
+      )
       .setThumbnail(
         `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`,
       )
@@ -73,6 +79,10 @@ export default new SubCommand({
         },
         { name: 'レーン', value: getRoles(champion), inline: true },
         { name: 'ロール', value: getTags(champion), inline: true },
+        { name: '難易度', value: showLevel(champion.difficult), inline: true },
+        { name: 'ダメージ', value: showLevel(champion.damage), inline: true },
+        { name: '耐久性', value: showLevel(champion.survive), inline: true },
+        { name: '補助性能', value: showLevel(champion.utility), inline: true },
         {
           name: '説明',
           value:
