@@ -21,6 +21,12 @@ export interface Champion {
   is_jg: boolean;
   is_sup: boolean;
   is_ad: boolean;
+  is_free: boolean;
+  difficult: number;
+  damage: number;
+  survive: number;
+  utility: number;
+  hero_id: number;
 }
 
 export interface Champions {

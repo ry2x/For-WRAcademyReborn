@@ -1,5 +1,5 @@
 {
   "prefix": "!",
-  "urlChampions": "https://ry2x.github.io/wildrift_data/champions.json",
+  "urlChampions": "https://ry2x.github.io/WildRift-Champs/hero.json",
   "urlRssWildRift": "https://ry2x.github.io/wildrift-feeds/wildrift-news-ja-jp.json"
 }
