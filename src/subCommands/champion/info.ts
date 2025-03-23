@@ -4,13 +4,10 @@ import SubCommand from '../../templates/SubCommand.js';
 import type { Champion } from '../../types/interface.js';
 
 export function getRoles(champion: Champion): string {
-  return (
-    '→' +
-    Object.values(lanes)
-      .filter((lane) => champion[`is_${lane.value}` as keyof Champion])
-      .map((lane) => `${lane.name}${lane.emoji}`)
-      .join('/n')
-  );
+  return Object.values(lanes)
+    .filter((lane) => champion[`is_${lane.value}` as keyof Champion])
+    .map((lane) => `${lane.emoji}: ${lane.name}`)
+    .join(', ');
 }
 
 function showLevel(level: number): string {
@@ -27,13 +24,10 @@ const roleTags: Record<string, { name: string; emoji: string }> = {
 };
 
 export function getTags(champion: Champion): string {
-  return (
-    '→' +
-    Object.entries(roleTags)
-      .filter(([key]) => champion[key as keyof Champion])
-      .map(([, tag]) => `${tag.name}${tag.emoji}`)
-      .join('/n')
-  );
+  return Object.entries(roleTags)
+    .filter(([key]) => champion[key as keyof Champion])
+    .map(([, tag]) => `${tag.emoji}: ${tag.name}`)
+    .join(', ');
 }
 
 export default new SubCommand({
