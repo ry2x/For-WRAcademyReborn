@@ -1,14 +1,14 @@
-import { type BaseInteraction, Events } from 'discord.js';
+import { Events, type BaseInteraction } from 'discord.js';
 import { interactionError } from '../embeds/errorEmbed.js';
 import logger from '../logger.js';
 import type ApplicationCommand from '../templates/ApplicationCommand.js';
 import Event from '../templates/Event.js';
 import {
+  type AutocompleteCommand,
   type ButtonCommand,
+  type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-  type ContextCommand,
-  type AutocompleteCommand,
 } from '../templates/InteractionCommands.js';
 
 export default new Event({
@@ -62,7 +62,11 @@ export default new Event({
         }
       } catch (error) {
         logger.error(error);
-        await interaction.reply(interactionError);
+        if (interaction.deferred || interaction.replied) {
+          await interaction.followUp(interactionError);
+        } else {
+          await interaction.reply(interactionError);
+        }
       }
     }
 
