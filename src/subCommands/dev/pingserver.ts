@@ -1,17 +1,28 @@
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  MessageFlags,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
+import { pingEmbed } from '../../embeds/pingEmbed.js';
 import SubCommand from '../../templates/SubCommand.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const embed = (description: string): EmbedBuilder => {
-      return new EmbedBuilder()
-        .setColor(Colors.Blue)
-        .setTitle('Ping')
-        .setDescription(`ping値は${description}msです`);
-    };
+    const ping = client.ws.ping.toString();
+
+    const button = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId(`devping-${ping}`)
+        .setLabel('📟リポスト')
+        .setStyle(ButtonStyle.Danger),
+    );
 
     await interaction.reply({
-      embeds: [embed(client.ws.ping.toString())],
+      embeds: [pingEmbed(ping)],
+      components: [button],
+      flags: MessageFlags.Ephemeral,
     });
   },
 });

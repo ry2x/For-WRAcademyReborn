@@ -74,7 +74,8 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
-devcontainer.env
+*/devcontainer.env
+.devcontainer/devcontainer.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -112,3 +113,4 @@ dist
 
 # pnpm store
 .pnpm-store/
+.devcontainer/devcontainer.env
