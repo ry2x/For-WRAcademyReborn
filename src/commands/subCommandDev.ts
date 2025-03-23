@@ -27,6 +27,11 @@ export default new ApplicationCommand({
             .setMinValue(1)
             .setMaxValue(100),
         ),
+    )
+    .addSubcommand(
+      new SlashCommandSubcommandBuilder()
+        .setName('fetchdata')
+        .setDescription('Fetch data from API'),
     ),
   hasSubCommands: true,
 });
