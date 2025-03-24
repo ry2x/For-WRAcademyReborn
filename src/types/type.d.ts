@@ -1,10 +1,10 @@
 // Set default to Discord command
-export type commandModule<T> = {
+type commandModule<T> = {
   default: T;
 };
 
 // Champion data from Champion API
-export type Champion = {
+type Champion = {
   id: string;
   key: number;
   name: string;
@@ -32,12 +32,12 @@ export type Champion = {
 };
 
 // Data from Champion API
-export type Champions = {
+type Champions = {
   [key: string]: Champion;
 };
 
 // News from RSS API
-export type RssWildRiftItem = {
+type RssWildRiftItem = {
   title: string;
   contents: string;
   link: string;
@@ -45,7 +45,7 @@ export type RssWildRiftItem = {
 };
 
 // Data from RSS API
-export type RssWildRift = {
+type RssWildRift = {
   title: string;
   favicon: string;
   elements: RssWildRiftItem[];
@@ -54,15 +54,17 @@ export type RssWildRift = {
 // lane set
 type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
 
-// lane constant
-type Lane = {
+// role set Fighter, Assassin, Marksman, Support, Tank
+type RoleKey = 'F' | 'M' | 'A' | 'MM' | 'S' | 'T';
+
+type PositionSet<T> = {
   name: string;
-  value: LaneKey;
+  value: T;
   emoji: string;
 };
 
 // type of config type
-export type Config = {
+type Config = {
   prefix: string;
   urlChampions: string;
   urlRssWildRift: string;

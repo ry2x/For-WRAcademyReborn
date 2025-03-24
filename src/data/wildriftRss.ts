@@ -5,7 +5,6 @@ import { JSDOM } from 'jsdom';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 import logger from '../logger.js';
-import { type Config, type RssWildRift, type RssWildRiftItem } from '../types/type.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;

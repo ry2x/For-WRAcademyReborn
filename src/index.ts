@@ -13,7 +13,6 @@ import {
   type SelectCommand,
 } from './templates/InteractionCommands.js';
 import type MessageCommand from './templates/MessageCommand.js';
-import type { commandModule } from './types/type.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
