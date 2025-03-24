@@ -3,18 +3,10 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
 import logger from '../logger.js';
-import type { Champion, Champions, Config } from '../types/type.js';
+import type { Champion, Champions, Config, Lane, LaneKey } from '../types/type.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
-
-type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
-
-type Lane = {
-  name: string;
-  value: LaneKey;
-  emoji: string;
-};
 
 export const lanes: Record<LaneKey, Lane> = {
   all: {

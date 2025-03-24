@@ -1,7 +1,9 @@
+// Set default to Discord command
 export type commandModule<T> = {
   default: T;
 };
 
+// Champion data from Champion API
 export type Champion = {
   id: string;
   key: number;
@@ -29,10 +31,12 @@ export type Champion = {
   hero_id: number;
 };
 
+// Data from Champion API
 export type Champions = {
   [key: string]: Champion;
 };
 
+// News from RSS API
 export type RssWildRiftItem = {
   title: string;
   contents: string;
@@ -40,12 +44,24 @@ export type RssWildRiftItem = {
   retrieved: string;
 };
 
+// Data from RSS API
 export type RssWildRift = {
   title: string;
   favicon: string;
   elements: RssWildRiftItem[];
 };
 
+// lane set
+type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
+
+// lane constant
+type Lane = {
+  name: string;
+  value: LaneKey;
+  emoji: string;
+};
+
+// type of config type
 export type Config = {
   prefix: string;
   urlChampions: string;
