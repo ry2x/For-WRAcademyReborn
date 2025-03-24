@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import logger from '../logger.js';
 import Event from '../templates/Event.js';
 import type MessageCommand from '../templates/MessageCommand.js';
-import { type Config } from '../types/interface.js';
+import { type Config } from '../types/type.js';
 import { grantXP } from '../utils/grantXp.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));

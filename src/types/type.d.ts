@@ -1,8 +1,8 @@
-export interface commandModule<T> {
+export type commandModule<T> = {
   default: T;
-}
+};
 
-export interface Champion {
+export type Champion = {
   id: string;
   key: number;
   name: string;
@@ -27,27 +27,28 @@ export interface Champion {
   survive: number;
   utility: number;
   hero_id: number;
-}
+};
 
-export interface Champions {
+export type Champions = {
   [key: string]: Champion;
-}
+};
 
-export interface RssWildRiftItem {
+export type RssWildRiftItem = {
   title: string;
   contents: string;
   link: string;
   retrieved: string;
-}
+};
 
-export interface RssWildRift {
+export type RssWildRift = {
   title: string;
   favicon: string;
   elements: RssWildRiftItem[];
-}
+};
 
-export interface Config {
+export type Config = {
   prefix: string;
   urlChampions: string;
   urlRssWildRift: string;
-}
+  urlWinRate: string;
+};
