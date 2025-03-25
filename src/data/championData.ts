@@ -40,6 +40,39 @@ export const lanes: Record<LaneKey, PositionSet<LaneKey>> = {
   },
 };
 
+export const roles: Record<RoleKey, PositionSet<RoleKey>> = {
+  F: {
+    name: 'ファイター',
+    value: 'F',
+    emoji: '<:fighter:1343296794343247985>',
+  },
+  M: {
+    name: 'メイジ',
+    value: 'M',
+    emoji: '<:mage:1343296818775326780>',
+  },
+  A: {
+    name: 'アサシン',
+    value: 'A',
+    emoji: '<:assassin:1343296727712530494>',
+  },
+  MM: {
+    name: 'マークスマン',
+    value: 'MM',
+    emoji: '<:marksman:1343296831781605376>',
+  },
+  S: {
+    name: 'サポート',
+    value: 'S',
+    emoji: '<:support:1343296844586946681>',
+  },
+  T: {
+    name: 'タンク',
+    value: 'T',
+    emoji: '<:tank:1343296805575589939>',
+  },
+};
+
 let champions: Champions = {};
 
 export async function fetchChampionData() {
