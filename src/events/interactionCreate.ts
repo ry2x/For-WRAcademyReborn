@@ -1,15 +1,15 @@
-import { Events, type BaseInteraction } from 'discord.js';
-import { interactionError } from '../embeds/errorEmbed.js';
-import logger from '../logger.js';
-import type ApplicationCommand from '../templates/ApplicationCommand.js';
-import Event from '../templates/Event.js';
+import type ApplicationCommand from '@/templates/ApplicationCommand.js';
+import Event from '@/templates/Event.js';
 import {
   type AutocompleteCommand,
   type ButtonCommand,
   type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-} from '../templates/InteractionCommands.js';
+} from '@/templates/InteractionCommands.js';
+import { Events, type BaseInteraction } from 'discord.js';
+import { interactionError } from '@/embeds/errorEmbed.js';
+import logger from '@/logger.js';
 
 export default new Event({
   name: Events.InteractionCreate,

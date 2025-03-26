@@ -1,6 +1,6 @@
-import { getChampionNames } from '../../data/championData.js';
-import { AutocompleteCommand } from '../../templates/InteractionCommands.js';
-import { toKatakana } from '../../utils/convertHiragana.js';
+import { AutocompleteCommand } from '@/templates/InteractionCommands.js';
+import { getChampionNames } from '@/data/championData.js';
+import { toKatakana } from '@/utils/convertHiragana.js';
 
 export default new AutocompleteCommand({
   data: {

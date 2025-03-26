@@ -1,9 +1,9 @@
+import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import {
   PermissionFlagsBits,
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder,
 } from 'discord.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()

@@ -1,8 +1,8 @@
+import SubCommand from '@/templates/SubCommand.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 import { desc } from 'drizzle-orm';
-import { db } from '../../db/index.js';
-import * as schema from '../../db/schema.js';
-import SubCommand from '../../templates/SubCommand.js';
+import { db } from '@/db/index.js';
+import * as schema from '@/db/schema.js';
 
 async function getLeaderboard(limit: number = 10) {
   const users = schema.users;

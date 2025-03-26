@@ -1,3 +1,4 @@
+import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -6,7 +7,6 @@ import {
   EmbedBuilder,
   SlashCommandBuilder,
 } from 'discord.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
 
 const probabilitySlots: { emoji: string; probability: number }[] = [
   { emoji: '<:seven:1344792025119330434>', probability: 0.02 },

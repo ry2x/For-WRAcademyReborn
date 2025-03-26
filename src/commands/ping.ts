@@ -1,6 +1,6 @@
+import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { MessageFlags, SlashCommandBuilder } from 'discord.js';
-import { pingEmbed } from '../embeds/pingEmbed.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
+import { pingEmbed } from '@/embeds/pingEmbed.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()

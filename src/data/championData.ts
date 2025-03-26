@@ -1,10 +1,10 @@
+import type { Champion, Champions, LaneKey, PositionSet, RoleKey } from '@/types/champs.js';
+import type { Config } from '@/types/type.js';
 import axios, { type AxiosResponse } from 'axios';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import logger from '../logger.js';
-import type { Champion, Champions, LaneKey, PositionSet, RoleKey } from '../types/champs.js';
-import type { Config } from '../types/type.js';
+import logger from '@/logger.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;

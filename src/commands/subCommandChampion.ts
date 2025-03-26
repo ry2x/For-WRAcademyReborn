@@ -1,6 +1,6 @@
+import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
-import { lanes } from '../data/championData.js';
-import ApplicationCommand from '../templates/ApplicationCommand.js';
+import { lanes } from '@/data/championData.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()

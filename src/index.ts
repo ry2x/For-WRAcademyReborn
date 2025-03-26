@@ -1,19 +1,19 @@
 import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
 import { readdirSync } from 'fs';
-import { fetchChampionData } from './data/championData.js';
-import { fetchWildRiftData } from './data/wildriftRss.js';
-import logger from './logger.js';
-import type ApplicationCommand from './templates/ApplicationCommand.js';
-import type Event from './templates/Event.js';
+import { fetchChampionData } from '@/data/championData.js';
+import { fetchWildRiftData } from '@/data/wildriftRss.js';
+import logger from '@/logger.js';
+import type ApplicationCommand from '@/templates/ApplicationCommand.js';
+import type Event from '@/templates/Event.js';
 import {
   type AutocompleteCommand,
   type ButtonCommand,
   type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-} from './templates/InteractionCommands.js';
-import type MessageCommand from './templates/MessageCommand.js';
-import type { commandModule } from './types/type.js';
+} from '@/templates/InteractionCommands.js';
+import type MessageCommand from '@/templates/MessageCommand.js';
+import type { commandModule } from '@/types/type.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 

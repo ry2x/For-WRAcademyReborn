@@ -1,3 +1,4 @@
+import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -6,9 +7,8 @@ import {
   EmbedBuilder,
   MessageFlags,
 } from 'discord.js';
-import { rollSlots } from '../../commands/slot.js';
-import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
-import { ButtonCommand } from '../../templates/InteractionCommands.js';
+import { rollSlots } from '@/commands/slot.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 
 const slotCommand = '</slot:1344816455035781233>';
 

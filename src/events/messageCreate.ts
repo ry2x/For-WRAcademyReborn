@@ -1,12 +1,12 @@
+import Event from '@/templates/Event.js';
+import type MessageCommand from '@/templates/MessageCommand.js';
+import type { Config } from '@/types/type.js';
 import { Events, type Message } from 'discord.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import logger from '../logger.js';
-import Event from '../templates/Event.js';
-import type MessageCommand from '../templates/MessageCommand.js';
-import type { Config } from '../types/type.js';
-import { grantXP } from '../utils/grantXp.js';
+import logger from '@/logger.js';
+import { grantXP } from '@/utils/grantXp.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;

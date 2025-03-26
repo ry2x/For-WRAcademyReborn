@@ -1,12 +1,12 @@
+import { type RssWildRift, type RssWildRiftItem } from '@/types/news.js';
+import type { Config } from '@/types/type.js';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { readFileSync } from 'fs';
 import { JSDOM } from 'jsdom';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import logger from '../logger.js';
-import { type RssWildRift, type RssWildRiftItem } from '../types/news.js';
-import type { Config } from '../types/type.js';
+import logger from '@/logger.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;

@@ -1,7 +1,7 @@
+import SubCommand from '@/templates/SubCommand.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
-import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
-import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
-import SubCommand from '../../templates/SubCommand.js';
+import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {

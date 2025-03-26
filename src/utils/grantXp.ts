@@ -1,8 +1,8 @@
 import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/index.js';
-import * as schema from '../db/schema.js';
-import logger from '../logger.js';
+import { db } from '@/db/index.js';
+import * as schema from '@/db/schema.js';
+import logger from '@/logger.js';
 
 const { DEFAULT_CHANNEL_ID } = process.env;
 
