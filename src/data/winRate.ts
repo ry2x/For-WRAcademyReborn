@@ -9,7 +9,46 @@ import { type WinRates } from '../types/winRate.js';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
-let WinRates: WinRates = { result: 0, data: {} };
+let WinRates: WinRates = {
+  result: 0,
+  data: {
+    0: {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+    },
+    1: {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+    },
+    2: {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+    },
+    3: {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+    },
+    4: {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+    },
+  },
+};
 
 export async function fetchWinRateData() {
   try {
