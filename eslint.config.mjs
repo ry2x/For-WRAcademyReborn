@@ -18,6 +18,10 @@ export default tseslint.config(
       parserOptions: {
         project: ['./tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
+        baseUrl: '.',
+        paths: {
+          '@/*': ['src/*', 'test/*'],
+        },
       },
       globals: {
         console: true,

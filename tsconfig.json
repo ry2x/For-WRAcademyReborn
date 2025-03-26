@@ -10,7 +10,13 @@
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
     "incremental": true,
-    "removeComments": true
+    "removeComments": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "exclude": ["test"]
 }
