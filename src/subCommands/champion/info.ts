@@ -1,6 +1,7 @@
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 import { getChampionByName, lanes, roles } from '../../data/championData.js';
 import SubCommand from '../../templates/SubCommand.js';
+import { type Champion } from '../../types/champs.js';
 
 export function getRoles(champion: Champion): string {
   return Object.values(lanes)

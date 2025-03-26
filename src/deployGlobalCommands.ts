@@ -5,6 +5,7 @@ import { readdirSync } from 'fs';
 import logger from './logger.js';
 import type ApplicationCommand from './templates/ApplicationCommand.js';
 import { type ContextCommand } from './templates/InteractionCommands.js';
+import type { commandModule } from './types/type.js';
 const { TOKEN, CLIENT_ID } = process.env;
 
 export default async function deployGlobalCommands() {

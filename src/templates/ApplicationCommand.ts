@@ -7,6 +7,7 @@ import {
 } from 'discord.js';
 import { interactionError } from '../embeds/errorEmbed.js';
 import logger from '../logger.js';
+import type { commandModule } from '../types/type.js';
 import type SubCommand from './SubCommand.js';
 
 /**
