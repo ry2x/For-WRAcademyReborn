@@ -3,8 +3,8 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "outDir": "./dist",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
     "ignoreDeprecations": "5.0",
     "target": "ES2022",
     "verbatimModuleSyntax": true,
