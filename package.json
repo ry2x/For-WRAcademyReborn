@@ -5,13 +5,14 @@
     "*.ts": "eslint --cache --fix",
     "*.{ts,css,md}": "prettier --write"
   },
+  "license": "MIT",
   "scripts": {
-    "dev-prepare": "husky install",
+    "prepare:dev": "husky install",
     "start:dev": "cd ./src && tsx ./index.ts",
+    "start:prod": "cd ./dist && node ./index.js",
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
     "compile": "tsc && tsc-alias",
-    "start": "cd ./dist && node ./index.js",
     "drizzle": "drizzle-kit generate"
   },
   "dependencies": {
