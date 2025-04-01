@@ -34,6 +34,9 @@ export type Champions = {
 // lane set//
 export type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
 
+// rank range set
+export type RankRangeKey = 'all' | 'diamondPlus' | 'masterPlus' | 'challengerPlus' | 'superServer';
+
 // role set Fighter, Assassin, Marksman, Support, Tank
 export type RoleKey = 'F' | 'M' | 'A' | 'MM' | 'S' | 'T';
 

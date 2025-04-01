@@ -1,46 +1,92 @@
-import type { Champion, Champions, LaneKey, PositionSet, RoleKey } from '@/types/champs.js';
+import logger from '@/logger.js';
+import type {
+  Champion,
+  Champions,
+  LaneKey,
+  PositionSet,
+  RankRangeKey,
+  RoleKey,
+} from '@/types/champs.js';
 import type { Config } from '@/types/type.js';
 import axios, { type AxiosResponse } from 'axios';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import logger from '@/logger.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
-export const lanes: Record<LaneKey, PositionSet<LaneKey>> = {
+export const lanes: Record<LaneKey, PositionSet<LaneKey> & { apiParam: string }> = {
   all: {
     name: 'All (全レーン)',
     value: 'all',
     emoji: '<:Lane_All:1343842075464175616>',
+    apiParam: '0',
   },
   top: {
     name: 'Top (トップ)',
     value: 'top',
     emoji: '<:Lane_Top:1343276732194750485>',
+    apiParam: '2',
   },
   jg: {
     name: 'Jungle (ジャングル)',
     value: 'jg',
     emoji: '<:Lane_Jungle:1343276691853934647>',
+    apiParam: '5',
   },
   mid: {
     name: 'Mid (ミッド)',
     value: 'mid',
     emoji: '<:Lane_Mid:1343276706143932447>',
+    apiParam: '1',
   },
   ad: {
     name: 'ADC (ボット)',
     value: 'ad',
     emoji: '<:Lane_Bot:1343276674044792974>',
+    apiParam: '3',
   },
   sup: {
     name: 'Support (サポート)',
     value: 'sup',
     emoji: '<:Lane_Support:1343276719049543803>',
+    apiParam: '4',
   },
-};
+} as const;
+
+export const rankRanges: Record<RankRangeKey, PositionSet<RankRangeKey> & { apiParam: string }> = {
+  all: {
+    name: '全ランク',
+    value: 'all',
+    emoji: '<:Rank_All:1343842075464175616>',
+    apiParam: '0',
+  },
+  diamondPlus: {
+    name: 'ダイヤモンド以上',
+    value: 'diamondPlus',
+    emoji: '<:Rank_Diamond:1343276732194750485>',
+    apiParam: '1',
+  },
+  masterPlus: {
+    name: 'マスター以上',
+    value: 'masterPlus',
+    emoji: '<:Rank_Master:1343276691853934647>',
+    apiParam: '2',
+  },
+  challengerPlus: {
+    name: 'チャレンジャー以上',
+    value: 'challengerPlus',
+    emoji: '<:Rank_Challenger:1343276706143932447>',
+    apiParam: '3',
+  },
+  superServer: {
+    name: 'スーパーサーバー',
+    value: 'superServer',
+    emoji: '<:Rank_Super:1343276674044792974>',
+    apiParam: '4',
+  },
+} as const;
 
 export const roles: Record<RoleKey, PositionSet<RoleKey>> = {
   F: {
@@ -95,8 +141,18 @@ export function getChampionByName(name: string) {
   );
 }
 
-export function getChampionNames() {
+export function getChampById(id: string) {
+  return Object.values(champions).find((champ: Champion) =>
+    champ.id.toLowerCase().includes(id.toLowerCase()),
+  );
+}
+
+export function getChampionNames(): string[] {
   return Object.values(champions).map((champ: Champion) => champ.name);
+}
+
+export function getChampionIds() {
+  return Object.values(champions).map((champ: Champion) => champ.id);
 }
 
 export function getChampionsByLane(lane: string) {

@@ -22,7 +22,7 @@ export type HeroStats = {
 };
 
 // 1:mid 2:top 3:adc 4:sup 5:jg
-type lane = '1' | '2' | '3' | '4' | '5';
+export type lane = '1' | '2' | '3' | '4' | '5';
 
 // lane stats from CN winRateAPI
 export type PositionStats = {
@@ -30,7 +30,7 @@ export type PositionStats = {
 };
 
 // 0:ALL 1:Dia+ 2:Mas+ 3:Ch+ 4:super server
-type rankRange = '0' | '1' | '2' | '3' | '4';
+export type rankRange = '0' | '1' | '2' | '3' | '4';
 
 // rank stats from CN winRateAPI
 export type RankStats = {
