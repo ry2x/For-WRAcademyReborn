@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev-prepare": "husky install",
-    "start:dev": "tsx src/index.ts",
+    "start:dev": "cd ./src && tsx ./index.ts",
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
     "compile": "tsc && tsc-alias",
