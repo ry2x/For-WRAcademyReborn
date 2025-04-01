@@ -59,31 +59,31 @@ export const rankRanges: Record<RankRangeKey, PositionSet<RankRangeKey> & { apiP
   all: {
     name: '全ランク',
     value: 'all',
-    emoji: '<:Rank_All:1343842075464175616>',
+    emoji: '<:Rank_Challenger:1356509666527416462>',
     apiParam: '0',
   },
   diamondPlus: {
     name: 'ダイヤモンド以上',
     value: 'diamondPlus',
-    emoji: '<:Rank_Diamond:1343276732194750485>',
+    emoji: '<:Rank_Master:1356509641562919032>',
     apiParam: '1',
   },
   masterPlus: {
     name: 'マスター以上',
     value: 'masterPlus',
-    emoji: '<:Rank_Master:1343276691853934647>',
+    emoji: '<:Rank_Master:1356509641562919032>',
     apiParam: '2',
   },
   challengerPlus: {
     name: 'チャレンジャー以上',
     value: 'challengerPlus',
-    emoji: '<:Rank_Challenger:1343276706143932447>',
+    emoji: '<:Rank_Challenger:1356509666527416462>',
     apiParam: '3',
   },
   superServer: {
     name: 'スーパーサーバー',
     value: 'superServer',
-    emoji: '<:Rank_Super:1343276674044792974>',
+    emoji: '<:LRank_Legend:1356510180057284719>',
     apiParam: '4',
   },
 } as const;
