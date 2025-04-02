@@ -1,5 +1,3 @@
-import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
-import { readdirSync } from 'fs';
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
 import logger from '@/logger.js';
@@ -14,12 +12,16 @@ import {
 } from '@/templates/InteractionCommands.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { commandModule } from '@/types/type.js';
+import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
+import { readdirSync } from 'fs';
+import { fetchWinRateData } from './data/winRate';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
 const { TOKEN, ADMIN_WEBHOOK } = process.env;
 await fetchChampionData();
 await fetchWildRiftData();
+await fetchWinRateData();
 
 logger.info('[INITIALIZING CLIENT]');
 
