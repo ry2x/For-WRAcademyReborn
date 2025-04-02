@@ -1,4 +1,7 @@
+import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
+import type { LaneKey } from '@/types/champs';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -8,8 +11,6 @@ import {
   MessageFlags,
   type ChatInputCommandInteraction,
 } from 'discord.js';
-import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
-import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 
 export const CHAMP_PER_PAGE = 15;
 
@@ -46,7 +47,7 @@ export function createPageButton(page: number, lane: string, totalPages: number)
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const lane = interaction.options.getString('lane', true);
+    const lane = interaction.options.getString('lane', true) as LaneKey;
     const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
@@ -55,6 +56,7 @@ export default new SubCommand({
       });
       return;
     }
+
     const championNames = champions.map(
       (champ) =>
         '<:SR:1343276485942841485>' +

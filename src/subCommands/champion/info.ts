@@ -1,7 +1,7 @@
-import SubCommand from '@/templates/SubCommand.js';
-import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 import { getChampionByName, lanes, roles } from '@/data/championData.js';
+import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
+import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 export function getRoles(champion: Champion): string {
   return Object.values(lanes)
@@ -39,7 +39,7 @@ export default new SubCommand({
       return new EmbedBuilder().setColor(Colors.Red).setTitle(msg);
     }
 
-    const championName = interaction.options.getString('championname');
+    const championName = interaction.options.getString('champion_name');
     if (!championName) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌チャンピオンの名前が指定されていません。')],

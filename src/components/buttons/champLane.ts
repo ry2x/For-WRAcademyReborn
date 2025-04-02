@@ -1,13 +1,14 @@
 import { MessageFlags } from 'discord.js';
 
-import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
   CHAMP_PER_PAGE,
   createPageButton,
   createPageEmbed,
-} from '../../subCommands/champion/lanechamps.js';
+} from '@/subCommands/champion/lanechamps.js';
+import { ButtonCommand } from '@/templates/InteractionCommands.js';
+import type { LaneKey } from '@/types/champs.js';
 
 export default new ButtonCommand({
   data: {
@@ -44,9 +45,8 @@ export default new ButtonCommand({
       });
       return;
     }
-
     const page = parseInt(strPage, 10);
-    const champions = getChampionsByLane(lane);
+    const champions = getChampionsByLane(lane as LaneKey);
     if (!champions || champions.length === 0) {
       await interaction.followUp({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
