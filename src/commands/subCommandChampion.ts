@@ -1,6 +1,6 @@
+import { lanes, rankRanges } from '@/data/championData.js';
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
-import { lanes } from '@/data/championData.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ export default new ApplicationCommand({
         .setDescription('指定したチャンピオンの情報を表示します')
         .addStringOption((option) =>
           option
-            .setName('championname')
+            .setName('champion_name')
             .setDescription('チャンピオンの名前')
             .setRequired(true)
             .setAutocomplete(true),
@@ -79,6 +79,30 @@ export default new ApplicationCommand({
             .setName('wr_only')
             .setDescription('Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)')
             .setRequired(false),
+        ),
+    )
+    .addSubcommand(
+      new SlashCommandSubcommandBuilder()
+        .setName('winrate')
+        .setDescription('チャンピオンのWILDRIFTでの勝率を確認する')
+        .addStringOption((option) =>
+          option
+            .setName('champion_name')
+            .setDescription('チャンピオンの名前')
+            .setRequired(true)
+            .setAutocomplete(true),
+        )
+        .addStringOption((option) =>
+          option
+            .setName('rank')
+            .setDescription('対象にするランク（デフォルト：マスター）')
+            .setRequired(false)
+            .addChoices(
+              Object.entries(rankRanges).map(([, v]) => ({
+                name: v.name,
+                value: v.value,
+              })),
+            ),
         ),
     ),
   hasSubCommands: true,
