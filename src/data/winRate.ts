@@ -12,41 +12,11 @@ const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8'
 let WinRates: WinRates = {
   result: 0,
   data: {
-    0: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    },
-    1: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    },
-    2: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    },
-    3: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    },
-    4: {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-    },
+    0: {},
+    1: {},
+    2: {},
+    3: {},
+    4: {},
   },
 };
 
@@ -54,6 +24,7 @@ export async function fetchWinRateData() {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
     WinRates = res.data;
+    logger.info('fetched', WinRates);
     logger.info('Champion data updated!');
   } catch (error: unknown) {
     logger.error('Failed to fetch winRate data:', error);
@@ -67,9 +38,20 @@ export async function fetchWinRateData() {
  * @param rankRange ランク範囲（0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server）
  * @returns チャンピオンのデータ。見つからない場合はnull
  */
-export function getChampionStats(championId: string, lane: lane, rankRange: rankRange) {
-  const laneData = WinRates.data[rankRange][lane];
-  return laneData.find((hero) => hero.hero_id === championId) || null;
+export function getChampionStats(championId: number, lane: lane, rankRange: rankRange) {
+  console.log('id', championId);
+  console.log('lane', lane);
+
+  const laneData = WinRates.data[rankRange]?.[lane];
+
+  console.log('data', laneData?.length);
+
+  const champData =
+    laneData?.find((hero) => hero.hero_id.toString() === championId.toString()) || null;
+
+  console.log('champdata', champData);
+
+  return champData;
 }
 
 /**
@@ -79,7 +61,8 @@ export function getChampionStats(championId: string, lane: lane, rankRange: rank
  * @returns レーンごとのチャンピオン情報
  */
 export function getLaneStats(lane: lane, rankRange: rankRange): HeroStats[] {
-  return WinRates.data[rankRange][lane];
+  const laneData = WinRates.data[rankRange][lane];
+  return laneData ? laneData : [];
 }
 
 /**
