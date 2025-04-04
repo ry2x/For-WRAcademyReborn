@@ -1,8 +1,8 @@
-import { getChampionByName, getChampionLanes, rankRanges } from '@/data/championData';
-import { getChampionStats } from '@/data/winRate';
-import { interactionErrorEmbed } from '@/embeds/errorEmbed';
-import SubCommand from '@/templates/SubCommand';
-import type { lane, rankRange } from '@/types/winRate';
+import { getChampionByName, getChampionLanes, rankRanges } from '@/data/championData.js';
+import { getChampionStats } from '@/data/winRate.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
+import SubCommand from '@/templates/SubCommand.js';
+import type { lane, rankRange } from '@/types/winRate.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 const ERROR_MESSAGES = {
