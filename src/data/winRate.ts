@@ -24,7 +24,6 @@ export async function fetchWinRateData() {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
     WinRates = res.data;
-    logger.info('fetched', WinRates);
     logger.info('Champion data updated!');
   } catch (error: unknown) {
     logger.error('Failed to fetch winRate data:', error);
@@ -39,17 +38,10 @@ export async function fetchWinRateData() {
  * @returns チャンピオンのデータ。見つからない場合はnull
  */
 export function getChampionStats(championId: number, lane: lane, rankRange: rankRange) {
-  console.log('id', championId);
-  console.log('lane', lane);
-
   const laneData = WinRates.data[rankRange]?.[lane];
-
-  console.log('data', laneData?.length);
 
   const champData =
     laneData?.find((hero) => hero.hero_id.toString() === championId.toString()) || null;
-
-  console.log('champdata', champData);
 
   return champData;
 }
