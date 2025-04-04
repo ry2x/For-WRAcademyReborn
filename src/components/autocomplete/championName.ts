@@ -12,13 +12,15 @@ export async function autocompleteChampionName(interaction: AutocompleteInteract
     const championId = getChampionIds()
       .filter((id) => id.toLowerCase().includes(interaction.options.getFocused().toLowerCase()))
       .slice(0, 25);
-    championNames = championId.map((id) => {
-      const champ = getChampById(id);
-      if (!champ) {
-        return '';
-      }
-      return champ.name;
-    });
+    championNames = championId
+      .map((id) => {
+        const champ = getChampById(id);
+        if (!champ) {
+          return '';
+        }
+        return champ.name;
+      })
+      .filter((name) => name !== '');
   }
   await interaction.respond(championNames.map((name) => ({ name, value: name })));
 }
