@@ -1,7 +1,8 @@
+import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
+import SubCommand from '@/templates/SubCommand.js';
+import type { LaneKey } from '@/types/champs';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
-import { getChampionsByLane, getLaneEmoji } from '../../data/championData.js';
-import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
-import SubCommand from '../../templates/SubCommand.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -10,7 +11,7 @@ export default new SubCommand({
     let count = interaction.options.getInteger('count', false) ?? 1;
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;
 
-    let champions = getChampionsByLane(lane);
+    let champions = getChampionsByLane(lane as LaneKey);
     if (wrOnly) {
       champions = champions.filter((champ) => champ.is_wr);
     }

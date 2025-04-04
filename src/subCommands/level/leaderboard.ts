@@ -1,8 +1,11 @@
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import { db } from '@/db/index.js';
+import * as schema from '@/db/schema.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed';
+import SubCommand from '@/templates/SubCommand.js';
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
 import { desc } from 'drizzle-orm';
-import { db } from '../../db/index.js';
-import * as schema from '../../db/schema.js';
-import SubCommand from '../../templates/SubCommand.js';
+
+const { DEFAULT_GUILD_ID } = process.env;
 
 async function getLeaderboard(limit: number = 10) {
   const users = schema.users;
@@ -35,6 +38,12 @@ function getRankEmoji(rank: number): string {
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    if (interaction.guildId !== DEFAULT_GUILD_ID) {
+      await interaction.reply({
+        embeds: [interactionErrorEmbed('❌このサーバーでは使用できません。')],
+        flags: MessageFlags.Ephemeral,
+      });
+    }
     const leaderboard = await getLeaderboard(10);
 
     if (leaderboard.length === 0) {

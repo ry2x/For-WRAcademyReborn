@@ -1,6 +1,6 @@
+import Event from '@/templates/Event.js';
 import { Events } from 'discord.js';
-import logger from '../logger.js';
-import Event from '../templates/Event.js';
+import logger from '@/logger.js';
 
 export default new Event({
   name: Events.ClientReady,

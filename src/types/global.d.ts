@@ -1,13 +1,13 @@
-import { type Client, type Collection } from 'discord.js';
-import type ApplicationCommand from '../templates/ApplicationCommand.ts';
+import type ApplicationCommand from '@/templates/ApplicationCommand.ts';
 import {
   type AutocompleteCommand,
   type ButtonCommand,
   type ContextCommand,
   type ModalCommand,
   type SelectCommand,
-} from '../templates/InteractionCommands.js';
-import type MessageCommand from '../templates/MessageCommand.ts';
+} from '@/templates/InteractionCommands.js';
+import type MessageCommand from '@/templates/MessageCommand.ts';
+import { type Client, type Collection } from 'discord.js';
 
 interface DiscordClient extends Client {
   commands: Collection<string, ApplicationCommand>;

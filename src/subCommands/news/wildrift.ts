@@ -1,12 +1,12 @@
+import SubCommand from '@/templates/SubCommand.js';
 import { Colors, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 import {
   getTipsFromContent,
   getWildriftFaivcon,
   getWildriftNews,
   unixMsToYMD,
-} from '../../data/wildriftRss.js';
-import { interactionErrorEmbed } from '../../embeds/errorEmbed.js';
-import SubCommand from '../../templates/SubCommand.js';
+} from '@/data/wildriftRss.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {

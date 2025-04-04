@@ -1,3 +1,4 @@
+import SubCommand from '@/templates/SubCommand.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -5,8 +6,7 @@ import {
   MessageFlags,
   type ChatInputCommandInteraction,
 } from 'discord.js';
-import { pingEmbed } from '../../embeds/pingEmbed.js';
-import SubCommand from '../../templates/SubCommand.js';
+import { pingEmbed } from '@/embeds/pingEmbed.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {

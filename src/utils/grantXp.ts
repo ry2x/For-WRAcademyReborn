@@ -1,8 +1,8 @@
+import { db } from '@/db/index.js';
+import * as schema from '@/db/schema.js';
+import logger from '@/logger.js';
 import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/index.js';
-import * as schema from '../db/schema.js';
-import logger from '../logger.js';
 
 const { DEFAULT_CHANNEL_ID } = process.env;
 
@@ -34,7 +34,8 @@ export async function grantXP(gMember: GuildMember) {
       joinedAT: gMember.joinedAt ? gMember.joinedAt : new Date(0),
     };
     await db.insert(users).values(user);
-    await sendLevelUP(gMember.nickname || '', 1);
+    await sendLevelUP(gMember.nickname || gMember.displayName || '', 1);
+    return;
   }
 
   const now = new Date();
@@ -60,7 +61,8 @@ export async function grantXP(gMember: GuildMember) {
 
     // レベルアップ通知
     if (newLevel > user.level) {
-      await sendLevelUP(gMember.nickname || '', newLevel);
+      await sendLevelUP(gMember.nickname || gMember.displayName || '', newLevel);
+      return;
     }
   } catch (error) {
     logger.error('Failed to update XP:', error);

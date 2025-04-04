@@ -1,3 +1,4 @@
+import type { commandModule } from '@/types/type.js';
 import {
   MessageFlags,
   type ChatInputCommandInteraction,
@@ -5,9 +6,8 @@ import {
   type SlashCommandOptionsOnlyBuilder,
   type SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
-import { interactionError } from '../embeds/errorEmbed.js';
-import logger from '../logger.js';
-import type { commandModule } from '../types/interface.js';
+import { interactionError } from '@/embeds/errorEmbed.js';
+import logger from '@/logger.js';
 import type SubCommand from './SubCommand.js';
 
 /**

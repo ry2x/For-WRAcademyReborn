@@ -1,5 +1,5 @@
-import { pingEmbed } from '../../embeds/pingEmbed.js';
-import { ButtonCommand } from '../../templates/InteractionCommands.js';
+import { ButtonCommand } from '@/templates/InteractionCommands.js';
+import { pingEmbed } from '@/embeds/pingEmbed.js';
 
 export default new ButtonCommand({
   data: {

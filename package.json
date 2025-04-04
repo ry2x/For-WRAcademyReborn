@@ -5,12 +5,14 @@
     "*.ts": "eslint --cache --fix",
     "*.{ts,css,md}": "prettier --write"
   },
+  "license": "MIT",
   "scripts": {
-    "dev-prepare": "husky install",
+    "prepare:dev": "husky install",
+    "start:dev": "cd ./src && tsx ./index.ts",
+    "start:prod": "cd ./dist && node ./index.js",
     "lint": "eslint --cache --fix src",
     "prettier": "prettier --write src",
-    "compile": "tsc",
-    "start": "cd ./dist && node ./index.js",
+    "compile": "tsc && tsc-alias",
     "drizzle": "drizzle-kit generate"
   },
   "dependencies": {
@@ -38,7 +40,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.4.1",
     "prettier": "^3.4.2",
-    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.13",
     "tsx": "^4.19.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.21.0"

@@ -1,7 +1,7 @@
+import { getChampionByName, lanes, roles } from '@/data/championData.js';
+import SubCommand from '@/templates/SubCommand.js';
+import { type Champion } from '@/types/champs.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
-import { getChampionByName, lanes } from '../../data/championData.js';
-import SubCommand from '../../templates/SubCommand.js';
-import type { Champion } from '../../types/interface.js';
 
 export function getRoles(champion: Champion): string {
   return Object.values(lanes)
@@ -14,19 +14,22 @@ function showLevel(level: number): string {
   return level === 0 ? '⬜⬜⬜' : level === 1 ? '🟦⬜⬜' : level === 2 ? '🟨🟨⬜' : '🟧🟧🟧';
 }
 
-const roleTags: Record<string, { name: string; emoji: string }> = {
-  is_fighter: { name: 'ファイター', emoji: '<:fighter:1343296794343247985>' },
-  is_mage: { name: 'メイジ', emoji: '<:mage:1343296818775326780>' },
-  is_assassin: { name: 'アサシン', emoji: '<:assassin:1343296727712530494>' },
-  is_marksman: { name: 'マークスマン', emoji: '<:marksman:1343296831781605376>' },
-  is_support: { name: 'サポート', emoji: '<:support:1343296844586946681>' },
-  is_tank: { name: 'タンク', emoji: '<:tank:1343296805575589939>' },
+const roleMapping: Record<string, keyof typeof roles> = {
+  is_fighter: 'F',
+  is_mage: 'M',
+  is_assassin: 'A',
+  is_marksman: 'MM',
+  is_support: 'S',
+  is_tank: 'T',
 };
 
 export function getTags(champion: Champion): string {
-  return Object.entries(roleTags)
+  return Object.entries(roleMapping)
     .filter(([key]) => champion[key as keyof Champion])
-    .map(([, tag]) => `${tag.emoji}: ${tag.name}`)
+    .map(([, roleKey]) => {
+      const role = roles[roleKey];
+      return `${role.emoji}: ${role.name}`;
+    })
     .join(', ');
 }
 
@@ -36,7 +39,7 @@ export default new SubCommand({
       return new EmbedBuilder().setColor(Colors.Red).setTitle(msg);
     }
 
-    const championName = interaction.options.getString('championname');
+    const championName = interaction.options.getString('champion_name');
     if (!championName) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('❌チャンピオンの名前が指定されていません。')],
