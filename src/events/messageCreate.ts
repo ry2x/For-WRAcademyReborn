@@ -1,12 +1,14 @@
+import logger from '@/logger.js';
 import Event from '@/templates/Event.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { Config } from '@/types/type.js';
+import { grantXP } from '@/utils/grantXp.js';
 import { Events, type Message } from 'discord.js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { fileURLToPath } from 'url';
-import logger from '@/logger.js';
-import { grantXP } from '@/utils/grantXp.js';
+
+const { DEFAULT_GUILD_ID } = process.env;
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
@@ -16,7 +18,7 @@ export default new Event({
   async execute(message: Message): Promise<void> {
     if (message.author.bot) return;
 
-    if (message.member) {
+    if (message.member && message.guildId === DEFAULT_GUILD_ID) {
       await grantXP(message.member);
     }
 
