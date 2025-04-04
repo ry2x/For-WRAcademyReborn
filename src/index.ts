@@ -14,7 +14,7 @@ import type MessageCommand from '@/templates/MessageCommand.js';
 import type { commandModule } from '@/types/type.js';
 import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
 import { readdirSync } from 'fs';
-import { fetchWinRateData } from './data/winRate';
+import { fetchWinRateData } from './data/winRate.js';
 
 logger.info('[INITIALIZING CONNECTIONS AND DATA]');
 
