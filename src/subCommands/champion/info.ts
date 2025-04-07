@@ -1,3 +1,4 @@
+import config from '@/config.js';
 import { getChampionByName } from '@/data/championData.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
@@ -18,7 +19,7 @@ const CHAMPION_LEVEL_DISPLAY = {
  * Champion information error messages
  */
 const CHAMPION_ERROR_MESSAGES = {
-  NO_NAME: '❌チャンピオンの名前が指定されていません。',
+  NO_NAME: config.championError.invalidChampion,
   NOT_FOUND: (name: string) => `❌チャンピオン「${name}」は見つかりませんでした。`,
 } as const;
 

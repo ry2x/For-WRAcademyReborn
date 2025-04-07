@@ -1,15 +1,10 @@
+import config from '@/config.js';
 import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { RANK_RANGES, type LaneKey, type LANES } from '@/types/common.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
-
-const ERROR_MESSAGES = {
-  INVALID_RANK: '❌ランクが正しく指定されていません。',
-  INVALID_CHAMPION: '❌チャンピオンの名前が指定されていません。',
-  NOT_AVAILABLE: '❌チャンピオンはワイルドリフトで使用可能ではありません。',
-} as const;
 
 function getRankRange(
   rankValue: string,
@@ -46,7 +41,7 @@ export default new SubCommand({
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(ERROR_MESSAGES.INVALID_RANK)],
+        embeds: [interactionErrorEmbed(config.championError.invalidRank)],
       });
       return;
     }
@@ -55,7 +50,7 @@ export default new SubCommand({
     if (!champ) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(ERROR_MESSAGES.INVALID_CHAMPION)],
+        embeds: [interactionErrorEmbed(config.championError.invalidChampion)],
       });
       return;
     }
@@ -63,7 +58,7 @@ export default new SubCommand({
     if (!champ.is_wr) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(ERROR_MESSAGES.NOT_AVAILABLE)],
+        embeds: [interactionErrorEmbed(config.championError.notAvailable)],
       });
       return;
     }

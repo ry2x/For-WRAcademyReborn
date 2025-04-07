@@ -1,5 +1,4 @@
-import { MessageFlags } from 'discord.js';
-
+import config from '@/config.js';
 import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
@@ -9,6 +8,7 @@ import {
 } from '@/subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import type { LaneKey } from '@/types/common.js';
+import { MessageFlags } from 'discord.js';
 
 export default new ButtonCommand({
   data: {
@@ -28,7 +28,7 @@ export default new ButtonCommand({
       });
 
       await interaction.followUp({
-        embeds: [interactionErrorEmbed('❌このボタンは3分が経過したので使用できません。')],
+        embeds: [interactionErrorEmbed(config.ButtonError.timeOut)],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -38,7 +38,7 @@ export default new ButtonCommand({
       await interaction.followUp({
         embeds: [
           interactionErrorEmbed(
-            '❌ 利用者以外はボタンは使用できません。\n自分で実行するには**`/lanechamp`**を実行して下さい。',
+            `${config.ButtonError.invalidUser}\n自分で実行するには**\`/lanechamp\`**を実行して下さい。`,
           ),
         ],
         flags: MessageFlags.Ephemeral,
@@ -49,7 +49,7 @@ export default new ButtonCommand({
     const champions = getChampionsByLane(lane);
     if (!champions || champions.length === 0) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
+        embeds: [interactionErrorEmbed(config.championError.notFound)],
         flags: MessageFlags.Ephemeral,
       });
       return;

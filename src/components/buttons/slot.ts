@@ -1,3 +1,6 @@
+import { rollSlots } from '@/commands/slot.js';
+import config from '@/config.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import {
   ActionRowBuilder,
@@ -7,8 +10,6 @@ import {
   EmbedBuilder,
   MessageFlags,
 } from 'discord.js';
-import { rollSlots } from '@/commands/slot.js';
-import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 
 const slotCommand = '</slot:1344816455035781233>';
 
@@ -22,7 +23,7 @@ export default new ButtonCommand({
 
     if (!(interaction.user.id === userId)) {
       await interaction.reply({
-        content: `❌ 利用者以外はボタンは使用できません。\n自分で実行するには${slotCommand}を実行して下さい。`,
+        content: `${config.ButtonError.invalidUser}\n自分で実行するには${slotCommand}を実行して下さい。`,
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -35,7 +36,7 @@ export default new ButtonCommand({
       await interaction.followUp({
         embeds: [
           interactionErrorEmbed(
-            `❌このボタンは3分が経過したので使用できません。\n再度で実行するには${slotCommand}を実行して下さい。`,
+            `${config.ButtonError.timeOut}\n再度実行するには${slotCommand}を実行して下さい。`,
           ),
         ],
         flags: MessageFlags.Ephemeral,
