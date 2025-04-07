@@ -1,8 +1,8 @@
-import { getChampionByName, getChampionLanes, rankRanges } from '@/data/championData.js';
+import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { lane, rankRange } from '@/types/winRate.js';
+import { RANK_RANGES, type LaneKey, type LANES } from '@/types/common.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 const ERROR_MESSAGES = {
@@ -11,17 +11,17 @@ const ERROR_MESSAGES = {
   NOT_AVAILABLE: '❌チャンピオンはワイルドリフトで使用可能ではありません。',
 } as const;
 
-const getRankRange = (
+function getRankRange(
   rankValue: string,
-): (typeof rankRanges)[keyof typeof rankRanges] | undefined => {
-  return Object.values(rankRanges).find((v) => v.value === rankValue);
-};
+): (typeof RANK_RANGES)[keyof typeof RANK_RANGES] | undefined {
+  return Object.values(RANK_RANGES).find((rank) => rank.value === rankValue);
+}
 
-const createChampionStatsField = (
+function createChampionStatsField(
   championId: number,
-  lane: { apiParam: lane },
-  rank: { apiParam: rankRange },
-) => {
+  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
+  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
+) {
   const stats = getChampionStats(championId, lane.apiParam, rank.apiParam);
 
   return (
@@ -29,7 +29,7 @@ const createChampionStatsField = (
     `⚒️ピック率: ${stats?.appear_rate_percent ?? '-'}%\n` +
     `❌バン率: ${stats?.forbid_rate_percent ?? '-'}%`
   );
-};
+}
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -39,7 +39,8 @@ export default new SubCommand({
     });
 
     const champName = interaction.options.getString('champion_name', true);
-    const rankValue = interaction.options.getString('rank', false) ?? rankRanges.masterPlus.value;
+    const rankValue = interaction.options.getString('rank', false) ?? RANK_RANGES.masterPlus.value;
+    const laneValue = interaction.options.getString('lane', false);
 
     const rank = getRankRange(rankValue);
     if (!rank) {
@@ -67,16 +68,22 @@ export default new SubCommand({
       return;
     }
 
-    const targetLanes = getChampionLanes(champ);
+    const targetLanes = laneValue
+      ? getLanePositionSets(laneValue as LaneKey)
+      : getChampionLanes(champ);
 
     const embed = new EmbedBuilder()
       .setColor(Colors.Aqua)
-      .setTitle(`${champ.name}の勝率${rank.emoji}`)
+      .setTitle(`${champ.name}の勝率:${rank.name}${rank.emoji}`)
       .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champ.id}.png`)
       .addFields(
         Object.entries(targetLanes).map(([, lane]) => ({
           name: `${lane.name} ${lane.emoji}`,
-          value: createChampionStatsField(champ.hero_id, lane, rank),
+          value: createChampionStatsField(
+            champ.hero_id,
+            { apiParam: lane.apiParam },
+            { apiParam: rank.apiParam },
+          ),
         })),
       );
 

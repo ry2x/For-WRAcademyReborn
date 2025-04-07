@@ -1,6 +1,7 @@
 import logger from '@/logger.js';
 import type { Config } from '@/types/type.js';
-import { type HeroStats, type WinRates, type lane, type rankRange } from '@/types/winRate.js';
+import { type HeroStats, type WinRates } from '@/types/winRate.js';
+import { LANES, RANK_RANGES } from '@/types/common.js';
 import axios, { type AxiosResponse } from 'axios';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -20,6 +21,9 @@ let WinRates: WinRates = {
   },
 };
 
+/**
+ * Fetches win rate data from the API and updates the local cache
+ */
 export async function fetchWinRateData() {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
@@ -31,13 +35,17 @@ export async function fetchWinRateData() {
 }
 
 /**
- * 特定のチャンピオンのデータを取得する関数
- * @param championId チャンピオンID
- * @param lane レーン（1:mid, 2:top, 3:adc, 4:sup, 5:jg）
- * @param rankRange ランク範囲（0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server）
- * @returns チャンピオンのデータ。見つからない場合はnull
+ * Gets statistics for a specific champion in a specific lane and rank range
+ * @param championId - ID of the champion
+ * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
+ * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
+ * @returns Champion statistics if found, null otherwise
  */
-export function getChampionStats(championId: number, lane: lane, rankRange: rankRange) {
+export function getChampionStats(
+  championId: number,
+  lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
+  rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
+) {
   const laneData = WinRates.data[rankRange]?.[lane];
 
   const champData =
@@ -47,26 +55,29 @@ export function getChampionStats(championId: number, lane: lane, rankRange: rank
 }
 
 /**
- * レーンごとのチャンピオン情報を取得する関数
- * @param lane レーン（1:mid, 2:top, 3:adc, 4:sup, 5:jg）
- * @param rankRange ランク範囲（0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server）
- * @returns レーンごとのチャンピオン情報
+ * Gets statistics for all champions in a specific lane and rank range
+ * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
+ * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
+ * @returns Array of champion statistics for the specified lane
  */
-export function getLaneStats(lane: lane, rankRange: rankRange): HeroStats[] {
+export function getLaneStats(
+  lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
+  rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
+): HeroStats[] {
   const laneData = WinRates.data[rankRange][lane];
   return laneData ? laneData : [];
 }
 
 /**
- * レーンごとのチャンピオン情報を勝率でソートして取得する関数
- * @param lane レーン（1:mid, 2:top, 3:adc, 4:sup, 5:jg）
- * @param rankRange ランク範囲（0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server）
- * @param limit 取得するチャンピオンの数（デフォルト: 10）
- * @returns 勝率順にソートされたチャンピオン情報
+ * Gets the top champions by win rate in a specific lane and rank range
+ * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
+ * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
+ * @param limit - Maximum number of champions to return (default: 10)
+ * @returns Array of champion statistics sorted by win rate
  */
 export function getTopChampionsByWinRate(
-  lane: lane,
-  rankRange: rankRange,
+  lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
+  rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
   limit = 10,
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
@@ -76,3 +87,5 @@ export function getTopChampionsByWinRate(
 }
 
 setInterval(() => void fetchWinRateData(), 24 * 60 * 60 * 1000);
+
+export { LANES, RANK_RANGES };

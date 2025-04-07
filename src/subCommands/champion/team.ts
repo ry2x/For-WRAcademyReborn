@@ -1,4 +1,5 @@
-import { getChampionsByLane, getLaneEmoji, lanes } from '@/data/championData.js';
+import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { LANES } from '@/types/common.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
@@ -12,8 +13,8 @@ export default new SubCommand({
     const selectedChamps = new Set<string>();
 
     await Promise.all(
-      Object.entries(lanes).map(async ([key, v]) => {
-        let champions = getChampionsByLane(v.value);
+      Object.entries(LANES).map(async ([key, lane]) => {
+        let champions = getChampionsByLane(lane.value);
         if (wrOnly) {
           champions = champions.filter((c) => c.is_wr);
         }
@@ -24,7 +25,9 @@ export default new SubCommand({
           await interaction.deleteReply();
           await interaction.followUp({
             embeds: [
-              interactionErrorEmbed(`❌${v.value.toUpperCase()} にチャンピオンが不足しています。`),
+              interactionErrorEmbed(
+                `❌${lane.value.toUpperCase()} にチャンピオンが不足しています。`,
+              ),
             ],
             flags: MessageFlags.Ephemeral,
           });
@@ -43,9 +46,9 @@ export default new SubCommand({
         `🎲 ランダムチーム：各2体 ${wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'}`,
       )
       .addFields(
-        Object.entries(team).map(([lane, champs]: [string, string[]]) => ({
+        Object.entries(team).map(([lane, champs]) => ({
           name: getLaneEmoji(lane) + lane.toUpperCase(),
-          value: champs.map((c: string) => `・**${c}**`).join('\n'),
+          value: champs.map((c) => `・**${c}**`).join('\n'),
         })),
       )
       .setColor(Colors.Orange)

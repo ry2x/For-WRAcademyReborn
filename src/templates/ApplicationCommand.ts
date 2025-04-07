@@ -1,4 +1,4 @@
-import type { commandModule } from '@/types/type.js';
+import type { CommandModule } from '@/types/type.js';
 import {
   MessageFlags,
   type ChatInputCommandInteraction,
@@ -44,7 +44,7 @@ export default class ApplicationCommand {
           try {
             const module = (await import(
               `../subCommands/${this.data.name}/${subCommandGroup ? `${subCommandGroup}/` : ''}${commandName}.js`
-            )) as commandModule<SubCommand>;
+            )) as CommandModule<SubCommand>;
             const command: SubCommand = module.default;
             await command.execute(interaction);
           } catch (error) {

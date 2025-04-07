@@ -11,7 +11,7 @@ import {
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
-import type { commandModule } from '@/types/type.js';
+import type { CommandModule } from '@/types/type.js';
 import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
 import { readdirSync } from 'fs';
 import { fetchWinRateData } from './data/winRate.js';
@@ -59,7 +59,7 @@ const commandFiles: string[] = readdirSync('./commands').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
 for (const file of commandFiles) {
-  const module = (await import(`./commands/${file}`)) as commandModule<ApplicationCommand>;
+  const module = (await import(`./commands/${file}`)) as CommandModule<ApplicationCommand>;
   const command: ApplicationCommand = module.default;
   client.commands.set(command.data.name, command);
 }
@@ -70,7 +70,7 @@ const contextCommandFiles: string[] = readdirSync('./contexts').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
 for (const file of contextCommandFiles) {
-  const module = (await import(`./contexts/${file}`)) as commandModule<ContextCommand>;
+  const module = (await import(`./contexts/${file}`)) as CommandModule<ContextCommand>;
   const command: ContextCommand = module.default;
   client.contextCommands.set(command.data.name, command);
 }
@@ -81,7 +81,7 @@ const msgCommandFiles: string[] = readdirSync('./messageCommands').filter(
   (file) => file.endsWith('.js') || file.endsWith('.ts'),
 );
 for (const file of msgCommandFiles) {
-  const module = (await import(`./messageCommands/${file}`)) as commandModule<MessageCommand>;
+  const module = (await import(`./messageCommands/${file}`)) as CommandModule<MessageCommand>;
   const command: MessageCommand = module.default;
   client.msgCommands.set(command.name, command);
 }
@@ -93,7 +93,7 @@ for (const directory of readdirSync('./components')) {
     for (const file of readdirSync(`./components/${directory}`).filter(
       (file) => file.endsWith('.js') || file.endsWith('.ts'),
     )) {
-      const module = (await import(`./components/${directory}/${file}`)) as commandModule<
+      const module = (await import(`./components/${directory}/${file}`)) as CommandModule<
         ButtonCommand | SelectCommand | ModalCommand | AutocompleteCommand
       >;
       const command: ButtonCommand | SelectCommand | ModalCommand | AutocompleteCommand =
@@ -115,7 +115,7 @@ const eventFiles: string[] = readdirSync('./events').filter(
 );
 
 for (const file of eventFiles) {
-  const module = (await import(`./events/${file}`)) as commandModule<Event>;
+  const module = (await import(`./events/${file}`)) as CommandModule<Event>;
   const event: Event = module.default;
   if (event.once) {
     client.once(event.name, (...args) => {

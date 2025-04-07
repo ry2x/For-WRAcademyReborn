@@ -5,7 +5,7 @@ import { readdirSync } from 'fs';
 import logger from './logger.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { type ContextCommand } from '@/templates/InteractionCommands.js';
-import type { commandModule } from '@/types/type.js';
+import type { CommandModule } from '@/types/type.js';
 const { TOKEN, CLIENT_ID } = process.env;
 
 export default async function deployGlobalCommands() {
@@ -16,7 +16,7 @@ export default async function deployGlobalCommands() {
     (file) => file.endsWith('.js') || file.endsWith('.ts'),
   );
   for (const file of commandFiles) {
-    const module = (await import(`./commands/${file}`)) as commandModule<ApplicationCommand>;
+    const module = (await import(`./commands/${file}`)) as CommandModule<ApplicationCommand>;
     const command: ApplicationCommand = module.default;
     const commandData = command.data.toJSON();
     commands.push(commandData);
@@ -26,7 +26,7 @@ export default async function deployGlobalCommands() {
     (file) => file.endsWith('.js') || file.endsWith('.ts'),
   );
   for (const file of contextCommandFiles) {
-    const module = (await import(`./contexts/${file}`)) as commandModule<ContextCommand>;
+    const module = (await import(`./contexts/${file}`)) as CommandModule<ContextCommand>;
     const command: ContextCommand = module.default;
     const commandData = command.data.toJSON();
     commands.push(commandData);
