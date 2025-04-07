@@ -1,3 +1,4 @@
+import config from '@/config.js';
 import logger from '@/logger.js';
 import type { Champion, Champions } from '@/types/champs.js';
 import {
@@ -8,14 +9,7 @@ import {
   type LaneKey,
   type PositionSet,
 } from '@/types/common.js';
-import type { Config } from '@/types/type.js';
 import axios, { type AxiosResponse } from 'axios';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
 let champions: Champions = {};
 

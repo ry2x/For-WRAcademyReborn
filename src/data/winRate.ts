@@ -1,14 +1,8 @@
+import config from '@/config.js';
 import logger from '@/logger.js';
-import type { Config } from '@/types/type.js';
-import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import { LANES, RANK_RANGES } from '@/types/common.js';
+import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import axios, { type AxiosResponse } from 'axios';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
 let WinRates: WinRates = {
   result: 0,
