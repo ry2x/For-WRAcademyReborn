@@ -1,5 +1,5 @@
-import { LANES, RANK_RANGES } from '@/types/common.js';
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
+import { LANES, RANK_RANGES } from '@/types/common.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
 export default new ApplicationCommand({
@@ -99,6 +99,18 @@ export default new ApplicationCommand({
             .setRequired(false)
             .addChoices(
               Object.entries(RANK_RANGES).map(([, v]) => ({
+                name: v.name,
+                value: v.value,
+              })),
+            ),
+        )
+        .addStringOption((option) =>
+          option
+            .setName('lane')
+            .setDescription('レーンを指定（デフォルト：チャンピョン規定レーン）')
+            .setRequired(false)
+            .addChoices(
+              Object.entries(LANES).map(([, v]) => ({
                 name: v.name,
                 value: v.value,
               })),

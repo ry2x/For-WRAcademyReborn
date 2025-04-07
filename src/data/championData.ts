@@ -1,7 +1,14 @@
 import logger from '@/logger.js';
 import type { Champion, Champions } from '@/types/champs.js';
+import {
+  LANES,
+  RANK_RANGES,
+  ROLES,
+  type Lane,
+  type LaneKey,
+  type PositionSet,
+} from '@/types/common.js';
 import type { Config } from '@/types/type.js';
-import { LANES, RANK_RANGES, ROLES } from '@/types/common.js';
 import axios, { type AxiosResponse } from 'axios';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -101,6 +108,20 @@ export function getChampionLanes(champ: Champion): (typeof LANES)[keyof typeof L
       return champ[laneKey] === true;
     })
     .map(([key]) => LANES[key as keyof typeof LANES]);
+}
+
+/**
+ * Gets an array of PositionSet corresponding to the LaneKey
+ * @param laneKey - The key of the lane to get
+ * @returns Array of PositionSet
+ */
+export function getLanePositionSets(
+  laneKey: LaneKey,
+): (PositionSet<LaneKey> & { apiParam: Lane })[] {
+  if (laneKey === 'all') {
+    return Object.values(LANES);
+  }
+  return [LANES[laneKey]];
 }
 
 export { LANES, RANK_RANGES, ROLES };

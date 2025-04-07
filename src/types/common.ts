@@ -98,19 +98,19 @@ export const RANK_RANGES: Record<
     apiParam: '0',
   },
   diamondPlus: {
-    name: 'ダイヤモンド',
+    name: 'ダイヤモンド+',
     value: 'diamondPlus',
     emoji: '<:Rank_Master:1356509641562919032>',
     apiParam: '1',
   },
   masterPlus: {
-    name: 'マスター',
+    name: 'マスター+',
     value: 'masterPlus',
     emoji: '<:Rank_Master:1356509641562919032>',
     apiParam: '2',
   },
   challengerPlus: {
-    name: 'チャレンジャー以上',
+    name: 'チャレンジャー+',
     value: 'challengerPlus',
     emoji: '<:Rank_Challenger:1356509666527416462>',
     apiParam: '3',
