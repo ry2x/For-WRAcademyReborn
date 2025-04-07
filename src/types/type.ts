@@ -21,6 +21,7 @@ export type ChampionError = {
  */
 export type ButtonError = {
   timeOut: string;
+  invalidUser: string;
 };
 
 /**
