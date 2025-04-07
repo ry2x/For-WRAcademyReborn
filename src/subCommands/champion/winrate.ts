@@ -1,8 +1,8 @@
-import { getChampionByName, getChampionLanes, rankRanges } from '@/data/championData.js';
+import { getChampionByName, getChampionLanes } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { lane, rankRange } from '@/types/winRate.js';
+import { type LANES, RANK_RANGES } from '@/types/common.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 const ERROR_MESSAGES = {
@@ -13,14 +13,14 @@ const ERROR_MESSAGES = {
 
 const getRankRange = (
   rankValue: string,
-): (typeof rankRanges)[keyof typeof rankRanges] | undefined => {
-  return Object.values(rankRanges).find((v) => v.value === rankValue);
+): (typeof RANK_RANGES)[keyof typeof RANK_RANGES] | undefined => {
+  return Object.values(RANK_RANGES).find((rank) => rank.value === rankValue);
 };
 
 const createChampionStatsField = (
   championId: number,
-  lane: { apiParam: lane },
-  rank: { apiParam: rankRange },
+  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
+  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
 ) => {
   const stats = getChampionStats(championId, lane.apiParam, rank.apiParam);
 
@@ -39,7 +39,7 @@ export default new SubCommand({
     });
 
     const champName = interaction.options.getString('champion_name', true);
-    const rankValue = interaction.options.getString('rank', false) ?? rankRanges.masterPlus.value;
+    const rankValue = interaction.options.getString('rank', false) ?? RANK_RANGES.masterPlus.value;
 
     const rank = getRankRange(rankValue);
     if (!rank) {
@@ -76,7 +76,11 @@ export default new SubCommand({
       .addFields(
         Object.entries(targetLanes).map(([, lane]) => ({
           name: `${lane.name} ${lane.emoji}`,
-          value: createChampionStatsField(champ.hero_id, lane, rank),
+          value: createChampionStatsField(
+            champ.hero_id,
+            { apiParam: lane.apiParam },
+            { apiParam: rank.apiParam },
+          ),
         })),
       );
 

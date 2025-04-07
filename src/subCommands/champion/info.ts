@@ -1,10 +1,11 @@
-import { getChampionByName, lanes, roles } from '@/data/championData.js';
+import { getChampionByName } from '@/data/championData.js';
+import { LANES, ROLES } from '@/types/common.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 export function getRoles(champion: Champion): string {
-  return Object.values(lanes)
+  return Object.values(LANES)
     .filter((lane) => champion[`is_${lane.value}` as keyof Champion])
     .map((lane) => `${lane.emoji}: ${lane.name}`)
     .join(', ');
@@ -14,7 +15,7 @@ function showLevel(level: number): string {
   return level === 0 ? '⬜⬜⬜' : level === 1 ? '🟦⬜⬜' : level === 2 ? '🟨🟨⬜' : '🟧🟧🟧';
 }
 
-const roleMapping: Record<string, keyof typeof roles> = {
+const roleMapping: Record<string, keyof typeof ROLES> = {
   is_fighter: 'F',
   is_mage: 'M',
   is_assassin: 'A',
@@ -27,7 +28,7 @@ export function getTags(champion: Champion): string {
   return Object.entries(roleMapping)
     .filter(([key]) => champion[key as keyof Champion])
     .map(([, roleKey]) => {
-      const role = roles[roleKey];
+      const role = ROLES[roleKey];
       return `${role.emoji}: ${role.name}`;
     })
     .join(', ');

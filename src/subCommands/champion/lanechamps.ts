@@ -1,7 +1,7 @@
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/champs';
+import type { LaneKey } from '@/types/common.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -17,7 +17,7 @@ export const CHAMP_PER_PAGE = 15;
 export function createPageEmbed(
   page: number,
   championNames: string[],
-  lane: string,
+  lane: LaneKey,
   totalPages: number,
   perPage: number,
 ): EmbedBuilder {
@@ -30,7 +30,7 @@ export function createPageEmbed(
     .setColor(Colors.Orange);
 }
 
-export function createPageButton(page: number, lane: string, totalPages: number) {
+export function createPageButton(page: number, lane: LaneKey, totalPages: number) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`champLane-${lane}-${page - 1}`)

@@ -1,42 +1,67 @@
-// hero stats from CN winRateAPI//
+import type { Lane, RankRange } from './common.js';
+
+/**
+ * Hero statistics from CN winRate API
+ */
 export type HeroStats = {
+  /** Unique identifier */
   id: number;
+  /** Position/lane of the hero */
   position: string;
+  /** Hero ID for API calls */
   hero_id: number;
+  /** Strength rating */
   strength: string;
+  /** Weight rating */
   weight: string;
+  /** Appearance rate */
   appear_rate: string;
+  /** Appearance rate benchmark */
   appear_bzc: string;
+  /** Ban rate */
   forbid_rate: string;
+  /** Ban rate benchmark */
   forbid_bzc: string;
+  /** Win rate */
   win_rate: string;
+  /** Win rate benchmark */
   win_bzc: string;
+  /** Date of the statistics */
   dtstatdate: string;
+  /** Strength level */
   strength_level: string;
+  /** Appearance rate as float */
   appear_rate_float: string;
+  /** Ban rate as float */
   forbid_rate_float: string;
+  /** Win rate as float */
   win_rate_float: string;
+  /** Appearance rate as percentage */
   appear_rate_percent: string;
+  /** Ban rate as percentage */
   forbid_rate_percent: string;
+  /** Win rate as percentage */
   win_rate_percent: string;
 };
 
-// 1:mid 2:top 3:adc 4:sup 5:jg
-export type lane = '1' | '2' | '3' | '4' | '5' | '0';
+/**
+ * Statistics for each lane position
+ */
+export type PositionStats = Partial<Record<Lane, HeroStats[]>>;
 
-// lane stats from CN winRateAPI
-export type PositionStats = Partial<Record<lane, HeroStats[]>>;
-
-// 0:ALL 1:Dia+ 2:Mas+ 3:Ch+ 4:super server
-export type rankRange = '0' | '1' | '2' | '3' | '4';
-
-// rank stats from CN winRateAPI
+/**
+ * Statistics for each rank range
+ */
 export type RankStats = {
-  [K in rankRange]: PositionStats;
+  [K in RankRange]: PositionStats;
 };
 
-// data from CN winRateAPI
+/**
+ * Complete win rate data from CN winRate API
+ */
 export type WinRates = {
+  /** Result code */
   result: number;
+  /** Statistics data */
   data: RankStats;
 };

@@ -8,7 +8,7 @@ import {
   createPageEmbed,
 } from '@/subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
-import type { LaneKey } from '@/types/champs.js';
+import type { LaneKey } from '@/types/common.js';
 
 export default new ButtonCommand({
   data: {
@@ -16,7 +16,7 @@ export default new ButtonCommand({
   },
   async execute(interaction): Promise<void> {
     await interaction.deferUpdate();
-    const [, lane, strPage] = interaction.customId.split('-');
+    const [, lane, strPage] = interaction.customId.split('-') as [string, LaneKey, string];
 
     if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
       const msg = interaction.message;
@@ -46,7 +46,7 @@ export default new ButtonCommand({
       return;
     }
     const page = parseInt(strPage, 10);
-    const champions = getChampionsByLane(lane as LaneKey);
+    const champions = getChampionsByLane(lane);
     if (!champions || champions.length === 0) {
       await interaction.followUp({
         embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
