@@ -158,3 +158,15 @@ export const ROLES: Record<RoleKey, PositionSet<RoleKey>> = {
     emoji: '<:tank:1343296805575589939>',
   },
 } as const;
+
+/**
+ * Champion role mapping for API properties
+ */
+export const CHAMPION_ROLE_MAPPING: Record<string, keyof typeof ROLES> = {
+  is_fighter: 'F',
+  is_mage: 'M',
+  is_assassin: 'A',
+  is_marksman: 'MM',
+  is_support: 'S',
+  is_tank: 'T',
+} as const;
