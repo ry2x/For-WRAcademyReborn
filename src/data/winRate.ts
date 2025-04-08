@@ -22,7 +22,7 @@ export async function fetchWinRateData() {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
     WinRates = res.data;
-    logger.info('Champion data updated!');
+    logger.info('WinRate data updated!');
   } catch (error: unknown) {
     logger.error('Failed to fetch winRate data:', error);
   }
