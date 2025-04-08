@@ -56,7 +56,9 @@ export function getChampById(id: string) {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampByHeroId(heroId: number) {
-  return Object.values(champions).find((champ: Champion) => champ.hero_id === heroId);
+  return Object.values(champions).find(
+    (champ: Champion) => champ.hero_id.toString() === heroId.toString(),
+  );
 }
 
 /**
