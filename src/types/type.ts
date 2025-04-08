@@ -25,6 +25,14 @@ export type ButtonError = {
 };
 
 /**
+ * Configuration LeaderBoard Errors
+ */
+export type LeaderBoardError = {
+  invalidServer: string;
+  noData: string;
+};
+
+/**
  * Configuration type for the application
  * Contains all necessary URLs and settings
  */
@@ -41,4 +49,6 @@ export type Config = {
   championError: ChampionError;
   /** Error of button */
   ButtonError: ButtonError;
+  /** Error of leaderBoard */
+  LeaderBoardError: LeaderBoardError;
 };

@@ -4,15 +4,37 @@ import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
 import { desc } from 'drizzle-orm';
+import config from '@/config.js';
 
 const { DEFAULT_GUILD_ID } = process.env;
 
-async function getLeaderboard(limit: number = 10) {
+const LEADERBOARD_CONFIG = {
+  DEFAULT_LIMIT: 5,
+  PROGRESS_BAR_LENGTH: 15,
+} as const;
+
+/**
+ * Fetches the leaderboard data from the database
+ * @param limit - Maximum number of users to fetch
+ * @returns Array of user data sorted by level and XP
+ */
+async function getLeaderboard(limit: number = LEADERBOARD_CONFIG.DEFAULT_LIMIT) {
   const users = schema.users;
   return await db.select().from(users).orderBy(desc(users.level), desc(users.xp)).limit(limit);
 }
 
-function createProgressBar(current: number, max: number, length: number = 15): string {
+/**
+ * Creates a progress bar string
+ * @param current - Current value
+ * @param max - Maximum value
+ * @param length - Length of the progress bar
+ * @returns Progress bar string
+ */
+function createProgressBar(
+  current: number,
+  max: number,
+  length: number = LEADERBOARD_CONFIG.PROGRESS_BAR_LENGTH,
+): string {
   const progress = Math.min(Math.max(current / max, 0), 1);
   const filledLength = Math.round(length * progress);
   const emptyLength = length - filledLength;
@@ -23,6 +45,11 @@ function createProgressBar(current: number, max: number, length: number = 15): s
   return `${filled}${empty}`;
 }
 
+/**
+ * Gets the emoji for a specific rank
+ * @param rank - Rank number
+ * @returns Emoji string
+ */
 function getRankEmoji(rank: number): string {
   switch (rank) {
     case 1:
@@ -36,37 +63,54 @@ function getRankEmoji(rank: number): string {
   }
 }
 
+/**
+ * Creates the leaderboard content string
+ * @param leaderboard - Array of user data
+ * @returns Formatted leaderboard content
+ */
+function createLeaderboardContent(leaderboard: (typeof schema.users.$inferSelect)[]): string {
+  return leaderboard
+    .map((user, index) => {
+      const percentage = Math.round((user.xp / user.nextLevelXp) * 100);
+      const progressBar = createProgressBar(user.xp, user.nextLevelXp);
+      return `${getRankEmoji(index + 1)} **${index + 1}位** <@${user.id}>\nレベル: **${user.level}** | XP: **${percentage}%**\n${progressBar}`;
+    })
+    .join('\n\n');
+}
+
+/**
+ * Creates the leaderboard embed
+ * @param content - Leaderboard content string
+ * @returns Embed with leaderboard information
+ */
+function createLeaderboardEmbed(content: string): EmbedBuilder {
+  return new EmbedBuilder()
+    .setTitle('👑レベルランキング TOP 10')
+    .setColor(Colors.Gold)
+    .setTimestamp()
+    .setFooter({ text: 'レベルアップまでの進捗バー' })
+    .setDescription(content);
+}
+
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     if (interaction.guildId !== DEFAULT_GUILD_ID) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed('❌このサーバーでは使用できません。')],
+        embeds: [interactionErrorEmbed(config.LeaderBoardError.invalidServer)],
         flags: MessageFlags.Ephemeral,
       });
-    }
-    const leaderboard = await getLeaderboard(10);
-
-    if (leaderboard.length === 0) {
-      await interaction.reply('リーダーボードにデータがありません。');
       return;
     }
 
-    const embed = new EmbedBuilder()
-      .setTitle('👑レベルランキング TOP 10')
-      .setColor(Colors.Gold)
-      .setTimestamp()
-      .setFooter({ text: 'レベルアップまでの進捗バー' });
+    const leaderboard = await getLeaderboard();
 
-    // リーダーボードの内容を作成
-    const leaderboardContent = leaderboard
-      .map((user, index) => {
-        const percentage = Math.round((user.xp / user.nextLevelXp) * 100);
-        const progressBar = createProgressBar(user.xp, user.nextLevelXp);
-        return `${getRankEmoji(index + 1)} **${index + 1}位** <@${user.id}>\nレベル: **${user.level}** | XP: **${percentage}%**\n${progressBar}`;
-      })
-      .join('\n\n');
+    if (leaderboard.length === 0) {
+      await interaction.reply(config.LeaderBoardError.noData);
+      return;
+    }
 
-    embed.setDescription(leaderboardContent);
+    const content = createLeaderboardContent(leaderboard);
+    const embed = createLeaderboardEmbed(content);
 
     await interaction.reply({ embeds: [embed] });
   },

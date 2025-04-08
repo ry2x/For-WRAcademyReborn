@@ -4,6 +4,10 @@ import { LANES, RANK_RANGES } from '@/types/common.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import axios, { type AxiosResponse } from 'axios';
 
+// Constants
+const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+// Cache for win rate data
 let WinRates: WinRates = {
   result: 0,
   data: {
@@ -17,14 +21,16 @@ let WinRates: WinRates = {
 
 /**
  * Fetches win rate data from the API and updates the local cache
+ * @throws Error if API request fails
  */
-export async function fetchWinRateData() {
+export async function fetchWinRateData(): Promise<void> {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
     WinRates = res.data;
-    logger.info('WinRate data updated!');
-  } catch (error: unknown) {
+    logger.info('WinRate data updated successfully');
+  } catch (error) {
     logger.error('Failed to fetch winRate data:', error);
+    throw error;
   }
 }
 
@@ -39,13 +45,9 @@ export function getChampionStats(
   championId: number,
   lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
   rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
-) {
+): HeroStats | null {
   const laneData = WinRates.data[rankRange]?.[lane];
-
-  const champData =
-    laneData?.find((hero) => hero.hero_id.toString() === championId.toString()) || null;
-
-  return champData;
+  return laneData?.find((hero) => hero.hero_id.toString() === championId.toString()) || null;
 }
 
 /**
@@ -76,10 +78,12 @@ export function getTopChampionsByWinRate(
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
   return laneData
-    .sort((a, b) => parseFloat(b.win_rate_float) - parseFloat(a.win_rate_float))
+    .sort((a, b) => parseFloat(b.win_rate_percent) - parseFloat(a.win_rate_percent))
     .slice(0, limit);
 }
 
-setInterval(() => void fetchWinRateData(), 24 * 60 * 60 * 1000);
+// Schedule regular updates
+setInterval(() => void fetchWinRateData(), UPDATE_INTERVAL);
 
+// Export constants
 export { LANES, RANK_RANGES };

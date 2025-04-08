@@ -1,12 +1,19 @@
+import logger from '@/logger.js';
 import Event from '@/templates/Event.js';
 import { Events } from 'discord.js';
-import logger from '@/logger.js';
 
 export default new Event({
   name: Events.ClientReady,
   once: true,
   execute(): void {
-    // Runs when the bot logs in
-    logger.info(`Logged in as ${client.user?.tag as string}!`);
+    try {
+      const userTag = client.user?.tag;
+      if (!userTag) {
+        throw new Error('Client user is not available');
+      }
+      logger.info(`Logged in as ${userTag}!`);
+    } catch (error) {
+      logger.error('Error in ready event:', error);
+    }
   },
 });

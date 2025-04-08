@@ -5,6 +5,6 @@ export function interactionErrorEmbed(msg: string): EmbedBuilder {
 }
 
 export const interactionError: InteractionReplyOptions = {
-  embeds: [interactionErrorEmbed('❌An error occurred when attempting to execute that command!')],
+  embeds: [interactionErrorEmbed('❌コマンド実行中にエラーが発生しました！')],
   flags: MessageFlags.Ephemeral,
 };
