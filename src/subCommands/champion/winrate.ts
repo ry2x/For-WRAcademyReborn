@@ -4,9 +4,9 @@ import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { RANK_RANGES, type LaneKey, type LANES } from '@/types/common.js';
-import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
-function getRankRange(
+export function getRankRange(
   rankValue: string,
 ): (typeof RANK_RANGES)[keyof typeof RANK_RANGES] | undefined {
   return Object.values(RANK_RANGES).find((rank) => rank.value === rankValue);
@@ -28,10 +28,7 @@ function createChampionStatsField(
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    await interaction.reply({
-      content: '処理中...',
-      flags: MessageFlags.Ephemeral,
-    });
+    await interaction.deferReply();
 
     const champName = interaction.options.getString('champion_name', true);
     const rankValue = interaction.options.getString('rank', false) ?? RANK_RANGES.masterPlus.value;
@@ -82,6 +79,6 @@ export default new SubCommand({
         })),
       );
 
-    await interaction.followUp({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   },
 });
