@@ -3,7 +3,7 @@ import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { RANK_RANGES, type LaneKey, type LANES } from '@/types/common.js';
+import { RANK_RANGES, WIN_RATE_DEFAULTS, type LaneKey, type LANES } from '@/types/common.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 export function getRankRange(
@@ -31,7 +31,7 @@ export default new SubCommand({
     await interaction.deferReply();
 
     const champName = interaction.options.getString('champion_name', true);
-    const rankValue = interaction.options.getString('rank', false) ?? RANK_RANGES.masterPlus.value;
+    const rankValue = interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
     const laneValue = interaction.options.getString('lane', false);
 
     const rank = getRankRange(rankValue);
