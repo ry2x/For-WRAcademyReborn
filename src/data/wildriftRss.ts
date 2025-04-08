@@ -5,32 +5,56 @@ import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 
+// Constants
+const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+// Cache for WildRift RSS data
 let data: RssWildRift = {
   title: '',
   favicon: '',
   elements: [],
 };
 
-export async function fetchWildRiftData() {
+/**
+ * Fetches WildRift RSS data from the API and updates the local cache
+ * @throws Error if API request fails
+ */
+export async function fetchWildRiftData(): Promise<void> {
   try {
     const res: AxiosResponse<RssWildRift> = await axios.get(config.urlRssWildRift);
     data = res.data;
-    logger.info('WildRift RSS  data updated!');
-  } catch (error: unknown) {
+    logger.info('WildRift RSS data updated successfully');
+  } catch (error) {
     logger.error('Failed to fetch WildRift RSS data:', error);
+    throw error;
   }
 }
 
-setInterval(() => void fetchWildRiftData(), 24 * 60 * 60 * 1000);
+// Schedule regular updates
+setInterval(() => void fetchWildRiftData(), UPDATE_INTERVAL);
 
+/**
+ * Gets the latest WildRift news items
+ * @param count - Number of news items to return
+ * @returns Array of news items
+ */
 export function getWildriftNews(count: number): RssWildRiftItem[] {
   return data.elements.slice(0, count);
 }
 
+/**
+ * Gets the WildRift favicon URL
+ * @returns The favicon URL
+ */
 export function getWildriftFaivcon(): string {
   return data.favicon;
 }
 
+/**
+ * Converts Unix timestamp in milliseconds to YYYY/MM/DD format
+ * @param unixTimeMs - Unix timestamp in milliseconds
+ * @returns Formatted date string
+ */
 export function unixMsToYMD(unixTimeMs: string): string {
   const date = new Date(unixTimeMs);
   const year = date.getFullYear();
@@ -40,6 +64,11 @@ export function unixMsToYMD(unixTimeMs: string): string {
   return `${year}/${month}/${day}`;
 }
 
+/**
+ * Extracts tips from HTML content
+ * @param content - HTML content to parse
+ * @returns Extracted tips text
+ */
 export function getTipsFromContent(content: string): string {
   try {
     const dom = new JSDOM(content);

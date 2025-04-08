@@ -44,21 +44,4 @@ declare global {
   type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 }
 
-/**
- * Type declaration for config.json
- */
-declare module '*/config.json' {
-  interface Config {
-    /** Command prefix for message commands */
-    prefix: string;
-    /** URL for champions data */
-    urlChampions: string;
-    /** URL for Wild Rift RSS feed */
-    urlRssWildRift: string;
-  }
-
-  const value: Config;
-  export default value;
-}
-
 export {};
