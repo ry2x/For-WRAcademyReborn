@@ -1,3 +1,4 @@
+import config from '@/config.js';
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
@@ -51,7 +52,7 @@ export default new SubCommand({
     const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed('❌該当するチャンピオンがいません。')],
+        embeds: [interactionErrorEmbed(config.championError.notFound)],
         flags: MessageFlags.Ephemeral,
       });
       return;

@@ -1,3 +1,4 @@
+import config from '@/config.js';
 import logger from '@/logger.js';
 import type { Champion, Champions } from '@/types/champs.js';
 import {
@@ -8,14 +9,7 @@ import {
   type LaneKey,
   type PositionSet,
 } from '@/types/common.js';
-import type { Config } from '@/types/type.js';
 import axios, { type AxiosResponse } from 'axios';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
 
 let champions: Champions = {};
 
@@ -53,6 +47,17 @@ export function getChampionByName(name: string) {
 export function getChampById(id: string) {
   return Object.values(champions).find((champ: Champion) =>
     champ.id.toLowerCase().includes(id.toLowerCase()),
+  );
+}
+
+/**
+ * Finds a champion by HeroID
+ * @param heroId - hero_id of the champion to find
+ * @returns The champion if found, undefined otherwise
+ */
+export function getChampByHeroId(heroId: number) {
+  return Object.values(champions).find(
+    (champ: Champion) => champ.hero_id.toString() === heroId.toString(),
   );
 }
 

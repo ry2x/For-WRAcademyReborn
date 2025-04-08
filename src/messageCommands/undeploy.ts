@@ -1,12 +1,6 @@
-import MessageCommand from '@/templates/MessageCommand.js';
-import type { Config } from '@/types/type.js';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
+import config from '@/config.js';
 import logger from '@/logger.js';
-
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf8')) as Config;
+import MessageCommand from '@/templates/MessageCommand.js';
 
 export default new MessageCommand({
   name: 'undeploy',
