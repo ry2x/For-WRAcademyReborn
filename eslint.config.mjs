@@ -47,6 +47,16 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': 'off',
       '@typescript-eslint/consistent-type-imports': ['error', { fixStyle: 'inline-type-imports' }],
       'unused-imports/no-unused-imports': 'warn',
+      'import/extensions': [
+        'error',
+        'always',
+        {
+          js: 'always',
+          jsx: 'always',
+          ts: 'never',
+          tsx: 'never',
+        },
+      ],
     },
   },
 );

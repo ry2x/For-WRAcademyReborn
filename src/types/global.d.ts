@@ -1,4 +1,4 @@
-import type ApplicationCommand from '@/templates/ApplicationCommand.ts';
+import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import {
   type AutocompleteCommand,
   type ButtonCommand,
@@ -6,7 +6,7 @@ import {
   type ModalCommand,
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
-import type MessageCommand from '@/templates/MessageCommand.ts';
+import type MessageCommand from '@/templates/MessageCommand.js';
 import { type Client, type Collection } from 'discord.js';
 
 /**

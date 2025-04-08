@@ -1,6 +1,6 @@
 import { db } from '@/db/index.js';
 import * as schema from '@/db/schema.js';
-import { interactionErrorEmbed } from '@/embeds/errorEmbed';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
 import { desc } from 'drizzle-orm';
