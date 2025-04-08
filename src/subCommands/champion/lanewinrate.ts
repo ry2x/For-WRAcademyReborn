@@ -1,17 +1,17 @@
 import config from '@/config.js';
-import { getChampByHeroId, getLanePositionSets } from '@/data/championData';
-import { getTopChampionsByWinRate } from '@/data/winRate';
+import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
+import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import { getRankRange } from '@/subCommands/champion/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { WIN_RATE_DEFAULTS, type LaneKey, type LANES, type RANK_RANGES } from '@/types/common.js';
-import { type HeroStats } from '@/types/winRate';
+import { type HeroStats } from '@/types/winRate.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 /**
  * Rank emojis for win rate display
  */
-export const WIN_RATE_RANK_EMOJIS = ['👑', '🥈', '🥉', '4️⃣', '5️⃣'] as const;
+const WIN_RATE_RANK_EMOJIS = ['👑', '🥈', '🥉', '4️⃣', '5️⃣'] as const;
 
 /**
  * Creates a formatted string for a champion's win rate statistics
@@ -25,7 +25,7 @@ function formatChampionStats(stat: HeroStats, index: number): string {
   const winRate = stat.win_rate_percent ?? '-';
   const pickRate = stat.appear_rate_percent ?? '-';
 
-  return `${rankEmoji}:${champion?.name} ⚔️勝率: ${winRate}% ⚒️ピック率: ${pickRate}%`;
+  return `${rankEmoji}:**${champion?.name}**\n┗ ⚔️:${winRate}%  ⚒️:${pickRate}%`;
 }
 
 /**
@@ -54,12 +54,15 @@ function createLaneWinRateEmbed(
 ): EmbedBuilder {
   return new EmbedBuilder()
     .setTitle(`各レーンでの勝率トップチャンピョン:${rank.emoji}${rank.name}`)
+    .setDescription('⚔️:勝率 ⚒️:ピック率')
     .setColor(Colors.Aqua)
     .addFields(
-      targetLanes.map((lane) => ({
-        name: `${lane.name}での勝率${lane.emoji}`,
-        value: createWinRateField(lane, rank),
-      })),
+      targetLanes
+        .filter((lane) => lane.value !== 'all')
+        .map((lane) => ({
+          name: `${lane.name}での勝率${lane.emoji}`,
+          value: createWinRateField(lane, rank).toString(),
+        })),
     );
 }
 
