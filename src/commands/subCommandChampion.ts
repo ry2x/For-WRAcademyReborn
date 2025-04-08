@@ -95,7 +95,7 @@ export default new ApplicationCommand({
         .addStringOption((option) =>
           option
             .setName('rank')
-            .setDescription('対象にするランク（デフォルト：マスター）')
+            .setDescription('対象にするランク（デフォルト：マスター＋）')
             .setRequired(false)
             .addChoices(
               Object.entries(RANK_RANGES).map(([, v]) => ({
@@ -108,6 +108,35 @@ export default new ApplicationCommand({
           option
             .setName('lane')
             .setDescription('レーンを指定（デフォルト：チャンピョン規定レーン）')
+            .setRequired(false)
+            .addChoices(
+              Object.entries(LANES).map(([, v]) => ({
+                name: v.name,
+                value: v.value,
+              })),
+            ),
+        ),
+    )
+    .addSubcommand(
+      new SlashCommandSubcommandBuilder()
+        .setName('lanewinrate')
+        .setDescription('レーンの勝率トップ10を表示します')
+        .addStringOption((option) =>
+          option
+            .setName('rank')
+            .setDescription('対象にするランク（デフォルト：マスター＋）')
+            .setRequired(false)
+            .addChoices(
+              Object.entries(RANK_RANGES).map(([, v]) => ({
+                name: v.name,
+                value: v.value,
+              })),
+            ),
+        )
+        .addStringOption((option) =>
+          option
+            .setName('lane')
+            .setDescription('レーンを指定（デフォルト：全て）')
             .setRequired(false)
             .addChoices(
               Object.entries(LANES).map(([, v]) => ({

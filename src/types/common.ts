@@ -170,3 +170,11 @@ export const CHAMPION_ROLE_MAPPING: Record<string, keyof typeof ROLES> = {
   is_support: 'S',
   is_tank: 'T',
 } as const;
+
+/**
+ * Default values for lane win rate command
+ */
+export const WIN_RATE_DEFAULTS = {
+  RANK: RANK_RANGES.masterPlus.value,
+  LANE: LANES.all.value,
+} as const;
