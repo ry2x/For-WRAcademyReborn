@@ -78,7 +78,7 @@ export function getTopChampionsByWinRate(
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
   return laneData
-    .sort((a, b) => parseFloat(b.win_rate_float) - parseFloat(a.win_rate_float))
+    .sort((a, b) => parseFloat(b.win_rate_percent) - parseFloat(a.win_rate_percent))
     .slice(0, limit);
 }
 
