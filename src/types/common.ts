@@ -178,3 +178,8 @@ export const WIN_RATE_DEFAULTS = {
   RANK: RANK_RANGES.masterPlus.value,
   LANE: LANES.all.value,
 } as const;
+
+/**
+ * Rank emojis for win rate display
+ */
+export const RANK_EMOJIS = ['👑', '🥈', '🥉', '4️⃣', '5️⃣'] as const;

@@ -1,6 +1,10 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { LANES, RANK_RANGES } from '@/types/common.js';
-import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
+import {
+  SlashCommandBuilder,
+  SlashCommandSubcommandBuilder,
+  SlashCommandSubcommandGroupBuilder,
+} from 'discord.js';
 
 export default new ApplicationCommand({
   data: new SlashCommandBuilder()
@@ -81,68 +85,108 @@ export default new ApplicationCommand({
             .setRequired(false),
         ),
     )
-    .addSubcommand(
-      new SlashCommandSubcommandBuilder()
-        .setName('winrate')
-        .setDescription('チャンピオンのWILDRIFTでの勝率を確認する')
-        .addStringOption((option) =>
-          option
-            .setName('champion_name')
-            .setDescription('チャンピオンの名前')
-            .setRequired(true)
-            .setAutocomplete(true),
-        )
-        .addStringOption((option) =>
-          option
-            .setName('rank')
-            .setDescription('対象にするランク（デフォルト：マスター＋）')
-            .setRequired(false)
-            .addChoices(
-              Object.entries(RANK_RANGES).map(([, v]) => ({
-                name: v.name,
-                value: v.value,
-              })),
+    .addSubcommandGroup(
+      new SlashCommandSubcommandGroupBuilder()
+        .setName('stats')
+        .setDescription('チャンピオンのスタッツ')
+        .addSubcommand(
+          new SlashCommandSubcommandBuilder()
+            .setName('winrate')
+            .setDescription('チャンピオンのWILDRIFTでの勝率を確認する')
+            .addStringOption((option) =>
+              option
+                .setName('champion_name')
+                .setDescription('チャンピオンの名前')
+                .setRequired(true)
+                .setAutocomplete(true),
+            )
+            .addStringOption((option) =>
+              option
+                .setName('rank')
+                .setDescription('対象にするランク（デフォルト：マスター＋）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(RANK_RANGES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
+            )
+            .addStringOption((option) =>
+              option
+                .setName('lane')
+                .setDescription('レーンを指定（デフォルト：チャンピョン規定レーン）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(LANES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
             ),
         )
-        .addStringOption((option) =>
-          option
-            .setName('lane')
-            .setDescription('レーンを指定（デフォルト：チャンピョン規定レーン）')
-            .setRequired(false)
-            .addChoices(
-              Object.entries(LANES).map(([, v]) => ({
-                name: v.name,
-                value: v.value,
-              })),
-            ),
-        ),
-    )
-    .addSubcommand(
-      new SlashCommandSubcommandBuilder()
-        .setName('lanewinrate')
-        .setDescription('レーンの勝率トップ10を表示します')
-        .addStringOption((option) =>
-          option
-            .setName('rank')
-            .setDescription('対象にするランク（デフォルト：マスター＋）')
-            .setRequired(false)
-            .addChoices(
-              Object.entries(RANK_RANGES).map(([, v]) => ({
-                name: v.name,
-                value: v.value,
-              })),
+        .addSubcommand(
+          new SlashCommandSubcommandBuilder()
+            .setName('lanewinrate')
+            .setDescription('レーンの勝率トップ5を表示します')
+            .addStringOption((option) =>
+              option
+                .setName('rank')
+                .setDescription('対象にするランク（デフォルト：マスター＋）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(RANK_RANGES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
+            )
+            .addStringOption((option) =>
+              option
+                .setName('lane')
+                .setDescription('レーンを指定（デフォルト：全て）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(LANES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
             ),
         )
-        .addStringOption((option) =>
-          option
-            .setName('lane')
-            .setDescription('レーンを指定（デフォルト：全て）')
-            .setRequired(false)
-            .addChoices(
-              Object.entries(LANES).map(([, v]) => ({
-                name: v.name,
-                value: v.value,
-              })),
+        .addSubcommand(
+          new SlashCommandSubcommandBuilder()
+            .setName('pickrate')
+            .setDescription('レーンのピック率トップ5を表示します')
+            .addStringOption((option) =>
+              option
+                .setName('rank')
+                .setDescription('対象にするランク（デフォルト：マスター＋）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(RANK_RANGES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
+            )
+            .addStringOption((option) =>
+              option
+                .setName('lane')
+                .setDescription('レーンを指定（デフォルト：全て）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(LANES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
+            )
+            .addBooleanOption((option) =>
+              option
+                .setName('banrate')
+                .setDescription('バン率を考慮します（デフォルト：FALSE）')
+                .setRequired(false),
             ),
         ),
     ),

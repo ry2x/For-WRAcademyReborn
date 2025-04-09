@@ -2,16 +2,17 @@ import config from '@/config.js';
 import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
-import { getRankRange } from '@/subCommands/champion/winrate.js';
+import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { WIN_RATE_DEFAULTS, type LaneKey, type LANES, type RANK_RANGES } from '@/types/common.js';
+import {
+  RANK_EMOJIS,
+  WIN_RATE_DEFAULTS,
+  type LaneKey,
+  type LANES,
+  type RANK_RANGES,
+} from '@/types/common.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
-
-/**
- * Rank emojis for win rate display
- */
-const WIN_RATE_RANK_EMOJIS = ['👑', '🥈', '🥉', '4️⃣', '5️⃣'] as const;
 
 /**
  * Creates a formatted string for a champion's win rate statistics
@@ -21,7 +22,7 @@ const WIN_RATE_RANK_EMOJIS = ['👑', '🥈', '🥉', '4️⃣', '5️⃣'] as c
  */
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
-  const rankEmoji = WIN_RATE_RANK_EMOJIS[index];
+  const rankEmoji = RANK_EMOJIS[index];
   const winRate = stat.win_rate_percent ?? '-';
   const pickRate = stat.appear_rate_percent ?? '-';
 
@@ -53,7 +54,7 @@ function createLaneWinRateEmbed(
   rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
 ): EmbedBuilder {
   return new EmbedBuilder()
-    .setTitle(`各レーンでの勝率トップチャンピョン:${rank.emoji}${rank.name}`)
+    .setTitle(`各レーンでの勝率トップ:${rank.emoji}${rank.name}`)
     .setDescription('⚔️:勝率 ⚒️:ピック率')
     .setColor(Colors.Aqua)
     .addFields(
