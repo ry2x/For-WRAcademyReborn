@@ -1,5 +1,7 @@
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed';
+import logger from '@/logger';
 import SubCommand from '@/templates/SubCommand.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
@@ -8,6 +10,14 @@ export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
+
+      if (interaction.user.id !== client.application?.owner?.id) {
+        await interaction.editReply({
+          embeds: [interactionErrorEmbed('❌あなたはこのコマンドを利用できません。')],
+        });
+        return;
+      }
+
       // Send initial status message
       const initialEmbed = new EmbedBuilder()
         .setColor(Colors.Yellow)
@@ -35,13 +45,14 @@ export default new SubCommand({
       await interaction.editReply({ embeds: [successEmbed] });
     } catch (error) {
       // Handle and log any errors during the update process
-      console.error('データ更新中にエラーが発生しました:', error);
-      const errorEmbed = new EmbedBuilder()
-        .setColor(Colors.Red)
-        .setDescription(
-          '❌ データの更新中にエラーが発生しました。\n詳細はログを確認してください。',
-        );
-      await interaction.editReply({ embeds: [errorEmbed] });
+      logger.error('データ更新中にエラーが発生しました:', error);
+      await interaction.editReply({
+        embeds: [
+          interactionErrorEmbed(
+            '❌データの更新中にエラーが発生しました。\n詳細はログを確認してください。',
+          ),
+        ],
+      });
     }
   },
 });

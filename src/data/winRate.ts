@@ -82,6 +82,44 @@ export function getTopChampionsByWinRate(
     .slice(0, limit);
 }
 
+/**
+ * Gets the top champions by pick rate in a specific lane and rank range
+ * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
+ * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
+ * @param limit - Maximum number of champions to return (default: 10)
+ * @param considerBanRate - Whether to consider ban rate in the calculation (default: false)
+ * @returns Array of champion statistics sorted by pick rate (and ban rate if considerBanRate is true)
+ */
+export function getTopChampionsByPickRate(
+  lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
+  rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
+  limit = 10,
+  considerBanRate = false,
+): HeroStats[] {
+  const laneData = getLaneStats(lane, rankRange);
+  return laneData
+    .sort((a, b) => {
+      if (!considerBanRate) {
+        return parseFloat(b.appear_rate_percent) - parseFloat(a.appear_rate_percent);
+      }
+
+      // Weighted calculation considering both pick rate and ban rate
+      // Using ban rate benchmark (forbid_bzc) to adjust the impact of ban rate
+      const calculateWeightedValue = (hero: HeroStats) => {
+        const pickRate = parseFloat(hero.appear_rate_percent);
+        const banRate = parseFloat(hero.forbid_rate_percent);
+        const banBenchmark = parseFloat(hero.forbid_bzc);
+
+        // Higher ban benchmark value increases the impact of ban rate
+        const banWeight = 1 + banBenchmark / 100; // Normalize benchmark value to 0-1 range
+        return pickRate + banRate * banWeight;
+      };
+
+      return calculateWeightedValue(b) - calculateWeightedValue(a);
+    })
+    .slice(0, limit);
+}
+
 // Schedule regular updates
 setInterval(() => void fetchWinRateData(), UPDATE_INTERVAL);
 
