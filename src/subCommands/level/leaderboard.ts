@@ -4,7 +4,7 @@ import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
 import { desc } from 'drizzle-orm';
-import config from '@/config.js';
+import config from '@/constants/config.js';
 
 const { DEFAULT_GUILD_ID } = process.env;
 

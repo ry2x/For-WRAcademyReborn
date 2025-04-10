@@ -1,6 +1,6 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import logger from '@/logger.js';
-import { LANES, RANK_RANGES } from '@/types/common.js';
+import { LANES, RANK_RANGES } from '@/constants/game.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import axios, { type AxiosResponse } from 'axios';
 

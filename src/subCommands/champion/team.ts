@@ -1,7 +1,7 @@
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { LANES } from '@/types/common.js';
+import { LANES } from '@/types/game.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 type Team = {

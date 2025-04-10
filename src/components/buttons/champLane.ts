@@ -7,7 +7,7 @@ import {
   createPageEmbed,
 } from '@/subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
-import type { LaneKey } from '@/types/common.js';
+import type { LaneKey } from '@/types/game.js';
 import { MessageFlags } from 'discord.js';
 
 export default new ButtonCommand({

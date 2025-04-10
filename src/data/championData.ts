@@ -1,15 +1,9 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import logger from '@/logger.js';
 import type { Champion, Champions } from '@/types/champs.js';
-import {
-  LANES,
-  RANK_RANGES,
-  ROLES,
-  type Lane,
-  type LaneKey,
-  type PositionSet,
-} from '@/types/common.js';
+import { LANES, RANK_RANGES, ROLES } from '@/constants/game.js';
 import axios, { type AxiosResponse } from 'axios';
+import type { Lane, LaneKey, PositionSet } from '@/types/game.js';
 
 // Cache for champion data
 let champions: Champions = {};

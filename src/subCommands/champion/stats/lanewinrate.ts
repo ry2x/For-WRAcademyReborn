@@ -1,18 +1,13 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
-import {
-  RANK_EMOJIS,
-  WIN_RATE_DEFAULTS,
-  type LaneKey,
-  type LANES,
-  type RANK_RANGES,
-} from '@/types/common.js';
+import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import type { LaneKey } from '@/types/game';
 
 /**
  * Creates a formatted string for a champion's win rate statistics
