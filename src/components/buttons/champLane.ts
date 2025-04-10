@@ -1,4 +1,4 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
