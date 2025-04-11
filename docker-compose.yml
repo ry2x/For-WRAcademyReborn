@@ -8,4 +8,3 @@ services:
     env_file:
       - .env
     container_name: reborn_wr
-    user: node
