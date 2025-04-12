@@ -1,4 +1,4 @@
-import type { Lane, RankRange } from './game.js';
+import type { Lane, RankRange } from '@/types/game.js';
 
 /**
  * Hero statistics from CN winRate API

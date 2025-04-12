@@ -1,11 +1,11 @@
+import logger from '@/logger.js';
+import type ApplicationCommand from '@/templates/ApplicationCommand.js';
+import { type ContextCommand } from '@/templates/InteractionCommands.js';
+import type { CommandModule } from '@/types/type.js';
 import { REST } from '@discordjs/rest';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 import { Routes } from 'discord.js';
 import { readdirSync } from 'fs';
-import logger from './logger.js';
-import type ApplicationCommand from '@/templates/ApplicationCommand.js';
-import { type ContextCommand } from '@/templates/InteractionCommands.js';
-import type { CommandModule } from '@/types/type.js';
 const { TOKEN, CLIENT_ID } = process.env;
 
 export default async function deployGlobalCommands() {

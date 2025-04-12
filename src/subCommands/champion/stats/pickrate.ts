@@ -1,4 +1,5 @@
 import config from '@/constants/config.js';
+import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import {
   getChampByHeroId,
   getLanePositionSets,
@@ -7,12 +8,11 @@ import {
 } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
+import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
-import { getRankRange } from './winrate.js';
-import type { LaneKey } from '@/types/game.js';
 
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
