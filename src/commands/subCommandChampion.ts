@@ -1,5 +1,5 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
-import { LANES, RANK_RANGES } from '@/types/common.js';
+import { LANES, RANK_RANGES } from '@/constants/game.js';
 import {
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder,

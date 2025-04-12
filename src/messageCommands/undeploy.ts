@@ -1,4 +1,4 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import logger from '@/logger.js';
 import MessageCommand from '@/templates/MessageCommand.js';
 

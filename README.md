@@ -69,6 +69,31 @@ ADMIN_WEBHOOK="your_admin_webhook_url"
 DATABASE_URL="your_database_url"
 ```
 
+## 📁 プロジェクト構造
+
+```
+.
+├── drizzle/               # Drizzle ORMのマイグレーション
+└── src/                   # ソースコード
+    ├── commands/          # スラッシュコマンド
+    ├── components/        # Discordのコンポーネント
+    ├── constants/         # 定数定義
+    ├── contexts/          # コンテキストメニューコマンド
+    ├── data/              # データファイル
+    ├── db/                # データベース関連
+    ├── embeds/            # Discordの埋め込みメッセージ
+    ├── events/            # Discordイベントハンドラ
+    ├── messageCommands/   # メッセージコマンド
+    ├── subCommands/       # サブコマンド
+    ├── templates/         # テンプレートファイル
+    ├── types/             # 型定義
+    ├── utils/             # ユーティリティ関数
+    ├── deployGlobalCommands.ts  # グローバルコマンドのデプロイ
+    ├── index.ts           # エントリーポイント
+    └── logger.ts          # ロギング設定
+
+```
+
 ## 📝 ライセンス
 
 MIT License

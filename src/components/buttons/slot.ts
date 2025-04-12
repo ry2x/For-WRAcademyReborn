@@ -1,5 +1,5 @@
 import { rollSlots } from '@/commands/slot.js';
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import {

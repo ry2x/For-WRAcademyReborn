@@ -1,8 +1,8 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/common.js';
+import type { LaneKey } from '@/types/game.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 export default new SubCommand({

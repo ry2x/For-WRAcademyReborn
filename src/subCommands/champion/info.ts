@@ -1,8 +1,8 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampionByName } from '@/data/championData.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
-import { CHAMPION_ROLE_MAPPING, LANES, ROLES } from '@/types/common.js';
+import { CHAMPION_ROLE_MAPPING, LANES, ROLES } from '@/constants/game.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 /**

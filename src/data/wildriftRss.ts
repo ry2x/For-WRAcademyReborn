@@ -1,4 +1,4 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import logger from '@/logger.js';
 import { type RssWildRift, type RssWildRiftItem } from '@/types/news.js';
 import type { AxiosResponse } from 'axios';

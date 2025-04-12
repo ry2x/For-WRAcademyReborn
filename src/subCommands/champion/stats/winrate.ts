@@ -1,10 +1,11 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { RANK_RANGES, WIN_RATE_DEFAULTS, type LaneKey, type LANES } from '@/types/common.js';
+import { RANK_RANGES, WIN_RATE_DEFAULTS, type LANES } from '@/constants/game.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import type { LaneKey } from '@/types/game.js';
 
 /**
  * Gets the rank range configuration from a value

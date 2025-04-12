@@ -1,4 +1,4 @@
-import config from '@/config.js';
+import config from '@/constants/config.js';
 import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
@@ -7,7 +7,7 @@ import {
   createPageEmbed,
 } from '@/subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
-import type { LaneKey } from '@/types/common.js';
+import type { LaneKey } from '@/types/game.js';
 import { MessageFlags } from 'discord.js';
 
 export default new ButtonCommand({
