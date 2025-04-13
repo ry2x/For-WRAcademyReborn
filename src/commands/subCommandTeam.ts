@@ -8,7 +8,9 @@ export default new ApplicationCommand({
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('random')
-        .setDescription('指定したVCでランダムでチーム分けを行います。')
+        .setDescription(
+          'TESTING:指定したVCでランダムでチーム分けを行います。(このコマンドはテスト中です。)',
+        )
         .addNumberOption((option) =>
           option
             .setName('team_count')
