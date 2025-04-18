@@ -52,6 +52,7 @@ export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const teamCount = interaction.options.getInteger('team_count', false) ?? 2;
     const targetChannel = getTargetChannel(interaction);
+    const includeBot = interaction.options.getBoolean('is_bot', false) ?? false;
     const excludeMember = interaction.options.getMember('exclude') as GuildMember | null;
 
     // Validate team count
@@ -73,7 +74,12 @@ export default new SubCommand({
     }
 
     // Get members from the target channel
-    const members = Array.from(targetChannel.members.values());
+    let members = Array.from(targetChannel.members.values());
+
+    // Filter out bots if includeBot is false
+    if (!includeBot) {
+      members = members.filter((member) => !member.user.bot);
+    }
 
     // Exclude specified member if applicable
     const filteredMembers = excludeMember

@@ -25,6 +25,12 @@ export default new ApplicationCommand({
             .setDescription('チーム分けするVCチャンネル（デフォルト：参加中のVC）')
             .setRequired(false),
         )
+        .addBooleanOption((option) =>
+          option
+            .setName('is_bot')
+            .setDescription('ボットを含めるか（デフォルト：FALSE）')
+            .setRequired(false),
+        )
         .addUserOption((option) =>
           option.setName('exclude').setDescription('除外するメンバーを選択').setRequired(false),
         ),
