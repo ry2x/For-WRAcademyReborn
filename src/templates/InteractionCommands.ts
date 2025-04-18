@@ -1,12 +1,12 @@
+import BaseCommand from '@/templates/BaseCommand.js';
 import {
-  type AutocompleteInteraction,
   type AnySelectMenuInteraction,
+  type AutocompleteInteraction,
   type ButtonInteraction,
   type ContextMenuCommandBuilder,
   type ContextMenuCommandInteraction,
   type ModalSubmitInteraction,
 } from 'discord.js';
-import BaseCommand from './BaseCommand.js';
 
 type dummyData = {
   name: string;

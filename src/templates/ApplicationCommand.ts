@@ -1,3 +1,6 @@
+import { interactionError } from '@/embeds/errorEmbed.js';
+import logger from '@/logger.js';
+import type SubCommand from '@/templates/SubCommand.js';
 import type { CommandModule } from '@/types/type.js';
 import {
   MessageFlags,
@@ -6,9 +9,6 @@ import {
   type SlashCommandOptionsOnlyBuilder,
   type SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
-import { interactionError } from '@/embeds/errorEmbed.js';
-import logger from '@/logger.js';
-import type SubCommand from './SubCommand.js';
 
 /**
  * Represents an Slash Command
