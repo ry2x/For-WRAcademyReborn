@@ -1,7 +1,7 @@
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
-import { interactionErrorEmbed } from '@/embeds/errorEmbed';
-import logger from '@/logger';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
+import logger from '@/logger.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
