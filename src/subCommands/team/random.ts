@@ -23,7 +23,11 @@ function getTargetChannel(interaction: ChatInputCommandInteraction): VoiceChanne
  * Splits members into teams and returns the result as an array of strings.
  */
 function splitIntoTeams(members: GuildMember[], teamCount: number): string[][] {
-  const shuffledMembers = members.sort(() => Math.random() - 0.5);
+  const shuffledMembers = [...members]; // Create a copy to avoid modifying the original array
+  for (let i = shuffledMembers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledMembers[i], shuffledMembers[j]] = [shuffledMembers[j], shuffledMembers[i]];
+  }
   const teams: string[][] = Array.from({ length: teamCount }, () => []);
   shuffledMembers.forEach((member, index) => {
     teams[index % teamCount].push(`<@${member.id}>`);
