@@ -40,18 +40,20 @@ function createLaneStrengthEmbed(
   targetLanes: (typeof LANES)[keyof typeof LANES][],
   rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
 ): EmbedBuilder {
+  const fields = targetLanes
+    .filter((lane) => lane.value !== 'all')
+    .map((lane) => {
+      const fieldValue = createStrengthField(lane, rank).toString();
+      return {
+        name: `${lane.name}でのシステムの評価${lane.emoji}`,
+        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+      };
+    });
   return new EmbedBuilder()
     .setTitle(`各レーンでの評価トップ:${rank.emoji}${rank.name}`)
     .setDescription('システム的に計算されたチャンピオンの評価 by RIOT')
     .setColor(Colors.Aqua)
-    .addFields(
-      targetLanes
-        .filter((lane) => lane.value !== 'all')
-        .map((lane) => ({
-          name: `${lane.name}でのシステムの評価${lane.emoji}`,
-          value: createStrengthField(lane, rank).toString(),
-        })),
-    );
+    .addFields(fields);
 }
 
 export default new SubCommand({
@@ -59,7 +61,7 @@ export default new SubCommand({
     await interaction.deferReply();
 
     const rankValue = interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
-    const laneValue = interaction.options.getString('lane', false);
+    const laneValue = interaction.options.getString('lane', false) ?? WIN_RATE_DEFAULTS.LANE;
 
     const rank = getRankRange(rankValue);
     if (!rank) {

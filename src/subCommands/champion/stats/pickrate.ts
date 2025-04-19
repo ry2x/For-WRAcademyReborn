@@ -40,18 +40,20 @@ function createLanePickRateEmbed(
   rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
   isBanRate: boolean,
 ): EmbedBuilder {
+  const fields = targetLanes
+    .filter((lane) => lane.value !== 'all')
+    .map((lane) => {
+      const fieldValue = createPickRateField(lane, rank, isBanRate).toString();
+      return {
+        name: `${lane.name}でのピック率${lane.emoji}`,
+        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+      };
+    });
   return new EmbedBuilder()
     .setTitle(`各レーンでのピック率トップ:${rank.emoji}${rank.name}`)
     .setDescription('⚒️:ピック率 ❌:バン率')
     .setColor(Colors.Aqua)
-    .addFields(
-      targetLanes
-        .filter((lane) => lane.value !== 'all')
-        .map((lane) => ({
-          name: `${lane.name}でのピック率${lane.emoji}`,
-          value: createPickRateField(lane, rank, isBanRate).toString(),
-        })),
-    );
+    .addFields(fields);
 }
 
 export default new SubCommand({

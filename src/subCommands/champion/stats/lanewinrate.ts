@@ -51,18 +51,20 @@ function createLaneWinRateEmbed(
   targetLanes: (typeof LANES)[keyof typeof LANES][],
   rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
 ): EmbedBuilder {
+  const fields = targetLanes
+    .filter((lane) => lane.value !== 'all')
+    .map((lane) => {
+      const fieldValue = createWinRateField(lane, rank).toString();
+      return {
+        name: `${lane.name}での勝率${lane.emoji}`,
+        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+      };
+    });
   return new EmbedBuilder()
     .setTitle(`各レーンでの勝率トップ:${rank.emoji}${rank.name}`)
     .setDescription('⚔️:勝率 ⚒️:ピック率')
     .setColor(Colors.Aqua)
-    .addFields(
-      targetLanes
-        .filter((lane) => lane.value !== 'all')
-        .map((lane) => ({
-          name: `${lane.name}での勝率${lane.emoji}`,
-          value: createWinRateField(lane, rank).toString(),
-        })),
-    );
+    .addFields(fields);
 }
 
 export default new SubCommand({
