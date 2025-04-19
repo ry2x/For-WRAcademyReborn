@@ -1,6 +1,6 @@
+import deployGlobalCommands from '@/deployGlobalCommands.js';
+import logger from '@/logger.js';
 import MessageCommand from '@/templates/MessageCommand.js';
-import deployGlobalCommands from '@/utils/deployGlobalCommands.js';
-import logger from '@/utils/logger.js';
 
 export default new MessageCommand({
   name: 'deploy',

@@ -1,4 +1,4 @@
-import logger from '@/utils/logger.js';
+import logger from '@/logger.js';
 
 export default class BaseCommand<T, K> {
   data: T;

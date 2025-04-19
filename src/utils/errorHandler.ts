@@ -1,4 +1,4 @@
-import logger from '@/utils/logger.js';
+import logger from '@/logger.js';
 import { WebhookClient } from 'discord.js';
 
 export function handleError(context: string, error: unknown): void {

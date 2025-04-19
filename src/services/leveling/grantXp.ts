@@ -1,7 +1,7 @@
 import { db } from '@/db/index.js';
 import type { NewUser, User } from '@/db/schema.js';
 import * as schema from '@/db/schema.js';
-import logger from '@/utils/logger.js';
+import logger from '@/logger.js';
 import { type GuildMember } from 'discord.js';
 import { eq } from 'drizzle-orm';
 

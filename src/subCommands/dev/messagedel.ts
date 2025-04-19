@@ -1,6 +1,6 @@
 import SubCommand from '@/templates/SubCommand.js';
-import logger from '@/utils/logger.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import logger from '@/logger.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {

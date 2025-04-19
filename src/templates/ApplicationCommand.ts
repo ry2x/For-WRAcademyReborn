@@ -1,7 +1,7 @@
 import { interactionError } from '@/embeds/errorEmbed.js';
+import logger from '@/logger.js';
 import type SubCommand from '@/templates/SubCommand.js';
 import type { CommandModule } from '@/types/type.js';
-import logger from '@/utils/logger.js';
 import {
   MessageFlags,
   type ChatInputCommandInteraction,

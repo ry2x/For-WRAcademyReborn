@@ -1,6 +1,6 @@
 import config from '@/constants/config.js';
+import logger from '@/logger.js';
 import MessageCommand from '@/templates/MessageCommand.js';
-import logger from '@/utils/logger.js';
 
 export default new MessageCommand({
   name: 'undeploy',

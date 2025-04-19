@@ -1,5 +1,5 @@
+import logger from '@/logger.js';
 import Event from '@/templates/Event.js';
-import logger from '@/utils/logger.js';
 import { Events } from 'discord.js';
 
 export default new Event({

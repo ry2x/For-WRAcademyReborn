@@ -1,8 +1,8 @@
 import config from '@/constants/config.js';
 import { LANES } from '@/constants/game.js';
+import logger from '@/logger.js';
 import type { Champion, Champions } from '@/types/champs.js';
 import type { Lane, LaneKey, PositionSet } from '@/types/game.js';
-import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
 
 // Cache for champion data

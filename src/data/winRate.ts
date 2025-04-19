@@ -1,7 +1,7 @@
 import config from '@/constants/config.js';
 import { type LANES, type RANK_RANGES } from '@/constants/game.js';
+import logger from '@/logger.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
-import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
 
 // Cache for win rate data
