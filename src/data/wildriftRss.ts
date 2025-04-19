@@ -1,12 +1,9 @@
 import config from '@/constants/config.js';
-import logger from '@/logger.js';
 import { type RssWildRift, type RssWildRiftItem } from '@/types/news.js';
+import logger from '@/utils/logger.js';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
-
-// Constants
-const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Cache for WildRift RSS data
 let data: RssWildRift = {
@@ -29,9 +26,6 @@ export async function fetchWildRiftData(): Promise<void> {
     throw error;
   }
 }
-
-// Schedule regular updates
-setInterval(() => void fetchWildRiftData(), UPDATE_INTERVAL);
 
 /**
  * Gets the latest WildRift news items

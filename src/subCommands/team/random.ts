@@ -54,7 +54,7 @@ function buildTeamEmbed(teams: string[][]): EmbedBuilder {
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const teamCount = interaction.options.getInteger('team_count', false) ?? 2;
+    const teamCount = interaction.options.getNumber('team_count', false) ?? 2;
     const targetChannel = getTargetChannel(interaction);
     const includeBot = interaction.options.getBoolean('is_bot', false) ?? false;
     const excludeMember = interaction.options.getMember('exclude') as GuildMember | null;

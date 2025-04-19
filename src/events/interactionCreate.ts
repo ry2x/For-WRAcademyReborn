@@ -1,5 +1,4 @@
 import { interactionError } from '@/embeds/errorEmbed.js';
-import logger from '@/logger.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import Event from '@/templates/Event.js';
 import {
@@ -9,6 +8,7 @@ import {
   type ModalCommand,
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
+import logger from '@/utils/logger.js';
 import {
   Events,
   type AnySelectMenuInteraction,

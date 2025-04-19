@@ -1,26 +1,24 @@
 import config from '@/constants/config.js';
-import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
-import {
-  getChampByHeroId,
-  getLanePositionSets,
-  type LANES,
-  type RANK_RANGES,
-} from '@/data/championData.js';
+import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
-import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import { getIsFloating } from '@/utils/formatUtils.js';
+import { getRankRange } from '@/utils/rankUtils.js';
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
   const rankEmoji = RANK_EMOJIS[index];
-  const banRate = stat.forbid_rate_percent ?? '-';
-  const pickRate = stat.appear_rate_percent ?? '-';
 
-  return `${rankEmoji}:**${champion?.name}**\n┗ ⚒️:${pickRate}%  ❌:${banRate}%`;
+  return (
+    `${rankEmoji}:**${champion?.name}**\n` +
+    `┗ ⚒️:${stat.appear_rate_percent ?? '-'}% ${getIsFloating(stat?.appear_rate_float ?? null)}` +
+    `  ❌:${stat.forbid_rate_percent ?? '-'}% ${getIsFloating(stat?.forbid_rate_float ?? null)}`
+  );
 }
 
 function createPickRateField(
@@ -37,18 +35,20 @@ function createLanePickRateEmbed(
   rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
   isBanRate: boolean,
 ): EmbedBuilder {
+  const fields = targetLanes
+    .filter((lane) => lane.value !== 'all')
+    .map((lane) => {
+      const fieldValue = createPickRateField(lane, rank, isBanRate).toString();
+      return {
+        name: `${lane.name}でのピック率${lane.emoji}`,
+        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+      };
+    });
   return new EmbedBuilder()
     .setTitle(`各レーンでのピック率トップ:${rank.emoji}${rank.name}`)
     .setDescription('⚒️:ピック率 ❌:バン率')
     .setColor(Colors.Aqua)
-    .addFields(
-      targetLanes
-        .filter((lane) => lane.value !== 'all')
-        .map((lane) => ({
-          name: `${lane.name}でのピック率${lane.emoji}`,
-          value: createPickRateField(lane, rank, isBanRate).toString(),
-        })),
-    );
+    .addFields(fields);
 }
 
 export default new SubCommand({

@@ -1,5 +1,5 @@
-import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { LANES, RANK_RANGES } from '@/constants/game.js';
+import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import {
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder,
@@ -187,6 +187,35 @@ export default new ApplicationCommand({
                 .setName('banrate')
                 .setDescription('バン率を考慮します（デフォルト：FALSE）')
                 .setRequired(false),
+            ),
+        )
+        .addSubcommand(
+          new SlashCommandSubcommandBuilder()
+            .setName('strength')
+            .setDescription('システム的に評価されているチャンピオンを表示します。')
+            .addStringOption((option) =>
+              option
+                .setName('rank')
+                .setDescription('対象にするランク（デフォルト：マスター＋）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(RANK_RANGES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
+            )
+            .addStringOption((option) =>
+              option
+                .setName('lane')
+                .setDescription('レーンを指定（デフォルト：全て）')
+                .setRequired(false)
+                .addChoices(
+                  Object.entries(LANES).map(([, v]) => ({
+                    name: v.name,
+                    value: v.value,
+                  })),
+                ),
             ),
         ),
     ),

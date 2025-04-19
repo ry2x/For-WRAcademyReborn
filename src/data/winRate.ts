@@ -1,11 +1,8 @@
 import config from '@/constants/config.js';
-import logger from '@/logger.js';
-import { LANES, RANK_RANGES } from '@/constants/game.js';
+import { type LANES, type RANK_RANGES } from '@/constants/game.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
+import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
-
-// Constants
-const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Cache for win rate data
 let WinRates: WinRates = {
@@ -83,6 +80,22 @@ export function getTopChampionsByWinRate(
 }
 
 /**
+ * Gets the top champions by strength in a specific lane and rank range
+ * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
+ * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
+ * @param limit - Maximum number of champions to return (default: 10)
+ * @returns Array of champion statistics sorted by strength
+ */
+export function getTopChampionsByStrength(
+  lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
+  rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
+  limit = 10,
+): HeroStats[] {
+  const laneData = getLaneStats(lane, rankRange);
+  return laneData.sort((a, b) => parseFloat(b.strength) - parseFloat(a.strength)).slice(0, limit);
+}
+
+/**
  * Gets the top champions by pick rate in a specific lane and rank range
  * @param lane - Lane position (1:mid, 2:top, 3:adc, 4:sup, 5:jg)
  * @param rankRange - Rank range (0:ALL, 1:Dia+, 2:Mas+, 3:Ch+, 4:super server)
@@ -119,9 +132,3 @@ export function getTopChampionsByPickRate(
     })
     .slice(0, limit);
 }
-
-// Schedule regular updates
-setInterval(() => void fetchWinRateData(), UPDATE_INTERVAL);
-
-// Export constants
-export { LANES, RANK_RANGES };

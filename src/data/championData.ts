@@ -1,15 +1,12 @@
 import config from '@/constants/config.js';
-import logger from '@/logger.js';
+import { LANES } from '@/constants/game.js';
 import type { Champion, Champions } from '@/types/champs.js';
-import { LANES, RANK_RANGES, ROLES } from '@/constants/game.js';
-import axios, { type AxiosResponse } from 'axios';
 import type { Lane, LaneKey, PositionSet } from '@/types/game.js';
+import logger from '@/utils/logger.js';
+import axios, { type AxiosResponse } from 'axios';
 
 // Cache for champion data
 let champions: Champions = {};
-
-// Constants
-const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 /**
  * Fetches champion data from the API and updates the local cache
@@ -25,9 +22,6 @@ export async function fetchChampionData(): Promise<void> {
     throw error;
   }
 }
-
-// Schedule regular updates
-setInterval(() => void fetchChampionData(), UPDATE_INTERVAL);
 
 /**
  * Finds a champion by name (case-insensitive)
@@ -128,6 +122,3 @@ export function getLanePositionSets(
   }
   return [LANES[laneKey]];
 }
-
-// Export constants
-export { LANES, RANK_RANGES, ROLES };
