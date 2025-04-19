@@ -1,8 +1,8 @@
 import config from '@/constants/config.js';
-import logger from '@/logger.js';
 import { grantXP } from '@/services/leveling/grantXp.js';
 import Event from '@/templates/Event.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
+import logger from '@/utils/logger.js';
 import { Events, type Message } from 'discord.js';
 
 const { DEFAULT_GUILD_ID } = process.env;

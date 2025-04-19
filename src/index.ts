@@ -1,7 +1,6 @@
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
 import { fetchWinRateData } from '@/data/winRate.js';
-import logger from '@/logger.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import type Event from '@/templates/Event.js';
 import {
@@ -14,6 +13,7 @@ import {
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { CommandModule } from '@/types/type.js';
 import { handleError, notifyAdminWebhook } from '@/utils/errorHandler.js';
+import logger from '@/utils/logger.js';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import { readdirSync } from 'fs';
 
