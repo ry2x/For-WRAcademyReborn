@@ -5,6 +5,7 @@ import {
   Colors,
   EmbedBuilder,
   GuildMember,
+  MessageFlags,
   type VoiceChannel,
 } from 'discord.js';
 
@@ -63,7 +64,7 @@ export default new SubCommand({
     if (teamCount <= 1) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('チーム数は2以上を指定してください。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -72,7 +73,7 @@ export default new SubCommand({
     if (!targetChannel || !targetChannel.isVoiceBased()) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('有効なVCチャンネルを指定してください。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -94,7 +95,7 @@ export default new SubCommand({
     if (filteredMembers.length < 2) {
       await interaction.reply({
         embeds: [interactionErrorEmbed('チャンネルに有効なメンバーがいません。')],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
