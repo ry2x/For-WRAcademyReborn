@@ -1,6 +1,6 @@
 import config from '@/constants/config.js';
-import logger from '@/logger.js';
 import { type RssWildRift, type RssWildRiftItem } from '@/types/news.js';
+import logger from '@/utils/logger.js';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';

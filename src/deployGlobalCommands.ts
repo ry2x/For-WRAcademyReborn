@@ -1,7 +1,7 @@
-import logger from '@/logger.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { type ContextCommand } from '@/templates/InteractionCommands.js';
 import type { CommandModule } from '@/types/type.js';
+import logger from '@/utils/logger.js';
 import { REST } from '@discordjs/rest';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 import { Routes } from 'discord.js';
