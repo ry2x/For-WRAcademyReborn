@@ -95,7 +95,7 @@ export function getTopChampionsByStrength(
   limit = 10,
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
-  return laneData.sort((a, b) => parseInt(b.strength) - parseInt(a.strength)).slice(0, limit);
+  return laneData.sort((a, b) => parseFloat(b.strength) - parseFloat(a.strength)).slice(0, limit);
 }
 
 /**
