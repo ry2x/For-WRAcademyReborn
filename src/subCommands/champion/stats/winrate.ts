@@ -1,22 +1,13 @@
 import config from '@/constants/config.js';
+import { WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { RANK_RANGES, WIN_RATE_DEFAULTS, type LANES } from '@/constants/game.js';
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 import type { LaneKey } from '@/types/game.js';
-
-/**
- * Gets the rank range configuration from a value
- * @param rankValue - The rank value to find
- * @returns The rank configuration if found, undefined otherwise
- */
-export function getRankRange(
-  rankValue: string,
-): (typeof RANK_RANGES)[keyof typeof RANK_RANGES] | undefined {
-  return Object.values(RANK_RANGES).find((rank) => rank.value === rankValue);
-}
+import { getIsFloating } from '@/utils/formatUtils.js';
+import { getRankRange } from '@/utils/rankUtils.js';
+import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 /**
  * Creates a formatted string for a champion's statistics
@@ -25,9 +16,9 @@ export function getRankRange(
  */
 function formatChampionStats(stats: ReturnType<typeof getChampionStats>): string {
   return (
-    `⚔️:${stats?.win_rate_percent ?? '-'}%\n` +
-    `⚒️:${stats?.appear_rate_percent ?? '-'}%\n` +
-    `❌:${stats?.forbid_rate_percent ?? '-'}%`
+    `⚔️:${stats?.win_rate_percent ?? '-'}% ${getIsFloating(stats?.win_rate_float ?? null)}\n` +
+    `⚒️:${stats?.appear_rate_percent ?? '-'}% ${getIsFloating(stats?.appear_rate_float ?? null)}\n` +
+    `❌:${stats?.forbid_rate_percent ?? '-'}% ${getIsFloating(stats?.forbid_rate_float ?? null)}`
   );
 }
 

@@ -1,13 +1,14 @@
 import config from '@/constants/config.js';
+import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
-import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import type { LaneKey } from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
-import type { LaneKey } from '@/types/game';
+import { getIsFloating } from '@/utils/formatUtils.js';
+import { getRankRange } from '@/utils/rankUtils.js';
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
 /**
  * Creates a formatted string for a champion's win rate statistics
@@ -18,10 +19,12 @@ import type { LaneKey } from '@/types/game';
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
   const rankEmoji = RANK_EMOJIS[index];
-  const winRate = stat.win_rate_percent ?? '-';
-  const pickRate = stat.appear_rate_percent ?? '-';
 
-  return `${rankEmoji}:**${champion?.name}**\n┗ ⚔️:${winRate}%  ⚒️:${pickRate}%`;
+  return (
+    `${rankEmoji}:**${champion?.name}**\n` +
+    `┗ ⚔️:${stat.win_rate_percent ?? '-'}% ${getIsFloating(stat?.win_rate_float ?? null)}` +
+    `  ⚒️:${stat.appear_rate_percent ?? '-'}% ${getIsFloating(stat?.appear_rate_float ?? null)}`
+  );
 }
 
 /**

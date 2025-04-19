@@ -8,19 +8,22 @@ import {
 } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
-import { getRankRange } from '@/subCommands/champion/stats/winrate.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
+import { getIsFloating } from '@/utils/formatUtils.js';
+import { getRankRange } from '@/utils/rankUtils.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
   const rankEmoji = RANK_EMOJIS[index];
-  const banRate = stat.forbid_rate_percent ?? '-';
-  const pickRate = stat.appear_rate_percent ?? '-';
 
-  return `${rankEmoji}:**${champion?.name}**\n┗ ⚒️:${pickRate}%  ❌:${banRate}%`;
+  return (
+    `${rankEmoji}:**${champion?.name}**\n` +
+    `┗ ⚒️:${stat.appear_rate_percent ?? '-'}% ${getIsFloating(stat?.appear_rate_float ?? null)}` +
+    `  ❌:${stat.forbid_rate_percent ?? '-'}% ${getIsFloating(stat?.forbid_rate_float ?? null)}`
+  );
 }
 
 function createPickRateField(
