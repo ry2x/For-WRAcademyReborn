@@ -1,6 +1,7 @@
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
 import { fetchWinRateData } from '@/data/winRate.js';
+import { isValidFileExtension } from '@/deployGlobalCommands.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import type Event from '@/templates/Event.js';
 import {
@@ -23,13 +24,6 @@ const UPDATE_TIME = {
   SECONDS: 0,
   MILLISECONDS: 0,
 } as const;
-
-const SUPPORTED_FILE_EXTENSIONS = ['.js', '.ts'] as const;
-
-// Create a type-safe file extension checker
-function isValidFileExtension(fileName: string): boolean {
-  return SUPPORTED_FILE_EXTENSIONS.some((ext) => fileName.endsWith(ext));
-}
 
 function getNextUpdateTime(): Date {
   const now = new Date();
