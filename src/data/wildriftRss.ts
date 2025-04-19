@@ -5,9 +5,6 @@ import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 
-// Constants
-const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
 // Cache for WildRift RSS data
 let data: RssWildRift = {
   title: '',
@@ -29,9 +26,6 @@ export async function fetchWildRiftData(): Promise<void> {
     throw error;
   }
 }
-
-// Schedule regular updates
-setInterval(() => void fetchWildRiftData(), UPDATE_INTERVAL);
 
 /**
  * Gets the latest WildRift news items

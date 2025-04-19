@@ -1,11 +1,8 @@
 import config from '@/constants/config.js';
-import { LANES, RANK_RANGES } from '@/constants/game.js';
+import { type LANES, type RANK_RANGES } from '@/constants/game.js';
 import logger from '@/logger.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import axios, { type AxiosResponse } from 'axios';
-
-// Constants
-const UPDATE_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 // Cache for win rate data
 let WinRates: WinRates = {
@@ -135,9 +132,3 @@ export function getTopChampionsByPickRate(
     })
     .slice(0, limit);
 }
-
-// Schedule regular updates
-setInterval(() => void fetchWinRateData(), UPDATE_INTERVAL);
-
-// Export constants
-export { LANES, RANK_RANGES };
