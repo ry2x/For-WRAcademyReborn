@@ -13,20 +13,66 @@ import {
 } from '@/templates/InteractionCommands.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { CommandModule } from '@/types/type.js';
-import { Client, Collection, GatewayIntentBits, Partials, WebhookClient } from 'discord.js';
+import { handleError, notifyAdminWebhook } from '@/utils/errorHandler.js';
+import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import { readdirSync } from 'fs';
+
+const UPDATE_TIME = {
+  HOURS: 0,
+  MINUTES: 30,
+  SECONDS: 0,
+  MILLISECONDS: 0,
+} as const;
+
+const SUPPORTED_FILE_EXTENSIONS = ['.js', '.ts'] as const;
+
+// Create a type-safe file extension checker
+function isValidFileExtension(fileName: string): boolean {
+  return SUPPORTED_FILE_EXTENSIONS.some((ext) => fileName.endsWith(ext));
+}
+
+function getNextUpdateTime(): Date {
+  const now = new Date();
+  const nextUpdate = new Date();
+  nextUpdate.setHours(
+    UPDATE_TIME.HOURS,
+    UPDATE_TIME.MINUTES,
+    UPDATE_TIME.SECONDS,
+    UPDATE_TIME.MILLISECONDS,
+  );
+
+  if (nextUpdate <= now) {
+    nextUpdate.setDate(nextUpdate.getDate() + 1);
+  }
+
+  return nextUpdate;
+}
+
+function scheduleDailyUpdate(): void {
+  const now = new Date();
+  const nextUpdate = getNextUpdateTime();
+  const timeUntilNextUpdate = nextUpdate.getTime() - now.getTime();
+
+  setTimeout(() => {
+    void (async () => {
+      try {
+        await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
+        scheduleDailyUpdate();
+      } catch (error) {
+        handleError('Daily update failed', error);
+      }
+    })();
+  }, timeUntilNextUpdate);
+}
 
 // Initialize and fetch all required data from external sources
 async function initializeData(): Promise<void> {
   logger.info('[INITIALIZING CONNECTIONS AND DATA]');
   try {
     await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
+    scheduleDailyUpdate();
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('Failed to initialize data:', error.message);
-    } else {
-      logger.error('Failed to initialize data: Unknown error');
-    }
+    handleError('Failed to initialize data', error);
     process.exit(1);
   }
 }
@@ -64,7 +110,7 @@ function initializeClient(): void {
 async function loadCommands<T extends { data: { name: string } }>(
   directory: string,
   collection: Collection<string, T>,
-  filterFn: (file: string) => boolean = (file) => file.endsWith('.js') || file.endsWith('.ts'),
+  filterFn: (file: string) => boolean = isValidFileExtension,
 ): Promise<void> {
   try {
     const files = readdirSync(directory).filter(filterFn);
@@ -74,11 +120,7 @@ async function loadCommands<T extends { data: { name: string } }>(
       collection.set(command.data.name, command);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error(`Failed to load commands from ${directory}:`, error.message);
-    } else {
-      logger.error(`Failed to load commands from ${directory}: Unknown error`);
-    }
+    handleError(`Failed to load commands from ${directory}`, error);
     throw error;
   }
 }
@@ -87,7 +129,7 @@ async function loadCommands<T extends { data: { name: string } }>(
 async function loadMessageCommands(
   directory: string,
   collection: Collection<string, MessageCommand>,
-  filterFn: (file: string) => boolean = (file) => file.endsWith('.js') || file.endsWith('.ts'),
+  filterFn: (file: string) => boolean = isValidFileExtension,
 ): Promise<void> {
   try {
     const files = readdirSync(directory).filter(filterFn);
@@ -97,11 +139,7 @@ async function loadMessageCommands(
       collection.set(command.name, command);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error(`Failed to load message commands from ${directory}:`, error.message);
-    } else {
-      logger.error(`Failed to load message commands from ${directory}: Unknown error`);
-    }
+    handleError(`Failed to load message commands from ${directory}`, error);
     throw error;
   }
 }
@@ -113,11 +151,7 @@ function setupEventHandler(event: Event): void {
       try {
         await event.execute(...args);
       } catch (error) {
-        if (error instanceof Error) {
-          logger.error(`Error in event ${event.name}:`, error.message);
-        } else {
-          logger.error(`Error in event ${event.name}: Unknown error`);
-        }
+        handleError(`Error in event ${event.name}`, error);
       }
     })();
   };
@@ -147,11 +181,7 @@ async function loadComponentCommands(): Promise<void> {
       }
     }
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('Failed to load component commands:', error.message);
-    } else {
-      logger.error('Failed to load component commands: Unknown error');
-    }
+    handleError('Failed to load component commands', error);
     throw error;
   }
 }
@@ -167,11 +197,7 @@ async function loadAllCommands(): Promise<void> {
       loadComponentCommands(),
     ]);
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('Failed to load commands:', error.message);
-    } else {
-      logger.error('Failed to load commands: Unknown error');
-    }
+    handleError('Failed to load commands', error);
     process.exit(1);
   }
 }
@@ -180,9 +206,7 @@ async function loadAllCommands(): Promise<void> {
 async function setupEventHandlers(): Promise<void> {
   logger.info('Adding EventHandler...');
   try {
-    const eventFiles = readdirSync('./events').filter(
-      (file) => file.endsWith('.js') || file.endsWith('.ts'),
-    );
+    const eventFiles = readdirSync('./events').filter(isValidFileExtension);
 
     for (const file of eventFiles) {
       const module = (await import(`./events/${file}`)) as CommandModule<Event>;
@@ -190,11 +214,7 @@ async function setupEventHandlers(): Promise<void> {
       setupEventHandler(event);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('Failed to setup event handlers:', error.message);
-    } else {
-      logger.error('Failed to setup event handlers: Unknown error');
-    }
+    handleError('Failed to setup event handlers', error);
     process.exit(1);
   }
 }
@@ -202,44 +222,35 @@ async function setupEventHandlers(): Promise<void> {
 // Set up process event handlers for graceful shutdown and error handling
 function setupProcessExitHandler(): void {
   logger.info('Adding ProcessExitHandler...');
-  const { ADMIN_WEBHOOK } = process.env;
 
   // Handle normal process exit
   process.on('exit', (code) => {
     void (async () => {
       try {
-        logger.error(`⚠️ プロセス終了 (コード: ${code})`);
-        if (ADMIN_WEBHOOK) {
-          const webhook = new WebhookClient({ url: ADMIN_WEBHOOK });
-          await webhook.send(`⚠️ プロセス終了 (コード: ${code})`);
-        }
+        const message = `⚠️ プロセス終了 (コード: ${code})`;
+        logger.error(message);
+        await notifyAdminWebhook(message);
       } catch (error) {
-        if (error instanceof Error) {
-          logger.error('Failed to send webhook notification:', error.message);
-        } else {
-          logger.error('Failed to send webhook notification: Unknown error');
-        }
+        handleError('Process exit notification failed', error);
       }
     })();
   });
 
   // Handle unhandled promise rejections
   process.on('unhandledRejection', (error) => {
-    if (error instanceof Error) {
-      logger.error('Unhandled promise rejection:', error.message);
-    } else {
-      logger.error('Unhandled promise rejection: Unknown error');
-    }
+    void (async () => {
+      handleError('Unhandled promise rejection', error);
+      await notifyAdminWebhook('⚠️ 未処理のPromise Rejectionが発生しました');
+    })();
   });
 
   // Handle uncaught exceptions
   process.on('uncaughtException', (error) => {
-    if (error instanceof Error) {
-      logger.error('Uncaught exception:', error.message);
-    } else {
-      logger.error('Uncaught exception: Unknown error');
-    }
-    process.exit(1);
+    handleError('Uncaught exception', error);
+    void (async () => {
+      await notifyAdminWebhook('⚠️ 未処理の例外が発生しました');
+      process.exit(1);
+    })();
   });
 }
 
@@ -257,11 +268,7 @@ async function initialize(): Promise<void> {
     await client.login(TOKEN);
     logger.info('[END STARTING]');
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('Failed to initialize:', error.message);
-    } else {
-      logger.error('Failed to initialize: Unknown error');
-    }
+    handleError('Failed to initialize', error);
     process.exit(1);
   }
 }
