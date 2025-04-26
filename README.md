@@ -73,24 +73,38 @@ DATABASE_URL="your_database_url"
 
 ```
 .
-├── drizzle/               # Drizzle ORMのマイグレーション
-└── src/                   # ソースコード
-    ├── commands/          # スラッシュコマンド
-    ├── components/        # Discordのコンポーネント
-    ├── constants/         # 定数定義
-    ├── contexts/          # コンテキストメニューコマンド
-    ├── data/              # データファイル
+├── drizzle/                 # データベースマイグレーションファイル
+│   └── migrations/         # マイグレーションの履歴
+│
+└── src/                     # メインのソースコードディレクトリ
+    ├── commands/           # スラッシュコマンドの実装
+    │   ├── admin/         # 管理者用コマンド
+    │   └── user/          # 一般ユーザー用コマンド
+    │
+    ├── components/         # Discord UIコンポーネント
+    │   ├── buttons/       # ボタンコンポーネント
+    │   └── selects/       # セレクトメニュー
+    │
+    ├── constants/          # 定数定義ファイル
+    ├── contexts/           # コンテキストメニュー関連
+    ├── data/              # 静的データファイル
+    │
     ├── db/                # データベース関連
-    ├── embeds/            # Discordの埋め込みメッセージ
-    ├── events/            # Discordイベントハンドラ
-    ├── messageCommands/   # メッセージコマンド
-    ├── subCommands/       # サブコマンド
-    ├── templates/         # テンプレートファイル
-    ├── types/             # 型定義
-    ├── utils/             # ユーティリティ関数
-    ├── deployGlobalCommands.ts  # グローバルコマンドのデプロイ
-    ├── index.ts           # エントリーポイント
-    └── logger.ts          # ロギング設定
+    │   ├── schema/       # テーブルスキーマ
+    │   └── queries/      # SQLクエリ
+    │
+    ├── embeds/            # Discord埋め込みメッセージ
+    ├── events/            # イベントハンドラー
+    ├── messageCommands/    # レガシーメッセージコマンド
+    ├── subCommands/       # サブコマンドの実装
+    │
+    ├── templates/         # メッセージテンプレート
+    ├── types/            # TypeScript型定義
+    ├── utils/            # ユーティリティ関数
+    │
+    ├── deployGlobalCommands.ts  # グローバルコマンドデプロイ
+    ├── index.ts           # アプリケーションのエントリーポイント
+    └── logger.ts          # ログ設定
 
 ```
 

@@ -6,6 +6,7 @@ export default {
   urlChampions: 'https://ry2x.github.io/WildRift-Champs/hero.json',
   urlRssWildRift: 'https://ry2x.github.io/wildrift-feeds/wildrift-news-ja-jp.json',
   urlWinRate: 'https://mlol.qt.qq.com/go/lgame_battle_info/hero_rank_list_v2',
+  SUPPORTED_FILE_EXTENSIONS: ['.js', '.ts'],
   championError: {
     notFound: '❌ 該当するチャンピオンが見つかりません。',
     notAvailable: '❌チャンピオンはワイルドリフトで使用可能ではありません。',

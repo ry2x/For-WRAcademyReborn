@@ -1,3 +1,4 @@
+import config from '@/constants/config.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { type ContextCommand } from '@/templates/InteractionCommands.js';
 import type { CommandModule } from '@/types/type.js';
@@ -6,45 +7,65 @@ import { REST } from '@discordjs/rest';
 import type { RESTPostAPIApplicationCommandsJSONBody } from 'discord.js';
 import { Routes } from 'discord.js';
 import { readdirSync } from 'fs';
-const { TOKEN, CLIENT_ID } = process.env;
+
+const TOKEN = process.env.TOKEN;
+const CLIENT_ID = process.env.CLIENT_ID;
+
+/**
+ * Checks if a given filename has a supported file extension
+ * @param fileName The name of the file to check
+ * @returns True if the file has a supported extension, false otherwise
+ */
+export function isValidFileExtension(fileName: string): boolean {
+  return config.SUPPORTED_FILE_EXTENSIONS.some((ext) => fileName.endsWith(ext));
+}
+
+// Helper function to load command files
+async function loadCommandFiles<T>(
+  directory: string,
+): Promise<RESTPostAPIApplicationCommandsJSONBody[]> {
+  const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];
+  const files = readdirSync(directory).filter(isValidFileExtension);
+
+  for (const file of files) {
+    try {
+      const module = (await import(`${directory}/${file}`)) as CommandModule<
+        T extends ApplicationCommand ? ApplicationCommand : ContextCommand
+      >;
+      const command = module.default;
+      commands.push(command.data.toJSON());
+    } catch (error) {
+      logger.error(`Failed to load command from file ${file}:`, error);
+    }
+  }
+
+  return commands;
+}
 
 export default async function deployGlobalCommands() {
+  if (!TOKEN || !CLIENT_ID) {
+    throw new Error('Missing required environment variables: TOKEN or CLIENT_ID');
+  }
+
   logger.info('[STARTING DEPLOYING GLOBAL COMMANDS]');
 
-  const commands: RESTPostAPIApplicationCommandsJSONBody[] = [];
-  const commandFiles: string[] = readdirSync('./commands').filter(
-    (file) => file.endsWith('.js') || file.endsWith('.ts'),
-  );
-  for (const file of commandFiles) {
-    const module = (await import(`./commands/${file}`)) as CommandModule<ApplicationCommand>;
-    const command: ApplicationCommand = module.default;
-    const commandData = command.data.toJSON();
-    commands.push(commandData);
-  }
-
-  const contextCommandFiles: string[] = readdirSync('./contexts').filter(
-    (file) => file.endsWith('.js') || file.endsWith('.ts'),
-  );
-  for (const file of contextCommandFiles) {
-    const module = (await import(`./contexts/${file}`)) as CommandModule<ContextCommand>;
-    const command: ContextCommand = module.default;
-    const commandData = command.data.toJSON();
-    commands.push(commandData);
-  }
-
-  logger.info('PUSH COMMANDS TO DISCORD');
-
-  const rest = new REST({ version: '10' }).setToken(TOKEN as string);
-
   try {
-    logger.info('PUSHING COMMANDS TO DISCORD');
+    // Load both types of commands
+    const standardCommands = await loadCommandFiles<ApplicationCommand>('./commands');
+    const contextCommands = await loadCommandFiles<ContextCommand>('./contexts');
+    const allCommands = [...standardCommands, ...contextCommands];
 
-    await rest.put(Routes.applicationCommands(CLIENT_ID as string), {
-      body: commands,
+    // Initialize REST client
+    const rest = new REST({ version: '10' }).setToken(TOKEN);
+
+    logger.info('PUSHING COMMANDS TO DISCORD');
+    await rest.put(Routes.applicationCommands(CLIENT_ID), {
+      body: allCommands,
     });
 
     logger.info('[END DEPLOYING GLOBAL COMMANDS]');
   } catch (error) {
-    logger.error(error);
+    logger.error('Failed to deploy commands:', error);
+    throw error;
   }
 }
