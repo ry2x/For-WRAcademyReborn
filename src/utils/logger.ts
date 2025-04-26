@@ -9,46 +9,37 @@ const LOG_FORMAT = winston.format.json();
 // Get environment variables
 const { LOGTAIL_TOKEN, LOGTAIL_HOST } = process.env;
 
-// Validate environment variables
-if (!LOGTAIL_TOKEN) {
-  throw new Error('LOGTAIL_TOKEN is not defined in environment variables');
-}
-
-if (!LOGTAIL_HOST) {
-  throw new Error('LOGTAIL_HOST is not defined in environment variables');
-}
-
-// Configure Logtail client
-const logtail = new Logtail(LOGTAIL_TOKEN, {
-  endpoint: `https://${LOGTAIL_HOST}`,
-  retryCount: 3, // Number of retries for failed requests
+// Create console transport configuration
+const winstonTransports = new winston.transports.Console({
+  format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
 });
+
+// Create an array of transports
+const transports: winston.transport[] = [winstonTransports];
+
+// Only add Logtail client if secrets are available
+if (LOGTAIL_TOKEN && LOGTAIL_HOST) {
+  const logtail = new Logtail(LOGTAIL_TOKEN, {
+    endpoint: `https://${LOGTAIL_HOST}`,
+    retryCount: 3, // Number of retries for failed requests
+  });
+  transports.push(new LogtailTransport(logtail));
+}
 
 // Create Winston logger instance
 const logger = winston.createLogger({
   level: LOG_LEVEL,
   format: LOG_FORMAT,
-  transports: [
-    // Logtail transport for cloud logging
-    new LogtailTransport(logtail),
-    // Console transport for local development
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    }),
-  ],
+  transports: transports,
   // Handle uncaught exceptions
-  exceptionHandlers: [
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    }),
-  ],
+  exceptionHandlers: [winstonTransports],
   // Handle unhandled rejections
-  rejectionHandlers: [
-    new winston.transports.Console({
-      format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
-    }),
-  ],
+  rejectionHandlers: [winstonTransports],
 });
+
+if (LOGTAIL_TOKEN && LOGTAIL_HOST) {
+  logger.info('Logtail is configured and ready to use.');
+}
 
 // Export logger instance
 export default logger;
