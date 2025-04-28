@@ -1,11 +1,12 @@
+import { LANES } from '@/constants/game.js';
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { LANES } from '@/constants/game.js';
+import type { LaneKey } from '@/types/game.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 type Team = {
-  [key: string]: string[];
+  [key in LaneKey]: string[];
 };
 
 const handleInsufficientChampions = (
@@ -24,10 +25,8 @@ const handleInsufficientChampions = (
 };
 
 const generateTeam = (wrOnly: boolean, selectedChamps: Set<string>): Promise<Team> => {
-  const team: Team = {};
-
   return Promise.all(
-    Object.entries(LANES).map(([key, lane]) => {
+    Object.entries(LANES).map(([, lane]) => {
       let champions = getChampionsByLane(lane.value);
       if (wrOnly) {
         champions = champions.filter((c) => c.is_wr);
@@ -40,10 +39,10 @@ const generateTeam = (wrOnly: boolean, selectedChamps: Set<string>): Promise<Tea
       }
 
       const selected = champions.sort(() => 0.5 - Math.random()).slice(0, 2);
-      team[key] = selected.map((c) => c.name);
       selected.forEach((c) => selectedChamps.add(c.id));
+      return { [lane.value]: selected.map((c) => c.name) };
     }),
-  ).then(() => team);
+  ).then(Object.fromEntries);
 };
 
 const createTeamEmbed = (team: Team, wrOnly: boolean, firstChampionId: string): EmbedBuilder => {
@@ -53,7 +52,7 @@ const createTeamEmbed = (team: Team, wrOnly: boolean, firstChampionId: string): 
     )
     .addFields(
       Object.entries(team).map(([lane, champs]) => ({
-        name: getLaneEmoji(lane) + lane.toUpperCase(),
+        name: getLaneEmoji(lane as LaneKey) + lane.toUpperCase(),
         value: champs.map((c) => `・**${c}**`).join('\n'),
       })),
     )

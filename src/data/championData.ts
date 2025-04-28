@@ -6,7 +6,7 @@ import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
 
 // Cache for champion data
-let champions: Champions = {};
+let champions: Champions = [];
 
 /**
  * Fetches champion data from the API and updates the local cache
@@ -29,9 +29,7 @@ export async function fetchChampionData(): Promise<void> {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampionByName(name: string): Champion | undefined {
-  return Object.values(champions).find((champ: Champion) =>
-    champ.name.toLowerCase().includes(name.toLowerCase()),
-  );
+  return champions.find((champ: Champion) => champ.name.toLowerCase().includes(name.toLowerCase()));
 }
 
 /**
@@ -40,9 +38,7 @@ export function getChampionByName(name: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampById(id: string): Champion | undefined {
-  return Object.values(champions).find((champ: Champion) =>
-    champ.id.toLowerCase().includes(id.toLowerCase()),
-  );
+  return champions.find((champ: Champion) => champ.id.toLowerCase() === id.toLowerCase());
 }
 
 /**
@@ -51,9 +47,7 @@ export function getChampById(id: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampByHeroId(heroId: number): Champion | undefined {
-  return Object.values(champions).find(
-    (champ: Champion) => champ.hero_id.toString() === heroId.toString(),
-  );
+  return champions.find((champ: Champion) => champ.hero_id.toString() === heroId.toString());
 }
 
 /**
@@ -61,7 +55,7 @@ export function getChampByHeroId(heroId: number): Champion | undefined {
  * @returns Array of champion names
  */
 export function getChampionNames(): string[] {
-  return Object.values(champions).map((champ: Champion) => champ.name);
+  return champions.map((champ: Champion) => champ.name);
 }
 
 /**
@@ -69,7 +63,7 @@ export function getChampionNames(): string[] {
  * @returns Array of champion IDs
  */
 export function getChampionIds(): string[] {
-  return Object.values(champions).map((champ: Champion) => champ.id);
+  return champions.map((champ: Champion) => champ.id);
 }
 
 /**
@@ -77,13 +71,12 @@ export function getChampionIds(): string[] {
  * @param lane - The lane to filter champions by
  * @returns Array of champions that can be played in the specified lane
  */
-export function getChampionsByLane(lane: keyof typeof LANES): Champion[] {
+export function getChampionsByLane(lane: LaneKey): Champion[] {
   if (lane === LANES.all.value) {
-    return Object.values(champions);
+    return champions;
   }
 
-  const laneKey = `is_${lane}` as keyof Champion;
-  return Object.values(champions).filter((champ) => champ[laneKey] === true);
+  return champions.filter((champ) => champ.lanes.includes(lane));
 }
 
 /**
@@ -91,8 +84,8 @@ export function getChampionsByLane(lane: keyof typeof LANES): Champion[] {
  * @param lane - The lane to get the emoji for
  * @returns The emoji string for the lane
  */
-export function getLaneEmoji(lane: string): string {
-  return LANES[lane as keyof typeof LANES]?.emoji ?? '';
+export function getLaneEmoji(lane: LaneKey): string {
+  return LANES[lane]?.emoji ?? '';
 }
 
 /**
@@ -100,13 +93,10 @@ export function getLaneEmoji(lane: string): string {
  * @param champ - The champion to get lanes for
  * @returns Array of lane configurations that the champion can be played in
  */
-export function getChampionLanes(champ: Champion): (typeof LANES)[keyof typeof LANES][] {
-  return Object.entries(LANES)
-    .filter(([key]) => {
-      const laneKey = `is_${key}` as keyof Champion;
-      return champ[laneKey] === true;
-    })
-    .map(([key]) => LANES[key as keyof typeof LANES]);
+export function getChampionLanes(champ: Champion): (PositionSet<LaneKey> & { apiParam: Lane })[] {
+  return champ.lanes.map((lane) => ({
+    ...LANES[lane],
+  }));
 }
 
 /**
