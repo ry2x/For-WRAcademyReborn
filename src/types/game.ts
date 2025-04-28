@@ -18,7 +18,7 @@ export type PositionSet<T> = {
 /**
  * Available lane positions in the game
  */
-export type LaneKey = 'all' | 'top' | 'jg' | 'mid' | 'ad' | 'sup';
+export type LaneKey = 'all' | 'mid' | 'jungle' | 'top' | 'support' | 'ad';
 
 /**
  * Available rank ranges for statistics
@@ -28,11 +28,11 @@ export type RankRangeKey = 'all' | 'diamondPlus' | 'masterPlus' | 'challengerPlu
 /**
  * Available champion roles
  */
-export type RoleKey = 'F' | 'M' | 'A' | 'MM' | 'S' | 'T';
+export type RoleKey = 'fighter' | 'mage' | 'assassin' | 'marksman' | 'support' | 'tank';
 
 /**
  * Lane positions in the game (API format)
- * 1:mid 2:top 3:adc 4:sup 5:jg
+ * 0:all 1:mid 2:top 3:adc 4:sup 5:jg
  */
 export type Lane = '1' | '2' | '3' | '4' | '5' | '0';
 

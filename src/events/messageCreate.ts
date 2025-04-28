@@ -5,7 +5,7 @@ import type MessageCommand from '@/templates/MessageCommand.js';
 import logger from '@/utils/logger.js';
 import { Events, type Message } from 'discord.js';
 
-const { DEFAULT_GUILD_ID } = process.env;
+const { DEFAULT_GUILD_ID, ENABLE_SUBCOMMAND_LEVEL } = process.env;
 
 // Constants
 const COMMAND_PREFIX = config.prefix;
@@ -18,7 +18,7 @@ export default new Event({
       if (message.author.bot) return;
 
       // Grant XP for messages in the default guild
-      if (DEFAULT_GUILD_ID && message.member && message.guildId === DEFAULT_GUILD_ID) {
+      if (ENABLE_SUBCOMMAND_LEVEL && message.member && message.guildId === DEFAULT_GUILD_ID) {
         await grantXP(message.member);
       }
 

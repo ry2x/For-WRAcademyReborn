@@ -1,8 +1,9 @@
 import config from '@/constants/config.js';
+import { LANES, ROLES } from '@/constants/game.js';
 import { getChampionByName } from '@/data/championData.js';
+import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
-import { CHAMPION_ROLE_MAPPING, LANES, ROLES } from '@/constants/game.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 /**
@@ -24,14 +25,14 @@ const CHAMPION_ERROR_MESSAGES = {
 } as const;
 
 /**
- * Gets the roles a champion can play in
- * @param champion - The champion to get roles for
- * @returns Formatted string of roles
+ * Gets the lanes a champion can play in
+ * @param champion - The champion to get lanes for
+ * @returns Formatted string of lanes
  */
-export function getRoles(champion: Champion): string {
-  return Object.values(LANES)
-    .filter((lane) => champion[`is_${lane.value}` as keyof Champion])
-    .map((lane) => `${lane.emoji}: ${lane.name}`)
+export function getLanes(champion: Champion): string {
+  return Object.entries(LANES)
+    .filter(([, lane]) => champion.lanes.includes(lane.value))
+    .map(([, lane]) => `${lane.emoji}: ${lane.name}`)
     .join(', ');
 }
 
@@ -41,22 +42,10 @@ export function getRoles(champion: Champion): string {
  * @returns Formatted string of tags
  */
 export function getTags(champion: Champion): string {
-  return Object.entries(CHAMPION_ROLE_MAPPING)
-    .filter(([key]) => champion[key as keyof Champion])
-    .map(([, roleKey]) => {
-      const role = ROLES[roleKey];
-      return `${role.emoji}: ${role.name}`;
-    })
+  return Object.entries(ROLES)
+    .filter(([, tag]) => champion.roles.includes(tag.value))
+    .map(([, tag]) => `${tag.name}: ${tag.emoji}`)
     .join(', ');
-}
-
-/**
- * Creates an error embed for interaction responses
- * @param message - The error message to display
- * @returns Error embed
- */
-function createErrorEmbed(message: string): EmbedBuilder {
-  return new EmbedBuilder().setColor(Colors.Red).setTitle(message);
 }
 
 /**
@@ -64,7 +53,7 @@ function createErrorEmbed(message: string): EmbedBuilder {
  * @param champion - The champion to create the embed for
  * @returns Champion info embed
  */
-function createChampionEmbed(champion: Champion): EmbedBuilder {
+export function createChampionEmbed(champion: Champion): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setColor(Colors.Orange)
     .setTitle(champion.name)
@@ -81,7 +70,7 @@ function createChampionEmbed(champion: Champion): EmbedBuilder {
         : '<:Icon_LOL:1342961477224497232>',
       value: `マナタイプ : ${champion.type}`,
     },
-    { name: 'レーン', value: getRoles(champion), inline: true },
+    { name: 'レーン', value: getLanes(champion), inline: true },
     { name: 'ロール', value: getTags(champion), inline: true },
     { name: '難易度', value: levelDisplay(champion.difficult), inline: true },
     { name: 'ダメージ', value: levelDisplay(champion.damage), inline: true },
@@ -100,7 +89,7 @@ export default new SubCommand({
 
     if (!championName) {
       await interaction.reply({
-        embeds: [createErrorEmbed(CHAMPION_ERROR_MESSAGES.NO_NAME)],
+        embeds: [interactionErrorEmbed(CHAMPION_ERROR_MESSAGES.NO_NAME)],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -109,7 +98,7 @@ export default new SubCommand({
     const champion = getChampionByName(championName);
     if (!champion) {
       await interaction.reply({
-        embeds: [createErrorEmbed(CHAMPION_ERROR_MESSAGES.NOT_FOUND(championName))],
+        embeds: [interactionErrorEmbed(CHAMPION_ERROR_MESSAGES.NOT_FOUND(championName))],
         flags: MessageFlags.Ephemeral,
       });
       return;

@@ -1,7 +1,9 @@
+import type { LaneKey, RoleKey } from '@/types/game.js';
+
 /**
  * Champion data structure from Champion API
  */
-export type Champion = {
+export interface Champion {
   /** Unique identifier for the champion */
   id: string;
   /** Numeric key for the champion */
@@ -12,14 +14,14 @@ export type Champion = {
   title: string;
   /** Description of the champion */
   describe: string;
-  /** Role(s) of the champion */
-  roles: string[];
+  /** Roles the champion is */
+  roles: RoleKey[];
   /** Type of the champion */
   type: string;
   /** Whether the champion is available in Wild Rift */
   is_wr: boolean;
-  /** Lane(s) where the champion can be played */
-  lanes: string[];
+  /** Lanes the champion can be played in */
+  lanes: LaneKey[];
   /** Whether the champion is currently free to play */
   is_free: boolean;
   /** Difficulty rating of the champion (1-10) */
@@ -32,11 +34,9 @@ export type Champion = {
   utility: number;
   /** Hero ID for API calls */
   hero_id: number;
-};
+}
 
 /**
  * Collection of champions indexed by their ID
  */
-export type Champions = {
-  [key: string]: Champion;
-};
+export type Champions = Champion[];

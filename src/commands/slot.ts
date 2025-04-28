@@ -51,8 +51,9 @@ export function rollSlots() {
   return { result, isWin, message };
 }
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
+const { ENABLE_SUBCOMMAND_SLOT } = process.env;
+
+const command = ENABLE_SUBCOMMAND_SLOT?.toLowerCase() === 'true' ? new ApplicationCommand({  data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
   async execute(interaction) {
     await interaction.deferReply();
 
@@ -75,4 +76,12 @@ export default new ApplicationCommand({
       content: `**${result.join(' | ')}**`,
     });
   },
+}) : new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  hasSubCommands: false,
+  execute: async () => {
+    // empty execute-function
+  },
 });
+
+export default command;

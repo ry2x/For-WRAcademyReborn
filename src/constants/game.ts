@@ -16,9 +16,9 @@ export const LANES: Record<LaneKey, PositionSet<LaneKey> & { apiParam: Lane }> =
     emoji: '<:Lane_Top:1343276732194750485>',
     apiParam: '2',
   },
-  jg: {
+  jungle: {
     name: 'Jungle (ジャングル)',
-    value: 'jg',
+    value: 'jungle',
     emoji: '<:Lane_Jungle:1343276691853934647>',
     apiParam: '5',
   },
@@ -34,9 +34,9 @@ export const LANES: Record<LaneKey, PositionSet<LaneKey> & { apiParam: Lane }> =
     emoji: '<:Lane_Bot:1343276674044792974>',
     apiParam: '3',
   },
-  sup: {
+  support: {
     name: 'Support (サポート)',
-    value: 'sup',
+    value: 'support',
     emoji: '<:Lane_Support:1343276719049543803>',
     apiParam: '4',
   },
@@ -85,48 +85,36 @@ export const RANK_RANGES: Record<
  * Role configurations
  */
 export const ROLES: Record<RoleKey, PositionSet<RoleKey>> = {
-  F: {
+  fighter: {
     name: 'ファイター',
-    value: 'F',
+    value: 'fighter',
     emoji: '<:fighter:1343296794343247985>',
   },
-  M: {
+  mage: {
     name: 'メイジ',
-    value: 'M',
+    value: 'mage',
     emoji: '<:mage:1343296818775326780>',
   },
-  A: {
+  assassin: {
     name: 'アサシン',
-    value: 'A',
+    value: 'assassin',
     emoji: '<:assassin:1343296727712530494>',
   },
-  MM: {
+  marksman: {
     name: 'マークスマン',
-    value: 'MM',
+    value: 'marksman',
     emoji: '<:marksman:1343296831781605376>',
   },
-  S: {
+  support: {
     name: 'サポート',
-    value: 'S',
+    value: 'support',
     emoji: '<:support:1343296844586946681>',
   },
-  T: {
+  tank: {
     name: 'タンク',
-    value: 'T',
+    value: 'tank',
     emoji: '<:tank:1343296805575589939>',
   },
-} as const;
-
-/**
- * Champion role mapping for API properties
- */
-export const CHAMPION_ROLE_MAPPING: Record<string, keyof typeof ROLES> = {
-  is_fighter: 'F',
-  is_mage: 'M',
-  is_assassin: 'A',
-  is_marksman: 'MM',
-  is_support: 'S',
-  is_tank: 'T',
 } as const;
 
 /**

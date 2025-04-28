@@ -1,9 +1,9 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
-const { DEFAULT_GUILD_ID, DEFAULT_CHANNEL_ID } = process.env;
+const { ENABLE_SUBCOMMAND_LEVEL } = process.env;
 
-const command = DEFAULT_GUILD_ID && DEFAULT_CHANNEL_ID ? new ApplicationCommand({
+const command = ENABLE_SUBCOMMAND_LEVEL?.toLowerCase() === 'true' ? new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('level')
     .setDescription('level commands')
