@@ -8,11 +8,11 @@ import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
-    const lane = interaction.options.getString('lane', true);
+    const lane = interaction.options.getString('lane', true) as LaneKey;
     let count = interaction.options.getInteger('count', false) ?? 1;
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;
 
-    let champions = getChampionsByLane(lane as LaneKey);
+    let champions = getChampionsByLane(lane);
     if (wrOnly) {
       champions = champions.filter((champ) => champ.is_wr);
     }
