@@ -44,7 +44,7 @@ export function getLanes(champion: Champion): string {
 export function getTags(champion: Champion): string {
   return Object.entries(ROLES)
     .filter(([, tag]) => champion.roles.includes(tag.value))
-    .map(([key, tag]) => `${key}: ${tag.emoji}`)
+    .map(([, tag]) => `${tag.name}: ${tag.emoji}`)
     .join(', ');
 }
 
