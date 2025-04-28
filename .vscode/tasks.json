@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Development",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["start:dev"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start Production",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["start:prod"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Compile",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["compile"],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "Run Lint",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": ["$eslint-stylish"]
+    },
+    {
+      "label": "Run Prettier",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["prettier"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build and Run Docker",
+      "type": "shell",
+      "command": "docker-compose down && docker-compose build && docker-compose up -d",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
