@@ -2,8 +2,7 @@ import logger from '@/utils/logger.js';
 import { WebhookClient } from 'discord.js';
 
 export function handleError(context: string, error: unknown): void {
-  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-  logger.error(`${context}:`, errorMessage);
+  logger.error(`${context}:`, error);
 }
 
 export async function notifyAdminWebhook(message: string): Promise<void> {
