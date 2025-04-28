@@ -33,6 +33,8 @@ async function loadCommandFiles<T>(
         T extends ApplicationCommand ? ApplicationCommand : ContextCommand
       >;
       const command = module.default;
+
+      // Skip 'empty' commands that are disabled via environment variables
       if (command && command.data && command.data.name !== 'empty') {
         commands.push(command.data.toJSON());
       }
