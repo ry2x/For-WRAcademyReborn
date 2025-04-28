@@ -40,6 +40,9 @@ async function createNewUser(userId: string, gMember: GuildMember): Promise<User
     joinedAT: gMember.joinedAt ? gMember.joinedAt : new Date(0),
   };
 
+  if (!db) {
+    throw new Error('Database not initialized');
+  }
   await db.insert(schema.users).values(newUser);
   return newUser as User;
 }
@@ -81,6 +84,9 @@ async function updateUserXP(
     nextLevelXp: number;
   },
 ): Promise<void> {
+  if (!db) {
+    throw new Error('Database not initialized');
+  }
   await db
     .update(schema.users)
     .set({
@@ -99,6 +105,9 @@ export async function grantXP(gMember: GuildMember): Promise<void> {
 
   try {
     // Get user data from database
+    if (!db) {
+      throw new Error('Database not initialized');
+    }
     let user = (await db.select().from(users).where(eq(users.id, userId)).limit(1))[0];
 
     // Create new user if not exists

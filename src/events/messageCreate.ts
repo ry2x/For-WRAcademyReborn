@@ -18,7 +18,7 @@ export default new Event({
       if (message.author.bot) return;
 
       // Grant XP for messages in the default guild
-      if (message.member && message.guildId === DEFAULT_GUILD_ID) {
+      if (DEFAULT_GUILD_ID && message.member && message.guildId === DEFAULT_GUILD_ID) {
         await grantXP(message.member);
       }
 

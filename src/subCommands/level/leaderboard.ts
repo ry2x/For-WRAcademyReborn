@@ -1,10 +1,10 @@
+import config from '@/constants/config.js';
 import { db } from '@/db/index.js';
 import * as schema from '@/db/schema.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
 import { desc } from 'drizzle-orm';
-import config from '@/constants/config.js';
 
 const { DEFAULT_GUILD_ID } = process.env;
 
@@ -20,6 +20,9 @@ const LEADERBOARD_CONFIG = {
  */
 async function getLeaderboard(limit: number = LEADERBOARD_CONFIG.DEFAULT_LIMIT) {
   const users = schema.users;
+  if (!db) {
+    throw new Error('Database not initialized');
+  }
   return await db.select().from(users).orderBy(desc(users.level), desc(users.xp)).limit(limit);
 }
 

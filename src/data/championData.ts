@@ -82,8 +82,7 @@ export function getChampionsByLane(lane: keyof typeof LANES): Champion[] {
     return Object.values(champions);
   }
 
-  const laneKey = `is_${lane}` as keyof Champion;
-  return Object.values(champions).filter((champ) => champ[laneKey] === true);
+  return Object.values(champions).filter((champ) => champ.lanes.includes(lane));
 }
 
 /**
@@ -101,12 +100,7 @@ export function getLaneEmoji(lane: string): string {
  * @returns Array of lane configurations that the champion can be played in
  */
 export function getChampionLanes(champ: Champion): (typeof LANES)[keyof typeof LANES][] {
-  return Object.entries(LANES)
-    .filter(([key]) => {
-      const laneKey = `is_${key}` as keyof Champion;
-      return champ[laneKey] === true;
-    })
-    .map(([key]) => LANES[key as keyof typeof LANES]);
+  return champ.lanes.map((lane) => LANES[lane as keyof typeof LANES]);
 }
 
 /**
