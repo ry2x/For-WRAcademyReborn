@@ -40,7 +40,7 @@ const generateTeam = (wrOnly: boolean, selectedChamps: Set<string>): Promise<Tea
 
       const selected = champions.sort(() => 0.5 - Math.random()).slice(0, 2);
       selected.forEach((c) => selectedChamps.add(c.id));
-      return { [lane.value]: selected.map((c) => c.name) };
+      return [lane.value, selected.map((c) => c.name)] as const;
     }),
   ).then(Object.fromEntries);
 };
