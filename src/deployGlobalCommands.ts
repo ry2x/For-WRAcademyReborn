@@ -33,7 +33,9 @@ async function loadCommandFiles<T>(
         T extends ApplicationCommand ? ApplicationCommand : ContextCommand
       >;
       const command = module.default;
-      commands.push(command.data.toJSON());
+      if (command && command.data && command.data.name !== 'empty') {
+        commands.push(command.data.toJSON());
+      }
     } catch (error) {
       logger.error(`Failed to load command from file ${file}:`, error);
     }
