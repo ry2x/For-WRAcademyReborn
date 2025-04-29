@@ -1,12 +1,17 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
+import { emptyCommand } from '@/utils/emptyCommand.js';
+
 import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  type ChatInputCommandInteraction,
   Colors,
   EmbedBuilder,
   SlashCommandBuilder,
 } from 'discord.js';
+
+const { ENABLE_SUBCOMMAND_SLOT } = process.env;
 
 const probabilitySlots: { emoji: string; probability: number }[] = [
   { emoji: '<:seven:1344792025119330434>', probability: 0.02 },
@@ -51,10 +56,9 @@ export function rollSlots() {
   return { result, isWin, message };
 }
 
-const { ENABLE_SUBCOMMAND_SLOT } = process.env;
-
-const command = ENABLE_SUBCOMMAND_SLOT?.toLowerCase() === 'true' ? new ApplicationCommand({  data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
-  async execute(interaction) {
+const slotCommand = new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
     const { result, isWin, message } = rollSlots();
@@ -76,12 +80,8 @@ const command = ENABLE_SUBCOMMAND_SLOT?.toLowerCase() === 'true' ? new Applicati
       content: `**${result.join(' | ')}**`,
     });
   },
-}) : new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
-  hasSubCommands: false,
-  execute: async () => {
-    // empty execute-function
-  },
 });
+
+const command = ENABLE_SUBCOMMAND_SLOT?.toLowerCase() === 'true' ? slotCommand : emptyCommand;
 
 export default command;
