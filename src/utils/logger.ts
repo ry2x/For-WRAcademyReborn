@@ -2,8 +2,16 @@ import { Logtail } from '@logtail/node';
 import { LogtailTransport } from '@logtail/winston';
 import winston from 'winston';
 
-// Constants
+/**
+ * Default logging level for the application
+ * @constant {string}
+ */
 const LOG_LEVEL = 'info';
+
+/**
+ * Default log format using Winston's JSON formatter
+ * @constant {winston.Logform.Format}
+ */
 const LOG_FORMAT = winston.format.json();
 
 // Get environment variables
@@ -26,7 +34,23 @@ if (LOGTAIL_TOKEN && LOGTAIL_HOST) {
   transports.push(new LogtailTransport(logtail));
 }
 
-// Create Winston logger instance
+/**
+ * Winston logger instance configured with console transport and optional Logtail integration.
+ * Handles uncaught exceptions and unhandled promise rejections.
+ *
+ * @example
+ * ```typescript
+ * import logger from '../utils/logger';
+ *
+ * // Info level logging
+ * logger.info('Operation successful', { details: 'Additional data' });
+ *
+ * // Error level logging
+ * logger.error('An error occurred', { error: error.message });
+ * ```
+ *
+ * @type {winston.Logger}
+ */
 const logger = winston.createLogger({
   level: LOG_LEVEL,
   format: LOG_FORMAT,
