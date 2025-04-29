@@ -5,7 +5,9 @@ import {
   SlashCommandSubcommandBuilder,
 } from 'discord.js';
 
-export default new ApplicationCommand({
+const { ENABLE_SUBCOMMAND_DEV } = process.env;
+
+const command = ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('dev')
     .setDescription('Dev commands')
@@ -34,4 +36,12 @@ export default new ApplicationCommand({
         .setDescription('Fetch data from API'),
     ),
   hasSubCommands: true,
+}) : new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  hasSubCommands: false,
+  execute: async () => {
+    // empty execute-function
+  },
 });
+
+export default command;

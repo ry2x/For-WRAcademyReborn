@@ -1,7 +1,9 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
-export default new ApplicationCommand({
+const { ENABLE_SUBCOMMAND_NEWS } = process.env;
+
+const command = ENABLE_SUBCOMMAND_NEWS?.toLowerCase() === 'true' ? new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('news')
     .setDescription('News commands')
@@ -19,4 +21,12 @@ export default new ApplicationCommand({
         ),
     ),
   hasSubCommands: true,
+}) : new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  hasSubCommands: false,
+  execute: async () => {
+    // empty execute-function
+  },
 });
+
+export default command;

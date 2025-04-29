@@ -1,8 +1,9 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
-export default new ApplicationCommand({
-  data: new SlashCommandBuilder()
+const { ENABLE_SUBCOMMAND_TEAM } = process.env;
+
+const command = ENABLE_SUBCOMMAND_TEAM?.toLowerCase() === 'true' ? new ApplicationCommand({  data: new SlashCommandBuilder()
     .setName('team')
     .setDescription('Team commands')
     .addSubcommand(
@@ -36,4 +37,12 @@ export default new ApplicationCommand({
         ),
     ),
   hasSubCommands: true,
+}) : new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  hasSubCommands: false,
+  execute: async () => {
+    // empty execute-function
+  },
 });
+
+export default command;
