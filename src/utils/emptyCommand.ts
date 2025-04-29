@@ -11,12 +11,10 @@ import { SlashCommandBuilder } from 'discord.js';
  * // Using empty command as a fallback
  * const command = isEnabled ? realCommand : emptyCommand();
  */
-export function emptyCommand() {
-  return new ApplicationCommand({
-    data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
-    hasSubCommands: false,
-    execute: async () => {
-      // empty execute-function
-    },
-  });
-}
+export const emptyCommand = new ApplicationCommand({
+  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  hasSubCommands: false,
+  execute: async () => {
+    // empty execute-function
+  },
+});
