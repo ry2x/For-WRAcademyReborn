@@ -1,4 +1,5 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
+import { emptyCommand } from '@/utils/emptyCommand.js';
 import {
   PermissionFlagsBits,
   SlashCommandBuilder,
@@ -7,7 +8,7 @@ import {
 
 const { ENABLE_SUBCOMMAND_DEV } = process.env;
 
-const command = ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? new ApplicationCommand({
+const devCommand = new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('dev')
     .setDescription('Dev commands')
@@ -36,12 +37,8 @@ const command = ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? new Applicatio
         .setDescription('Fetch data from API'),
     ),
   hasSubCommands: true,
-}) : new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
-  hasSubCommands: false,
-  execute: async () => {
-    // empty execute-function
-  },
 });
+
+const command = ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? devCommand : emptyCommand;
 
 export default command;

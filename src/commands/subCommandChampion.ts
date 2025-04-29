@@ -1,5 +1,6 @@
 import { LANES, RANK_RANGES } from '@/constants/game.js';
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
+import { emptyCommand } from '@/utils/emptyCommand.js';
 import {
   SlashCommandBuilder,
   SlashCommandSubcommandBuilder,
@@ -8,7 +9,8 @@ import {
 
 const { ENABLE_SUBCOMMAND_CHAMPION } = process.env;
 
-const command = ENABLE_SUBCOMMAND_CHAMPION?.toLowerCase() === 'true' ? new ApplicationCommand({  data: new SlashCommandBuilder()
+const championCommand = new ApplicationCommand({
+  data: new SlashCommandBuilder()
     .setName('champion')
     .setDescription('Champion commands')
     .addSubcommand(
@@ -221,12 +223,9 @@ const command = ENABLE_SUBCOMMAND_CHAMPION?.toLowerCase() === 'true' ? new Appli
         ),
     ),
   hasSubCommands: true,
-}) : new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
-  hasSubCommands: false,
-  execute: async () => {
-    // empty execute-function
-  },
 });
+
+const command =
+  ENABLE_SUBCOMMAND_CHAMPION?.toLowerCase() === 'true' ? championCommand : emptyCommand;
 
 export default command;
