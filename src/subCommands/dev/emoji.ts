@@ -35,7 +35,7 @@ export default new SubCommand({
 
       if (action === 'create') {
         if (existingEmoji) {
-          await interaction.reply(`Emoji \`${emojiName}\` already exists. Here it is: ${existingEmoji}`);
+          await interaction.reply(`❌Emoji \`${emojiName}\` already exists. Here it is: ${existingEmoji}`);
         } else {
           const newEmoji = await interaction.guild.emojis.create({ attachment: emojiUrl, name: emojiName });
           await interaction.reply(`Successfully added emoji \`${emojiName}\`: ${newEmoji}`);
