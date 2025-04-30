@@ -47,5 +47,8 @@
       "error": "❌ Error in ready event"
     },
     "success": "✅ Logged in as {{name}}!"
+  },
+  "webhook": {
+    "failed ": "❌ Failed to send webhook notification"
   }
 }
