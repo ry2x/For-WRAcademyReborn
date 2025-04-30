@@ -11,15 +11,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  */
 export async function initI18n(): Promise<i18n> {
   await i18next.use(Backend).init({
-    backend: {
-      loadPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.json'),
-    },
-    lng: process.env.DEFAULT_LOCALE,
-    fallbackLng: 'en',
-    ns: ['common', 'errors'],
+    supportedLngs: ['en_US'],
+    fallbackLng: process.env.DEFAULT_LOCALE ?? 'en_US',
+    ns: ['common'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false,
+    },
+    backend: {
+      loadPath: path.join(__dirname, '../../locales/{{lng}}/{{ns}}.json'),
     },
   });
 
