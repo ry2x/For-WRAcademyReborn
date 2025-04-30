@@ -1,4 +1,5 @@
 import Event from '@/templates/Event.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Events } from 'discord.js';
 
@@ -9,11 +10,11 @@ export default new Event({
     try {
       const userTag = client.user?.tag;
       if (!userTag) {
-        throw new Error('Client user is not available');
+        throw new Error(t('ready.failed.noUserTag'));
       }
-      logger.info(`Logged in as ${userTag}!`);
+      logger.info(t('ready.success', { name: userTag }));
     } catch (error) {
-      logger.error('Error in ready event:', error);
+      logger.error(t('ready.failed.error'), error);
     }
   },
 });

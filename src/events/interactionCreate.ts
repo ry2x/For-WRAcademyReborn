@@ -8,6 +8,7 @@ import {
   type ModalCommand,
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import {
   Events,
@@ -18,12 +19,6 @@ import {
   type ContextMenuCommandInteraction,
   type ModalSubmitInteraction,
 } from 'discord.js';
-
-// Constants
-const AUTOCOMPLETE_ERROR_RESPONSE = {
-  name: 'failed to autocomplete',
-  value: 'error',
-};
 
 type CommandInteraction =
   | ButtonInteraction
@@ -51,7 +46,7 @@ export default new Event({
         await handleAutocompleteInteraction(interaction);
       }
     } catch (error) {
-      logger.error('Error in interactionCreate event:', error);
+      logger.error(t('interaction.failed.create'), error);
     }
   },
 });
@@ -125,10 +120,10 @@ async function handleCommandInteraction(interaction: CommandInteraction): Promis
     }
 
     if (!command) {
-      logger.warn(`Command not found for interaction: ${interaction.type}`);
+      logger.warn(t('interaction.failed.notFound', { name: interaction.id }), interaction);
     }
   } catch (error) {
-    logger.error('Error executing command:', error);
+    logger.error(t('interaction.failed.error'), error);
     await handleInteractionError(interaction);
   }
 }
@@ -138,7 +133,10 @@ async function handleAutocompleteInteraction(interaction: AutocompleteInteractio
     const command = client.components.autocomplete.get(interaction.commandName);
 
     if (!command) {
-      logger.warn(`Autocomplete command not found: ${interaction.commandName}`);
+      logger.warn(
+        t('autoComplete.failed.notFound', { name: interaction.commandName }),
+        interaction,
+      );
       return;
     }
 
@@ -146,8 +144,13 @@ async function handleAutocompleteInteraction(interaction: AutocompleteInteractio
       await command.execute(interaction);
     }
   } catch (error) {
-    logger.error('Error in autocomplete:', error);
-    await interaction.respond([AUTOCOMPLETE_ERROR_RESPONSE]);
+    logger.error(t('autoComplete.failed.error'), error);
+    await interaction.respond([
+      {
+        name: t('autoComplete.failed.error'),
+        value: 'error',
+      },
+    ]);
   }
 }
 
@@ -159,6 +162,6 @@ async function handleInteractionError(interaction: CommandInteraction): Promise<
       await interaction.reply(interactionError);
     }
   } catch (error) {
-    logger.error('Error sending error response:', error);
+    logger.error(t('interaction.failed.sendingError'), error);
   }
 }

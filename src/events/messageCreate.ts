@@ -2,6 +2,7 @@ import config from '@/constants/config.js';
 import { grantXP } from '@/services/leveling/grantXp.js';
 import Event from '@/templates/Event.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Events, type Message } from 'discord.js';
 
@@ -48,7 +49,7 @@ export default new Event({
       // Execute command
       await command.execute(message, args);
     } catch (error) {
-      logger.error('Error in messageCreate event:', error);
+      logger.error(t('messageCommand.failed.error'), error);
     }
   },
 });

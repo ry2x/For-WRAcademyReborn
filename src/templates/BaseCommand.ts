@@ -1,3 +1,4 @@
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 
 export default class BaseCommand<T, K> {
@@ -21,7 +22,7 @@ export default class BaseCommand<T, K> {
         }
       };
     } else {
-      throw new Error('No execute function provided');
+      throw new Error(t('template.failed.noExecute'));
     }
 
     this.data = options.data;

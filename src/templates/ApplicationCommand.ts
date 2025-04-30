@@ -1,6 +1,7 @@
 import { interactionError } from '@/embeds/errorEmbed.js';
 import type SubCommand from '@/templates/SubCommand.js';
 import type { CommandModule } from '@/types/type.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import {
   MessageFlags,
@@ -37,7 +38,7 @@ export default class ApplicationCommand {
 
         if (!commandName) {
           await interaction.reply({
-            content: '❌このコマンドは存在しません！',
+            content: t('template.failed.notFound'),
             flags: MessageFlags.Ephemeral,
           });
         } else {
@@ -71,7 +72,7 @@ export default class ApplicationCommand {
         }
       };
     } else {
-      throw new Error('No execute function provided');
+      throw new Error(t('template.failed.noExecute'));
     }
 
     this.data = options.data;

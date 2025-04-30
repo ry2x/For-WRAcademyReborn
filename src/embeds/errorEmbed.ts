@@ -1,3 +1,4 @@
+import { t } from '@/utils/i18n.js';
 import { Colors, EmbedBuilder, MessageFlags, type InteractionReplyOptions } from 'discord.js';
 
 export function interactionErrorEmbed(msg: string): EmbedBuilder {
@@ -5,6 +6,6 @@ export function interactionErrorEmbed(msg: string): EmbedBuilder {
 }
 
 export const interactionError: InteractionReplyOptions = {
-  embeds: [interactionErrorEmbed('❌コマンド実行中にエラーが発生しました！')],
+  embeds: [interactionErrorEmbed(t('errorEmbed'))],
   flags: MessageFlags.Ephemeral,
 };
