@@ -15,5 +15,37 @@
       "uncaught": "⚠️ Uncaught exception"
     }
   },
-  "template": {}
+  "template": {
+    "failed": {
+      "notFound": "❌ Command is not found",
+      "noExecute": "❌ No execute function provided"
+    }
+  },
+  "errorEmbed": "❌ An error occurred while executing the command",
+  "interaction": {
+    "failed": {
+      "create": "❌ Error in interactionCreate event",
+      "notFound": "❌ Command not found for interaction: '{{name}}'",
+      "error": "❌ An error occurred while executing the command",
+      "sendingError": "❌ An error occurred while sending the interaction response"
+    }
+  },
+  "autoComplete": {
+    "failed": {
+      "notFound": "❌ Autocomplete not found: '{{name}}'",
+      "error": "❌ An error occurred while executing the autocomplete"
+    }
+  },
+  "messageCommand": {
+    "failed": {
+      "error": "❌ An error occurred while executing the messageCreate"
+    }
+  },
+  "ready": {
+    "failed": {
+      "noUserTag": "❌ Client user is not available",
+      "error": "❌ Error in ready event"
+    },
+    "success": "✅ Logged in as {{name}}!"
+  }
 }
