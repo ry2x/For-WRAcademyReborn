@@ -36,12 +36,15 @@ RUN npm install -g pnpm && \
 # Stage 3: Create the production image
 FROM gcr.io/distroless/nodejs22-debian12
 
-# Set working directory
+# Set working directory for the copy commands
 WORKDIR /app
 
 # Copy node_modules and dist contents
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/dist ./
+COPY --from=deps /app/dist ./dist
+
+# Set working directory for the application
+WORKDIR /app/dist
 
 # Start the application
 CMD ["index.js"]
