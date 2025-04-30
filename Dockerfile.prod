@@ -42,8 +42,9 @@ WORKDIR /app
 # Copy node_modules and dist contents
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/dist ./dist
+COPY /locales ./locales/
 
-# Set working directory for the application
+# Set working directory for the Application
 WORKDIR /app/dist
 
 # Start the application
