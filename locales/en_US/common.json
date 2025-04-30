@@ -1,0 +1,19 @@
+{
+  "initialization": {
+    "failed": {
+      "daily": "❌ Daily update failed",
+      "data": "❌ Failed to initialize data",
+      "commands": "❌ Failed to load commands from'{{directory}}'",
+      "message": "❌ Failed to load message commands from'{{directory}}'",
+      "component": "❌ Failed to load component commands from'{{directory}}'",
+      "allCommands": "❌ Failed to load commands",
+      "event": "❌ Failed to setup event handlers in '{{eventName}}'",
+      "eventHandler": "❌ Failed to load event handlers",
+      "process": "❌ Process exit notification failed",
+      "processError": "⚠️ Process ended  (code: '{{code}}')",
+      "unhandled": "⚠️ Unhandled promise rejection",
+      "uncaught": "⚠️ Uncaught exception"
+    }
+  },
+  "template": {}
+}
