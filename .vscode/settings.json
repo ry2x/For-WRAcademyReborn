@@ -27,5 +27,6 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "[dockerfile]": {
     "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-  }
+  },
+  "i18n-ally.localesPaths": ["locales"]
 }
