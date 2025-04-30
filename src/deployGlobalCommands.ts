@@ -1,4 +1,4 @@
-import config from '@/constants/config.js';
+import { isValidFileExtension } from '@/index.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { type ContextCommand } from '@/templates/InteractionCommands.js';
 import type { CommandModule } from '@/types/type.js';
@@ -10,15 +10,6 @@ import { readdirSync } from 'fs';
 
 const TOKEN = process.env.TOKEN;
 const CLIENT_ID = process.env.CLIENT_ID;
-
-/**
- * Checks if a given filename has a supported file extension
- * @param fileName The name of the file to check
- * @returns True if the file has a supported extension, false otherwise
- */
-export function isValidFileExtension(fileName: string): boolean {
-  return config.SUPPORTED_FILE_EXTENSIONS.some((ext) => fileName.endsWith(ext));
-}
 
 // Helper function to load command files
 async function loadCommandFiles<T>(
