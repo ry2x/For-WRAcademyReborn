@@ -81,13 +81,15 @@
         "no_data": "❌ データがありません。",
         "description": "⚔️:勝率 ⚒️:ピック率",
         "field": "{{lane}}での勝率{{emoji}}",
-        "title": "各レーンでの勝率トップ:"
+        "title": "各レーンでの勝率トップ:",
+        "invalid_rank": "❌ ランクが正しく指定されていません。"
       },
       "pickrate": {
         "no_data": "❌ データがありません。",
         "description": "⚒️:ピック率 ❌:バン率",
         "field": "{{lane}}でのピック率{{emoji}}",
-        "title": "各レーンでのピック率トップ:"
+        "title": "各レーンでのピック率トップ:",
+        "invalid_rank": "❌ ランクが正しく指定されていません。"
       },
       "strength": {
         "point": "ポイント",

@@ -81,13 +81,15 @@
         "no_data": "❌ No data available.",
         "description": "⚔️:Win Rate ⚒️:Pick Rate",
         "field": "Win Rate in {{lane}}{{emoji}}",
-        "title": "Top Win Rates by Lane:"
+        "title": "Top Win Rates by Lane:",
+        "invalid_rank": "❌ Invalid rank specified."
       },
       "pickrate": {
         "no_data": "❌ No data available.",
         "description": "⚒️:Pick Rate ❌:Ban Rate",
         "field": "Pick Rate in {{lane}}{{emoji}}",
-        "title": "Top Pick Rates by Lane:"
+        "title": "Top Pick Rates by Lane:",
+        "invalid_rank": "❌ Invalid rank specified."
       },
       "strength": {
         "point": "Points",
