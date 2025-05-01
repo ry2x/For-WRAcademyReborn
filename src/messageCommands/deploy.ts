@@ -1,5 +1,6 @@
 import deployGlobalCommands from '@/deployGlobalCommands.js';
 import MessageCommand from '@/templates/MessageCommand.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 
 export default new MessageCommand({
@@ -9,24 +10,24 @@ export default new MessageCommand({
     try {
       // Check if the user has permission to deploy commands
       if (message.author.id !== client.application?.owner?.id) {
-        logger.warn(`Unauthorized deployment attempt by ${message.author.tag}`, message.author);
-        await message.reply('⚠️ Sorry, only the bot owner can deploy commands!');
+        logger.warn(`${t('deploy.unhandled')} ${message.author.tag}`, message.author);
+        await message.reply(t('deploy.for_owner'));
         return;
       }
 
       // Log the deployment start
-      logger.info(`Starting command deployment initiated by ${message.author.tag}`, message.author);
+      logger.info(`${t('deploy.starting')} ${message.author.tag}`, message.author);
 
       // Deploy the commands
       await deployGlobalCommands();
 
       // Notify success
-      await message.reply('✅ Commands deployed successfully!');
-      logger.info('Command deployment completed successfully');
+      await message.reply(t('deploy.success'));
+      logger.info(t('deploy.success'));
     } catch (error) {
       // Handle any errors during deployment
-      logger.error('Command deployment failed:', error);
-      await message.reply('❌ Failed to deploy commands. Check logs for details.');
+      logger.error(t('deploy.error'), error);
+      await message.reply(t('deploy.error') + t('deploy.check'));
     }
   },
 });

@@ -50,5 +50,16 @@
   },
   "webhook": {
     "failed ": "❌ Failed to send webhook notification"
+  },
+  "deploy": {
+    "unhandled": "⚠️ Unauthorized deployment attempt by",
+    "for_owner": "⚠️ Sorry, only the bot owner can deploy commands!",
+    "starting": "Starting command deployment initiated by",
+    "success": "✅ Commands deployed successfully!",
+    "error": "❌ Failed to deploy commands!",
+    "check": "Check logs for details.",
+    "failed_load": "❌ Failed to load command from file : {{file}}",
+    "missing_env": "❌ Missing required environment variables: TOKEN or CLIENT_ID",
+    "pushing": "PUSHING COMMANDS TO DISCORD"
   }
 }
