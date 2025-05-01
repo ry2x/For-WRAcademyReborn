@@ -10,13 +10,13 @@ export default new MessageCommand({
     try {
       // Check if the user has permission to deploy commands
       if (message.author.id !== client.application?.owner?.id) {
-        logger.warn(`${t('deploy.unhandled')} ${message.author.tag}`, message.author);
+        logger.warn(t('deploy.unhandled', { name: message.author.tag }), message.author);
         await message.reply(t('deploy.for_owner'));
         return;
       }
 
       // Log the deployment start
-      logger.info(`${t('deploy.starting')} ${message.author.tag}`, message.author);
+      logger.info(t('deploy.starting', { name: message.author.tag }), message.author);
 
       // Deploy the commands
       await deployGlobalCommands();

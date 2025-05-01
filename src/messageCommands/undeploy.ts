@@ -1,5 +1,6 @@
 import config from '@/constants/config.js';
 import MessageCommand from '@/templates/MessageCommand.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 
 export default new MessageCommand({
@@ -9,15 +10,17 @@ export default new MessageCommand({
     try {
       // Check if the user has permission to undeploy commands
       if (message.author.id !== client.application?.owner?.id) {
-        logger.warn(`Unauthorized undeploy attempt by ${message.author.tag}`, message.author);
-        await message.reply('⚠️ Sorry, only the bot owner can undeploy commands!');
+        logger.warn(t('undeploy.unhandled', { name: message.author.tag }), message.author);
+        await message.reply(t('deploy.for_owner'));
         return;
       }
 
       // Validate arguments
       if (!args[0]) {
         await message.reply(
-          `⚠️ Incorrect usage! The correct format is \`${config.prefix}undeploy <guild/global>\``,
+          t('undeploy.invalid_args', {
+            prefix: config.prefix,
+          }),
         );
         return;
       }
@@ -26,25 +29,28 @@ export default new MessageCommand({
 
       // Validate scope argument
       if (!['global', 'guild'].includes(scope)) {
-        await message.reply('⚠️ Invalid scope! Please use either `guild` or `global`');
+        await message.reply(t('undeploy.invalid_target'));
         return;
       }
 
-      logger.info(`${message.author.tag} is un-deploying ${scope} commands`, message.author);
+      logger.info(
+        t('undeploy.starting', { target: scope, name: message.author.tag }),
+        message.author,
+      );
 
       // Handle command undeploy based on scope
       if (scope === 'global') {
         await client.application?.commands.set([]);
-        await message.reply('✅ Global commands have been un-deployed successfully!');
+        await message.reply(t('undeploy.success', { target: 'Global' }));
+        logger.info(t('undeploy.success', { target: 'Global' }));
       } else {
         await message.guild?.commands.set([]);
-        await message.reply('✅ Guild commands have been un-deployed successfully!');
+        await message.reply(t('undeploy.success', { target: 'Guild' }));
+        logger.info(t('undeploy.success', { target: 'Guild' }));
       }
-
-      logger.info(`Successfully un-deployed ${scope} commands`);
     } catch (error) {
-      logger.error('Failed to undeploy commands:', error);
-      await message.reply('❌ Failed to undeploy commands. Check logs for details.');
+      logger.error(t('undeploy.error'), error);
+      await message.reply(t('deploy.error') + t('undeploy.check'));
     }
   },
 });

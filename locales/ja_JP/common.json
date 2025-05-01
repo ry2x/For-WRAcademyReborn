@@ -50,6 +50,27 @@
   "webhook": {
     "failed ": "❌ Webhookの通知送信に失敗しました"
   },
+  "deploy": {
+    "unhandled": "⚠️ {{name}} による不正なデプロイ試行を検出しました",
+    "for_owner": "⚠️ コマンドのデプロイはBotのオーナーのみが実行できます！",
+    "starting": "{{name}} によるコマンドのデプロイを開始します",
+    "success": "✅ コマンドのデプロイに成功しました！",
+    "error": "❌ コマンドのデプロイに失敗しました！",
+    "check": "詳細はログを確認してください。",
+    "failed_load": "❌ ファイルからコマンドの読み込みに失敗しました：{{file}}",
+    "missing_env": "❌ 必要な環境変数が見つかりません：TOKEN または CLIENT_ID",
+    "pushing": "Discordにコマンドを反映中"
+  },
+  "undeploy": {
+    "unhandled": "⚠️ {{name}} による不正なアンデプロイ試行を検出しました",
+    "for_owner": "⚠️ コマンドのアンデプロイはBotのオーナーのみが実行できます！",
+    "success": "✅ {{target}} コマンドのアンデプロイに成功しました！",
+    "error": "❌ コマンドのアンデプロイに失敗しました！",
+    "check": "詳細はログを確認してください。",
+    "invalid_arg": "⚠️ 使用方法が間違っています！正しい形式は `{{prefix}}undeploy <guild/global>` です",
+    "invalid_target": "⚠️ 無効なスコープです！`guild` または `global` を指定してください",
+    "starting": "{{name}} による {{target}} コマンドのアンデプロイを開始します"
+  },
   "errorEmbed": "❌ コマンドの実行中にエラーが発生しました",
   "ping": "ping値は{{ping}}msです"
 }

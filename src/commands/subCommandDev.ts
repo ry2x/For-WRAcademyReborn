@@ -21,11 +21,11 @@ const devCommand = new ApplicationCommand({
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('messagedel')
-        .setDescription(t('other:command.message_del.description'))
+        .setDescription(t('other:command.dev.message_del.description'))
         .addIntegerOption((option) =>
           option
             .setName('count')
-            .setDescription(t('other:command.message_del.count'))
+            .setDescription(t('other:command.dev.message_del.count'))
             .setRequired(true)
             .setMinValue(1)
             .setMaxValue(100),
@@ -34,28 +34,31 @@ const devCommand = new ApplicationCommand({
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('fetchdata')
-        .setDescription(t('other:command.fetch.description')),
+        .setDescription(t('other:command.dev.fetch.description')),
     )
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('emoji')
-        .setDescription(t('other:command.emoji.description'))
+        .setDescription(t('other:command.dev.emoji.description'))
         .addStringOption((option) =>
-          option.setName('name').setDescription(t('other:command.emoji.name')).setRequired(true),
+          option
+            .setName('name')
+            .setDescription(t('other:command.dev.emoji.name'))
+            .setRequired(true),
         )
         .addStringOption((option) =>
           option
             .setName('action')
-            .setDescription(t('other:command.emoji.action'))
+            .setDescription(t('other:command.dev.emoji.action'))
             .setRequired(false)
             .addChoices(
-              { name: t('other:command.emoji.create'), value: 'create' },
-              { name: t('other:command.emoji.update'), value: 'update' },
-              { name: t('other:command.emoji.delete'), value: 'delete' },
+              { name: t('other:command.dev.emoji.create'), value: 'create' },
+              { name: t('other:command.dev.emoji.update'), value: 'update' },
+              { name: t('other:command.dev.emoji.delete'), value: 'delete' },
             ),
         )
         .addStringOption((option) =>
-          option.setName('url').setDescription(t('other:command.emoji.url')).setRequired(false),
+          option.setName('url').setDescription(t('other:command.dev.emoji.url')).setRequired(false),
         ),
     ),
   hasSubCommands: true,

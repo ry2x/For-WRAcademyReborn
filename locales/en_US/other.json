@@ -22,7 +22,7 @@
       "ping": {
         "description": "Check server response. (For developers)"
       },
-      "messageDel": {
+      "message_del": {
         "description": "Delete a specified number of messages in the current channel.",
         "count": "Number of messages to delete (maximum 100)"
       },

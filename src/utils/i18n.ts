@@ -13,7 +13,7 @@ export async function initI18n(): Promise<i18n> {
   await i18next.use(Backend).init({
     supportedLngs: ['en_US'],
     fallbackLng: process.env.DEFAULT_LOCALE ?? 'en_US',
-    ns: ['common', 'champion'],
+    ns: ['common', 'champion', 'other'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false,

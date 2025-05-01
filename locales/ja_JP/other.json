@@ -22,7 +22,7 @@
       "ping": {
         "description": "サーバーの応答を確認します。（開発者用）"
       },
-      "messageDel": {
+      "message_del": {
         "description": "使用したチャンネルで指定数のメッセージを削除します。",
         "count": "削除するメッセージの数（最大100件）"
       },

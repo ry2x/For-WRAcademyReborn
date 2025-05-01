@@ -21,7 +21,6 @@
       "noExecute": "❌ No execute function provided"
     }
   },
-  "errorEmbed": "❌ An error occurred while executing the command",
   "interaction": {
     "failed": {
       "create": "❌ Error in interactionCreate event",
@@ -52,14 +51,26 @@
     "failed ": "❌ Failed to send webhook notification"
   },
   "deploy": {
-    "unhandled": "⚠️ Unauthorized deployment attempt by",
+    "unhandled": "⚠️ Unauthorized deployment attempt by {{name}}",
     "for_owner": "⚠️ Sorry, only the bot owner can deploy commands!",
-    "starting": "Starting command deployment initiated by",
+    "starting": "Starting command deployment initiated by {{name}}",
     "success": "✅ Commands deployed successfully!",
     "error": "❌ Failed to deploy commands!",
     "check": "Check logs for details.",
     "failed_load": "❌ Failed to load command from file : {{file}}",
     "missing_env": "❌ Missing required environment variables: TOKEN or CLIENT_ID",
     "pushing": "PUSHING COMMANDS TO DISCORD"
-  }
+  },
+  "undeploy": {
+    "unhandled": "⚠️ Unauthorized undeployment attempt by {{name}}",
+    "for_owner": "⚠️ Sorry, only the bot owner can undeploy commands!",
+    "success": "✅ {{target}} commands have been un-deployed successfully!",
+    "error": "❌ Failed to undeploy commands!",
+    "check": "Check logs for details.",
+    "invalid_arg": "⚠️ Incorrect usage! The correct format is `{{prefix}}undeploy <guild/global>`",
+    "invalid_target": "⚠️ Invalid scope! Please use either `guild` or `global`",
+    "starting": "Starting {{target}} command undeployment initiated by {{name}}"
+  },
+  "errorEmbed": "❌ An error occurred while executing the command",
+  "ping": "Ping is {{ping}}ms"
 }
