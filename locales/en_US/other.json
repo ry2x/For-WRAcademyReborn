@@ -1,0 +1,95 @@
+{
+  "command": {
+    "ping": {
+      "description": "Displays the current latency between the server (Discord⇔BOT)."
+    },
+    "slot": {
+      "win": "**🎉 Jackpot! All three matched! 🎉**",
+      "almost_win": "**😲 So close! Two matched!**",
+      "miss": "**💀 Better luck next time!**",
+      "first_time": "First attempt",
+      "description": "Play a slot machine game",
+      "reroll": "🎰 Reroll!",
+      "button": {
+        "reroll": "🎰 Reroll!",
+        "count": "Attempt #{{count}}",
+        "time_out": "❌ Timed out. Please try again.\nTo play again, use **\\`/slot\\`**.",
+        "invalid_user": "❌ Only the command user can use these buttons.\nTo play yourself, use **\\`/slot\\`**."
+      }
+    },
+    "dev": {
+      "description": "Commands for developers.",
+      "ping": {
+        "description": "Check server response. (For developers)"
+      },
+      "messageDel": {
+        "description": "Delete a specified number of messages in the current channel.",
+        "count": "Number of messages to delete (maximum 100)"
+      },
+      "fetch": {
+        "description": "Updates data from various APIs."
+      },
+      "emoji": {
+        "description": "Manage server emojis.",
+        "action": "Action to perform on emoji (default: create)",
+        "url": "URL for the emoji (required for create/update)",
+        "name": "Name of the emoji",
+        "create": "Create",
+        "delete": "Delete",
+        "update": "Update"
+      }
+    },
+    "level": {
+      "leaderboard": {
+        "description": "Display XP leaderboard."
+      }
+    },
+    "news": {
+      "description": "News related commands",
+      "wildrift": {
+        "description": "Display up to 10 latest news items from the Wild Rift official page.",
+        "count": "Specify the number of news items to display."
+      }
+    },
+    "team": {
+      "description": "Team commands",
+      "random": {
+        "description": "TESTING: Randomly divide members in the specified VC into teams. (This command is in testing)",
+        "team_count": "Number of teams to create (default: 2)",
+        "vc_channel": "Voice channel to divide teams (default: your current VC)",
+        "is_bot": "Include bots or not (default: FALSE)",
+        "exclude": "Select members to exclude"
+      }
+    }
+  },
+  "body": {
+    "dev": {
+      "fetch": {
+        "not_available": "❌ You do not have permission to use this command.",
+        "start": "Starting data update process...",
+        "champion": "Updating champion data...",
+        "wildrift": "Updating Wild Rift data...",
+        "complete": "✅ All data updates completed!",
+        "error": "❌ An error occurred during data update.",
+        "check": "Please check the logs for details."
+      },
+      "message_del": {
+        "failed": "❌ Failed to delete messages.",
+        "complete": "✅ Deleted {{count}} messages."
+      },
+      "ping": { "repost": "📟Repost" },
+      "emoji": {
+        "is_member": "❌ Could not find member info.",
+        "is_guild": "❌ Could not find server info.",
+        "exists": "❌ Emoji `{{emojiName}}` already exists. Here it is: {{existingEmoji}}",
+        "added": "✅ Successfully added emoji `{{emojiName}}`: {{newEmoji}}",
+        "updated": "✅ Successfully updated emoji `{{emojiName}}` to {{updatedEmoji}}",
+        "delete": "✅ Successfully deleted emoji:`{{emojiName}}`",
+        "not_exists": "❌ Emoji `{{emojiName}}` does not exist.",
+        "invalid_action": "❌ Invalid action : {{action}}. Please choose from `create`, `update`, or `delete`.",
+        "error": "❌ Error occurred while managing emoji:",
+        "check": "Please check the logs for details."
+      }
+    }
+  }
+}
