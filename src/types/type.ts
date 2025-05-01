@@ -7,14 +7,6 @@ export type CommandModule<T> = {
 };
 
 /**
- * Configuration Button Errors
- */
-export type ButtonError = {
-  timeOut: string;
-  invalidUser: string;
-};
-
-/**
  * Configuration LeaderBoard Errors
  */
 export type LeaderBoardError = {
@@ -35,8 +27,6 @@ export type Config = {
   urlRssWildRift: string;
   /** URL for win rate data */
   urlWinRate: string;
-  /** Error of button */
-  ButtonError: ButtonError;
   /** Error of leaderBoard */
   LeaderBoardError: LeaderBoardError;
 };
