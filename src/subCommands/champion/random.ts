@@ -1,4 +1,3 @@
-import config from '@/constants/config.js';
 import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
@@ -21,7 +20,7 @@ export default new SubCommand({
     if (champions.length === 0) {
       await interaction.deleteReply();
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(config.championError.notFound)],
+        embeds: [interactionErrorEmbed(t('champion:body.random.not_found'))],
         flags: MessageFlags.Ephemeral,
       });
       return;

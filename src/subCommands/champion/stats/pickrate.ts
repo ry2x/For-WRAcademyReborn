@@ -1,4 +1,3 @@
-import config from '@/constants/config.js';
 import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
@@ -64,7 +63,7 @@ export default new SubCommand({
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(config.championError.invalidRank)],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.pickrate.invalid_rank'))],
       });
       return;
     }
