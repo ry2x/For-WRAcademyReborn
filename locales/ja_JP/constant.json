@@ -1,0 +1,25 @@
+{
+  "lane": {
+    "all": "All (全レーン)",
+    "top": "Top (トップ)",
+    "jungle": "Jungle (ジャングル)",
+    "mid": "Mid (ミッド)",
+    "ad": "ADC (ボット)",
+    "support": "Support (サポート)"
+  },
+  "rank": {
+    "all": "全ランク",
+    "diamondPlus": "ダイヤモンド+",
+    "masterPlus": "マスター+",
+    "challengerPlus": "チャレンジャー+",
+    "superServer": "スーパーサーバー"
+  },
+  "role": {
+    "fighter": "ファイター",
+    "mage": "メイジ",
+    "assassin": "アサシン",
+    "marksman": "マークスマン",
+    "support": "サポート",
+    "tank": "タンク"
+  }
+}
