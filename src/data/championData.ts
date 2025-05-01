@@ -14,9 +14,11 @@ let champions: Champions = [];
  */
 export async function fetchChampionData(): Promise<void> {
   try {
-    const res: AxiosResponse<Champions> = await axios.get(config.urlChampions);
+    const res: AxiosResponse<Champions> = await axios.get(
+      config.urlChampions.replace('{{locale}}', process.env.DEFAULT_LOCALE ?? 'en_US'),
+    );
     champions = res.data;
-    logger.info('Champion data updated successfully');
+    logger.info('Champion data updated successfully:', process.env.DEFAULT_LOCALE ?? 'en_US');
   } catch (error) {
     logger.error('Failed to fetch champion data:', error);
     throw error;
