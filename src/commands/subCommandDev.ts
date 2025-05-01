@@ -1,5 +1,6 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
+import { t } from '@/utils/i18n.js';
 import {
   PermissionFlagsBits,
   SlashCommandBuilder,
@@ -10,21 +11,21 @@ const { ENABLE_SUBCOMMAND_DEV } = process.env;
 const devCommand = new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('dev')
-    .setDescription('Dev commands')
+    .setDescription(t('other:command.dev.description'))
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('pingserver')
-        .setDescription('A ping command for dev'),
+        .setDescription(t('other:command.ping.description')),
     )
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('messagedel')
-        .setDescription('You can delete message from channel where you use')
+        .setDescription(t('other:command.message_del.description'))
         .addIntegerOption((option) =>
           option
             .setName('count')
-            .setDescription('Count of message to delete (MAX:100)')
+            .setDescription(t('other:command.message_del.count'))
             .setRequired(true)
             .setMinValue(1)
             .setMaxValue(100),
@@ -33,31 +34,28 @@ const devCommand = new ApplicationCommand({
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('fetchdata')
-        .setDescription('Fetch data from API'),
+        .setDescription(t('other:command.fetch.description')),
     )
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('emoji')
-        .setDescription('Manage an emoji in the server')
+        .setDescription(t('other:command.emoji.description'))
         .addStringOption((option) =>
-          option.setName('name').setDescription('Name of the emoji').setRequired(true),
+          option.setName('name').setDescription(t('other:command.emoji.name')).setRequired(true),
         )
         .addStringOption((option) =>
           option
             .setName('action')
-            .setDescription('Action to perform on the emoji (default: Create)')
+            .setDescription(t('other:command.emoji.action'))
             .setRequired(false)
             .addChoices(
-              { name: 'Create', value: 'create' },
-              { name: 'Update', value: 'update' },
-              { name: 'Delete', value: 'delete' },
+              { name: t('other:command.emoji.create'), value: 'create' },
+              { name: t('other:command.emoji.update'), value: 'update' },
+              { name: t('other:command.emoji.delete'), value: 'delete' },
             ),
         )
         .addStringOption((option) =>
-          option
-            .setName('url')
-            .setDescription('URL of the emoji image (required for Create/Update action)')
-            .setRequired(false),
+          option.setName('url').setDescription(t('other:command.emoji.url')).setRequired(false),
         ),
     ),
   hasSubCommands: true,

@@ -1,5 +1,6 @@
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { type ChatInputCommandInteraction } from 'discord.js';
 
@@ -17,7 +18,7 @@ export default new SubCommand({
       // Check if member is valid
       if (!interaction.member) {
         await interaction.reply({
-          embeds: [interactionErrorEmbed('❌Could not find member info.')],
+          embeds: [interactionErrorEmbed(t('other:body.dev.emoji.is_member'))],
         });
         return;
       }
@@ -25,7 +26,7 @@ export default new SubCommand({
       // Check if guild is valid
       if (!interaction.guild) {
         await interaction.reply({
-          embeds: [interactionErrorEmbed('❌Could not find server info.')],
+          embeds: [interactionErrorEmbed(t('other:body.dev.emoji.is_guild'))],
         });
         return;
       }
@@ -36,7 +37,10 @@ export default new SubCommand({
       if (action === 'create') {
         if (existingEmoji) {
           await interaction.reply(
-            `❌Emoji \`${emojiName}\` already exists. Here it is: ${existingEmoji.toString()}`,
+            t('other:body.dev.emoji.exists', {
+              emojiName,
+              existingEmoji: existingEmoji.toString(),
+            }),
           );
         } else {
           const newEmoji = await interaction.guild.emojis.create({
@@ -44,7 +48,7 @@ export default new SubCommand({
             name: emojiName,
           });
           await interaction.reply(
-            `Successfully added emoji \`${emojiName}\`: ${newEmoji.toString()}`,
+            t('other:body.dev.emoji.added', { emojiName, newEmoji: newEmoji.toString() }),
           );
         }
       } else if (action === 'update') {
@@ -55,30 +59,26 @@ export default new SubCommand({
             name: emojiName,
           });
           await interaction.reply(
-            `Successfully updated emoji \`${emojiName}\` to ${newEmoji.toString()}`,
+            t('other:body.dev.emoji.updated', { emojiName, newEmoji: newEmoji.toString() }),
           );
         } else {
-          await interaction.reply(`❌Emoji \`${emojiName}\` does not exist.`);
+          await interaction.reply(t('other:body.dev.emoji.not_exists', { emojiName: emojiName }));
         }
       } else if (action === 'delete') {
         if (existingEmoji) {
           await existingEmoji.delete();
-          await interaction.reply(`Successfully deleted emoji: \`${emojiName}\``);
+          await interaction.reply(t('other:body.dev.emoji.delete', { emojiName: emojiName }));
         } else {
-          await interaction.reply(`❌Emoji \`${emojiName}\` does not exist.`);
+          await interaction.reply(t('other:body.dev.emoji.not_exists', { emojiName: emojiName }));
         }
       } else {
-        await interaction.reply(
-          `❌Invalid action: ${action}. Please use 'Create', 'Update' or 'Delete'.`,
-        );
+        await interaction.reply(t('other:body.dev.emoji.invalid_action', { action: action }));
       }
     } catch (error) {
-      logger.error('Error occurred while managing emoji:', error);
+      logger.error(t('other:body.dev.emoji.error'), error);
       await interaction.reply({
         embeds: [
-          interactionErrorEmbed(
-            '❌An error occurred while managing the emoji. Check the logs for more details.',
-          ),
+          interactionErrorEmbed(t('other:body.dev.emoji.error') + t('other:body.dev.emoji.check')),
         ],
       });
     }

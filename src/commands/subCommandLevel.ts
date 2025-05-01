@@ -1,5 +1,6 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
+import { t } from '@/utils/i18n.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
 const { ENABLE_SUBCOMMAND_LEVEL } = process.env;
@@ -11,7 +12,7 @@ const levelCommand = new ApplicationCommand({
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('leaderboard')
-        .setDescription('XPランキングを表示します。'),
+        .setDescription(t('other:command.level.leaderboard.description')),
     ),
   hasSubCommands: true,
 });

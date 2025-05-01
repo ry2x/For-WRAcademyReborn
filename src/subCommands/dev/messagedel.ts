@@ -1,4 +1,5 @@
 import SubCommand from '@/templates/SubCommand.js';
+import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
@@ -20,7 +21,7 @@ export default new SubCommand({
 
         delCnt++;
       } catch (err) {
-        logger.warn('個別のメッセージ削除に失敗しました', err);
+        logger.warn(t('other:message_del.failed'), err);
         continue;
       }
     }
@@ -29,7 +30,7 @@ export default new SubCommand({
       embeds: [
         new EmbedBuilder()
           .setColor(Colors.Aqua)
-          .setDescription(`${delCnt}件のメッセージを削除しました。`),
+          .setDescription(t('other:message_del.complete', { count: delCnt })),
       ],
     });
   },
