@@ -1,0 +1,117 @@
+{
+  "command": {
+    "description": "",
+    "info": {
+      "description": "",
+      "champion_name": ""
+    },
+    "lanechamps": {
+      "description": "",
+      "lane": ""
+    },
+    "random": {
+      "description": "",
+      "lane": "",
+      "count": "",
+      "wr_only": ""
+    },
+    "team": {
+      "description": "",
+      "wr_only": ""
+    },
+    "stats": {
+      "description": "",
+      "winrate": {
+        "description": "",
+        "champion_name": "",
+        "rank": "",
+        "lane": ""
+      },
+      "lanewinrate": {
+        "description": "",
+        "rank": "",
+        "lane": ""
+      },
+      "pickrate": {
+        "description": "",
+        "rank": "",
+        "lane": "",
+        "banrate": ""
+      },
+      "strength": {
+        "description": "",
+        "rank": "",
+        "lane": ""
+      }
+    }
+  },
+  "body": {
+    "info": {
+      "not_specified": "",
+      "not_found": "",
+      "free": "",
+      "type": "",
+      "lane": "",
+      "role": "",
+      "difficulty": "",
+      "damage": "",
+      "survivability": "",
+      "utility": "",
+      "description": ""
+    },
+    "lane": {
+      "title": "",
+      "not_found": "",
+      "button": {
+        "not_found": "",
+        "invalid_user": "",
+        "time_out": ""
+      }
+    },
+    "random": {
+      "title": "",
+      "champion_count": "",
+      "allLane": "",
+      "selected_count": "",
+      "not_found": ""
+    },
+    "team": {
+      "not_enough_champ": "",
+      "title": "",
+      "not_selected": "",
+      "error": ""
+    },
+    "stats": {
+      "lanewinrate": {
+        "no_data": "",
+        "description": "",
+        "field": "",
+        "title": "",
+        "invalid_rank": ""
+      },
+      "pickrate": {
+        "no_data": "",
+        "description": "",
+        "field": "",
+        "title": "",
+        "invalid_rank": ""
+      },
+      "strength": {
+        "point": "",
+        "field": "",
+        "title": "",
+        "description": "",
+        "no_data": "",
+        "invalid_rank": ""
+      },
+      "winrate": {
+        "no_data": "",
+        "description": "",
+        "title": "",
+        "invalid_rank": "",
+        "invalid_champion": "",
+        "not_available": ""
+      }
+    }
+  }
+}
