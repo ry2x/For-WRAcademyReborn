@@ -1,6 +1,10 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
-import { PermissionFlagsBits, SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
+import {
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+  SlashCommandSubcommandBuilder,
+} from 'discord.js';
 const { ENABLE_SUBCOMMAND_DEV } = process.env;
 
 const devCommand = new ApplicationCommand({
@@ -36,10 +40,7 @@ const devCommand = new ApplicationCommand({
         .setName('emoji')
         .setDescription('Manage an emoji in the server')
         .addStringOption((option) =>
-          option
-            .setName('name')
-            .setDescription('Name of the emoji')
-            .setRequired(true),
+          option.setName('name').setDescription('Name of the emoji').setRequired(true),
         )
         .addStringOption((option) =>
           option
@@ -50,7 +51,7 @@ const devCommand = new ApplicationCommand({
               { name: 'Create', value: 'create' },
               { name: 'Update', value: 'update' },
               { name: 'Delete', value: 'delete' },
-            )
+            ),
         )
         .addStringOption((option) =>
           option
