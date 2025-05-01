@@ -7,6 +7,7 @@ import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
+import { t } from '@/utils/i18n.js';
 import { getRankRange } from '@/utils/rankUtils.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
@@ -56,13 +57,16 @@ function createLaneWinRateEmbed(
     .map((lane) => {
       const fieldValue = createWinRateField(lane, rank).toString();
       return {
-        name: `${lane.name}での勝率${lane.emoji}`,
-        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+        name: t('champion:body.stats.lanewinrate.field', {
+          lane: lane.name,
+          emoji: lane.emoji,
+        }),
+        value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.lanewinrate.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`各レーンでの勝率トップ:${rank.emoji}${rank.name}`)
-    .setDescription('⚔️:勝率 ⚒️:ピック率')
+    .setTitle(`${t('champion:body.stats.lanewinrate.title')}${rank.emoji}${rank.name}`)
+    .setDescription(t('champion:body.stats.lanewinrate.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);
 }

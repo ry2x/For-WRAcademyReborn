@@ -3,6 +3,7 @@ import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
+import { t } from '@/utils/i18n.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 type Team = {
@@ -17,7 +18,11 @@ const handleInsufficientChampions = (
     .deleteReply()
     .then(() =>
       interaction.followUp({
-        embeds: [interactionErrorEmbed(`❌${lane.toUpperCase()} にチャンピオンが不足しています。`)],
+        embeds: [
+          interactionErrorEmbed(
+            `❌ ${t('champion:body.team.not_enough_champ', { lane: `${lane.toUpperCase()}` })}`,
+          ),
+        ],
         flags: MessageFlags.Ephemeral,
       }),
     )
@@ -48,7 +53,7 @@ const generateTeam = (wrOnly: boolean, selectedChamps: Set<string>): Promise<Tea
 const createTeamEmbed = (team: Team, wrOnly: boolean, firstChampionId: string): EmbedBuilder => {
   return new EmbedBuilder()
     .setTitle(
-      `🎲 ランダムチーム：各2体 ${wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'}`,
+      `${t('champion:body.team.title')} ${wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'}`,
     )
     .addFields(
       Object.entries(team).map(([lane, champs]) => ({
@@ -73,7 +78,7 @@ export default new SubCommand({
       const team = await generateTeam(wrOnly, selectedChamps);
       const firstChampionId = selectedChamps.values().next().value;
       if (!firstChampionId) {
-        throw new Error('No champions were selected');
+        throw new Error(t('champion:body.team.not_selected'));
       }
       const embed = createTeamEmbed(team, wrOnly, firstChampionId);
       await interaction.editReply({ embeds: [embed] });
@@ -83,7 +88,7 @@ export default new SubCommand({
         await handleInsufficientChampions(interaction, lane);
       } else {
         await interaction.editReply({
-          embeds: [interactionErrorEmbed('❌ チーム生成中にエラーが発生しました。')],
+          embeds: [interactionErrorEmbed(t('champion:body.team.error'))],
         });
       }
     }

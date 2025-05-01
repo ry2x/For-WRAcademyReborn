@@ -7,6 +7,7 @@ import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
+import { t } from '@/utils/i18n.js';
 import { getRankRange } from '@/utils/rankUtils.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
@@ -40,13 +41,13 @@ function createLanePickRateEmbed(
     .map((lane) => {
       const fieldValue = createPickRateField(lane, rank, isBanRate).toString();
       return {
-        name: `${lane.name}でのピック率${lane.emoji}`,
-        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+        name: t('champion:body.stats.pickrate.field', { lane: lane.name, emoji: lane.emoji }),
+        value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`各レーンでのピック率トップ:${rank.emoji}${rank.name}`)
-    .setDescription('⚒️:ピック率 ❌:バン率')
+    .setTitle(`${t('champion:body.stats.pickrate.title')}${rank.emoji}${rank.name}`)
+    .setDescription(t('champion:body.stats.pickrate.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);
 }

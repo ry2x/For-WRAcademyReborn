@@ -1,4 +1,3 @@
-import config from '@/constants/config.js';
 import { WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
@@ -6,6 +5,7 @@ import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
+import { t } from '@/utils/i18n.js';
 import { getRankRange } from '@/utils/rankUtils.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
@@ -52,9 +52,11 @@ function createChampionWinRateEmbed(
 ): EmbedBuilder {
   return new EmbedBuilder()
     .setColor(Colors.Aqua)
-    .setTitle(`${champion.name}の勝率:${rank.name}${rank.emoji}`)
+    .setTitle(
+      t('champion:body.stats.winrate.title', { name: champion.name, rank: rank.emoji + rank.name }),
+    )
     .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`)
-    .setDescription('⚔️:勝率 ⚒️:ピック率 ❌:バン率')
+    .setDescription(t('champion:body.stats.winrate.description'))
     .addFields(
       targetLanes
         .filter((lane) => lane.value !== 'all')
@@ -81,7 +83,7 @@ export default new SubCommand({
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(config.championError.invalidRank)],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.invalidRank'))],
       });
       return;
     }
@@ -90,7 +92,7 @@ export default new SubCommand({
     if (!champ) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(config.championError.invalidChampion)],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.invalid_champion'))],
       });
       return;
     }
@@ -98,7 +100,7 @@ export default new SubCommand({
     if (!champ.is_wr) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(config.championError.notAvailable)],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.not_available'))],
       });
       return;
     }
