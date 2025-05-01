@@ -1,0 +1,110 @@
+{
+  "command": {
+    "description": "チャンピオンに関するコマンド",
+    "info": {
+      "description": "指定したチャンピオンの情報を表示します",
+      "champion_name": "チャンピオンの名前"
+    },
+    "lanechamps": {
+      "description": "指定したレーンのチャンピオン一覧を表示します",
+      "lane": "レーンを指定"
+    },
+    "random": {
+      "description": "指定したレーンまたは全レーンからチャンピオンをランダムに表示します。(1体~10体:デフォルト1体)",
+      "lane": "レーンを指定",
+      "count": "ランダムに選ぶチャンピオンの数（1〜10）",
+      "wr_only": "Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)"
+    },
+    "team": {
+      "description": "各レーン（Top, JG, Mid, ADC, Sup）から2体ずつ、計10体をランダムに選択（重複なし）",
+      "wr_only": "Wild Riftに実装されているチャンピオン限定にする (デフォルト: true)"
+    },
+    "stats": {
+      "description": "チャンピオンのスタッツ",
+      "winrate": {
+        "description": "チャンピオンのWILDRIFTでの勝率を確認する",
+        "champion_name": "チャンピオンの名前",
+        "rank": "対象にするランク（デフォルト：マスター＋）",
+        "lane": "レーンを指定（デフォルト：チャンピョン規定レーン）"
+      },
+      "lanewinrate": {
+        "description": "レーンの勝率トップ5を表示します",
+        "rank": "対象にするランク（デフォルト：マスター＋）",
+        "lane": "レーンを指定（デフォルト：全て）"
+      },
+      "pickrate": {
+        "description": "レーンのピック率トップ5を表示します",
+        "rank": "対象にするランク（デフォルト：マスター＋）",
+        "lane": "レーンを指定（デフォルト：全て）",
+        "banrate": "バン率を考慮します（デフォルト：FALSE）"
+      },
+      "strength": {
+        "description": "システム的に評価されているチャンピオンを表示します。",
+        "rank": "対象にするランク（デフォルト：マスター＋）",
+        "lane": "レーンを指定（デフォルト：全て）"
+      }
+    }
+  },
+  "body": {
+    "info": {
+      "not_specified": "❌ チャンピオンの名前が指定されていません。.",
+      "not_found": "❌ 該当するチャンピオンが見つかりません。 : {{name}}",
+      "free": "フリーチャンピオン",
+      "type": "マナタイプ",
+      "lane": "レーン",
+      "role": "ロール",
+      "difficulty": "難易度",
+      "damage": "ダメージ",
+      "survivability": "生存能力",
+      "utility": "補助性能",
+      "description": "説明"
+    },
+    "lane": {
+      "title": "{{lane}} のチャンピオン一覧",
+      "not_found": "❌ 該当するチャンピオンが見つかりません。"
+    },
+    "random": {
+      "title": "🎲 ランダムチャンピオン",
+      "champion_count": "体",
+      "allLane": "全レーン",
+      "selected_count": "選択数",
+      "not_found": "❌ 該当するチャンピオンが見つかりません。"
+    },
+    "team": {
+      "not_enough_champ": "{{lane}}にチャンピオンが不足しています。",
+      "title": "🎲 ランダムチーム：各2体",
+      "not_selected": "❌ チャンピオンが選択されていません。",
+      "error": "❌ チーム生成中にエラーが発生しました。"
+    },
+    "stats": {
+      "lanewinrate": {
+        "no_data": "❌ データがありません。",
+        "description": "⚔️:勝率 ⚒️:ピック率",
+        "field": "{{lane}}での勝率{{emoji}}",
+        "title": "各レーンでの勝率トップ:"
+      },
+      "pickrate": {
+        "no_data": "❌ データがありません。",
+        "description": "⚒️:ピック率 ❌:バン率",
+        "field": "{{lane}}でのピック率{{emoji}}",
+        "title": "各レーンでのピック率トップ:"
+      },
+      "strength": {
+        "point": "ポイント",
+        "field": "{{lane}}でのシステムの評価{{emoji}}",
+        "title": "各レーンでのシステム評価トップ:",
+        "description": "システム的に計算されたチャンピオンの評価 by RIOT",
+        "no_data": "❌ データがありません。",
+        "invalid_rank": "❌ ランクが正しく指定されていません。"
+      },
+      "winrate": {
+        "no_data": "❌ データがありません。",
+        "description": "⚔️:勝率 ⚒️:ピック率 ❌:バン率",
+        "title": "{{name}}の勝率: {{rank}}",
+        "invalid_rank": "❌ ランクが正しく指定されていません。",
+        "invalid_champion": "❌ チャンピオンの名前が指定されていません。",
+        "not_available": "❌ チャンピオンはワイルドリフトで使用可能ではありません。"
+      }
+    }
+  }
+}
