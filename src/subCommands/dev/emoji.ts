@@ -31,20 +31,32 @@ export default new SubCommand({
       }
 
       const emojis = await interaction.guild.emojis.fetch();
-      const existingEmoji = emojis.find(emoji => emoji.name === emojiName);
+      const existingEmoji = emojis.find((emoji) => emoji.name === emojiName);
 
       if (action === 'create') {
         if (existingEmoji) {
-          await interaction.reply(`❌Emoji \`${emojiName}\` already exists. Here it is: ${existingEmoji}`);
+          await interaction.reply(
+            `❌Emoji \`${emojiName}\` already exists. Here it is: ${existingEmoji.toString()}`,
+          );
         } else {
-          const newEmoji = await interaction.guild.emojis.create({ attachment: emojiUrl, name: emojiName });
-          await interaction.reply(`Successfully added emoji \`${emojiName}\`: ${newEmoji}`);
+          const newEmoji = await interaction.guild.emojis.create({
+            attachment: emojiUrl,
+            name: emojiName,
+          });
+          await interaction.reply(
+            `Successfully added emoji \`${emojiName}\`: ${newEmoji.toString()}`,
+          );
         }
       } else if (action === 'update') {
         if (existingEmoji) {
           await existingEmoji.delete();
-          const newEmoji = await interaction.guild.emojis.create({ attachment: emojiUrl, name: emojiName });
-          await interaction.reply(`Successfully updated emoji \`${emojiName}\` to ${newEmoji}`);
+          const newEmoji = await interaction.guild.emojis.create({
+            attachment: emojiUrl,
+            name: emojiName,
+          });
+          await interaction.reply(
+            `Successfully updated emoji \`${emojiName}\` to ${newEmoji.toString()}`,
+          );
         } else {
           await interaction.reply(`❌Emoji \`${emojiName}\` does not exist.`);
         }
@@ -56,14 +68,17 @@ export default new SubCommand({
           await interaction.reply(`❌Emoji \`${emojiName}\` does not exist.`);
         }
       } else {
-        await interaction.reply(`❌Invalid action: ${action}. Please use 'Create', 'Update' or 'Delete'.`);
+        await interaction.reply(
+          `❌Invalid action: ${action}. Please use 'Create', 'Update' or 'Delete'.`,
+        );
       }
-      
     } catch (error) {
       logger.error('Error occurred while managing emoji:', error);
       await interaction.reply({
         embeds: [
-          interactionErrorEmbed('❌An error occurred while managing the emoji. Check the logs for more details.'),
+          interactionErrorEmbed(
+            '❌An error occurred while managing the emoji. Check the logs for more details.',
+          ),
         ],
       });
     }
