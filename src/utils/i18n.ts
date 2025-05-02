@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export async function initI18n(): Promise<i18n> {
   await i18next.use(Backend).init({
     fallbackLng: process.env.DEFAULT_LOCALE ?? 'en_US',
-    ns: ['common', 'champion', 'other', 'constant'],
+    ns: ['common', 'champion', 'other', 'constants'],
     defaultNS: 'common',
     interpolation: {
       escapeValue: false,
