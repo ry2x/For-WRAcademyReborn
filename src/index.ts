@@ -1,5 +1,6 @@
 import config from '@/constants/config.js';
 import { fetchChampionData } from '@/data/championData.js';
+import { fetchEmoji } from '@/data/emoji.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
 import { fetchWinRateData } from '@/data/winRate.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
@@ -327,6 +328,8 @@ async function initialize(): Promise<void> {
     await client.login(TOKEN);
 
     logger.info('[END STARTING]');
+
+    await fetchEmoji();
   } catch (error) {
     handleError('Failed to starting', error);
     process.exit(1);
