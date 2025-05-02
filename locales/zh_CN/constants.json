@@ -1,0 +1,25 @@
+{
+  "lane": {
+    "all": "",
+    "top": "",
+    "jungle": "",
+    "mid": "",
+    "ad": "",
+    "support": ""
+  },
+  "rank": {
+    "all": "",
+    "diamondPlus": "",
+    "masterPlus": "",
+    "challengerPlus": "",
+    "superServer": ""
+  },
+  "role": {
+    "fighter": "",
+    "mage": "",
+    "assassin": "",
+    "marksman": "",
+    "support": "",
+    "tank": ""
+  }
+}
