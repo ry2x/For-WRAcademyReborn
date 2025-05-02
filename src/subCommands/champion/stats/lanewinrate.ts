@@ -1,9 +1,9 @@
-import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/game.js';
+import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
@@ -33,10 +33,7 @@ function formatChampionStats(stat: HeroStats, index: number): string {
  * @param rank - The rank configuration
  * @returns Formatted field value with top 5 champions
  */
-function createWinRateField(
-  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
-  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
-): string {
+function createWinRateField(lane: { apiParam: Lane }, rank: { apiParam: RankRange }): string {
   const stats = getTopChampionsByWinRate(lane.apiParam, rank.apiParam, 5);
   return stats.map((stat, index) => formatChampionStats(stat, index)).join('\n');
 }
@@ -48,8 +45,12 @@ function createWinRateField(
  * @returns Embed with lane win rate statistics
  */
 function createLaneWinRateEmbed(
-  targetLanes: (typeof LANES)[keyof typeof LANES][],
-  rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
+  targetLanes: (PositionSet<LaneKey> & {
+    apiParam: Lane;
+  })[],
+  rank: PositionSet<RankRangeKey> & {
+    apiParam: RankRange;
+  },
 ): EmbedBuilder {
   const fields = targetLanes
     .filter((lane) => lane.value !== 'all')
@@ -57,14 +58,16 @@ function createLaneWinRateEmbed(
       const fieldValue = createWinRateField(lane, rank).toString();
       return {
         name: t('champion:body.stats.lanewinrate.field', {
-          lane: lane.name,
+          lane: t(`constants:${lane.name}`),
           emoji: lane.emoji,
         }),
         value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.lanewinrate.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`${t('champion:body.stats.lanewinrate.title')}${rank.emoji}${rank.name}`)
+    .setTitle(
+      `${t('champion:body.stats.lanewinrate.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+    )
     .setDescription(t('champion:body.stats.lanewinrate.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);

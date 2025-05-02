@@ -46,12 +46,17 @@ function createLaneStrengthEmbed(
     .map((lane) => {
       const fieldValue = createStrengthField(lane, rank).toString();
       return {
-        name: t('champion:body.stats.strength.field', { lane: lane.name, emoji: lane.emoji }),
+        name: t('champion:body.stats.strength.field', {
+          lane: t(`constants:${lane.name}`),
+          emoji: lane.emoji,
+        }),
         value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.strength.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`${t('champion:body.stats.strength.title')}${rank.emoji}${rank.name}`)
+    .setTitle(
+      `${t('champion:body.stats.strength.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+    )
     .setDescription(t('champion:body.stats.strength.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);

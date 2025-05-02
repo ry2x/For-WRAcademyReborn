@@ -82,15 +82,6 @@ export function getChampionsByLane(lane: LaneKey): Champion[] {
 }
 
 /**
- * Gets the emoji for a specific lane
- * @param lane - The lane to get the emoji for
- * @returns The emoji string for the lane
- */
-export function getLaneEmoji(lane: LaneKey): string {
-  return LANES[lane]?.emoji ?? '';
-}
-
-/**
  * Gets all lanes that a champion can be played in
  * @param champ - The champion to get lanes for
  * @returns Array of lane configurations that the champion can be played in
@@ -99,18 +90,4 @@ export function getChampionLanes(champ: Champion): (PositionSet<LaneKey> & { api
   return champ.lanes.map((lane) => ({
     ...LANES[lane],
   }));
-}
-
-/**
- * Gets an array of PositionSet corresponding to the LaneKey
- * @param laneKey - The key of the lane to get
- * @returns Array of PositionSet
- */
-export function getLanePositionSets(
-  laneKey: LaneKey,
-): (PositionSet<LaneKey> & { apiParam: Lane })[] {
-  if (laneKey === 'all') {
-    return Object.values(LANES);
-  }
-  return [LANES[laneKey]];
 }

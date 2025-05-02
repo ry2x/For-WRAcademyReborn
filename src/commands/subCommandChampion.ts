@@ -37,7 +37,7 @@ const championCommand = new ApplicationCommand({
             .setRequired(true)
             .addChoices(
               Object.entries(LANES).map(([, v]) => ({
-                name: v.name,
+                name: t(`constants:${v.name}`),
                 value: v.value,
               })),
             ),
@@ -54,7 +54,7 @@ const championCommand = new ApplicationCommand({
             .setRequired(true)
             .addChoices(
               Object.entries(LANES).map(([, v]) => ({
-                name: v.name,
+                name: t(`constants:${v.name}`),
                 value: v.value,
               })),
             ),
@@ -107,7 +107,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(RANK_RANGES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -119,7 +119,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(LANES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -136,7 +136,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(RANK_RANGES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -148,7 +148,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(LANES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -165,7 +165,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(RANK_RANGES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -177,7 +177,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(LANES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -200,7 +200,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(RANK_RANGES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),
@@ -212,7 +212,7 @@ const championCommand = new ApplicationCommand({
                 .setRequired(false)
                 .addChoices(
                   Object.entries(LANES).map(([, v]) => ({
-                    name: v.name,
+                    name: t(`constants:${v.name}`),
                     value: v.value,
                   })),
                 ),

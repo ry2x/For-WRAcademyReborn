@@ -1,9 +1,9 @@
-import { WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
+import { WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/game.js';
+import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
@@ -31,8 +31,8 @@ function formatChampionStats(stats: ReturnType<typeof getChampionStats>): string
  */
 function createChampionStatsField(
   championId: number,
-  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
-  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
+  lane: { apiParam: Lane },
+  rank: { apiParam: RankRange },
 ): string {
   const stats = getChampionStats(championId, lane.apiParam, rank.apiParam);
   return formatChampionStats(stats);
@@ -47,13 +47,20 @@ function createChampionStatsField(
  */
 function createChampionWinRateEmbed(
   champion: NonNullable<ReturnType<typeof getChampionByName>>,
-  targetLanes: (typeof LANES)[keyof typeof LANES][],
-  rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
+  targetLanes: (PositionSet<LaneKey> & {
+    apiParam: Lane;
+  })[],
+  rank: PositionSet<RankRangeKey> & {
+    apiParam: RankRange;
+  },
 ): EmbedBuilder {
   return new EmbedBuilder()
     .setColor(Colors.Aqua)
     .setTitle(
-      t('champion:body.stats.winrate.title', { name: champion.name, rank: rank.emoji + rank.name }),
+      t('champion:body.stats.winrate.title', {
+        name: champion.name,
+        rank: rank.emoji + t(`constants:${rank.name}`),
+      }),
     )
     .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`)
     .setDescription(t('champion:body.stats.winrate.description'))
@@ -61,7 +68,7 @@ function createChampionWinRateEmbed(
       targetLanes
         .filter((lane) => lane.value !== 'all')
         .map((lane) => ({
-          name: `${lane.name} ${lane.emoji}`,
+          name: `${t(`constants:${lane.name}`)} ${lane.emoji}`,
           value: createChampionStatsField(
             champion.hero_id,
             { apiParam: lane.apiParam },

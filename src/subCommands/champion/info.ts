@@ -24,7 +24,7 @@ const CHAMPION_LEVEL_DISPLAY = {
 export function getLanes(champion: Champion): string {
   return Object.entries(LANES)
     .filter(([, lane]) => champion.lanes.includes(lane.value))
-    .map(([, lane]) => `${lane.emoji}: ${lane.name}`)
+    .map(([, lane]) => `${lane.emoji}: ${t(`constants:${lane.name}`)}`)
     .join(', ');
 }
 
@@ -36,7 +36,7 @@ export function getLanes(champion: Champion): string {
 export function getTags(champion: Champion): string {
   return Object.entries(ROLES)
     .filter(([, tag]) => champion.roles.includes(tag.value))
-    .map(([, tag]) => `${tag.name}: ${tag.emoji}`)
+    .map(([, tag]) => `${t(`constants:${tag.name}`)}: ${tag.emoji}`)
     .join(', ');
 }
 

@@ -1,9 +1,9 @@
-import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import { LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/game.js';
+import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
@@ -31,21 +31,30 @@ function createPickRateField(
 }
 
 function createLanePickRateEmbed(
-  targetLanes: (typeof LANES)[keyof typeof LANES][],
-  rank: (typeof RANK_RANGES)[keyof typeof RANK_RANGES],
+  targetLanes: (PositionSet<LaneKey> & {
+    apiParam: Lane;
+  })[],
+  rank: PositionSet<RankRangeKey> & {
+    apiParam: RankRange;
+  },
   isBanRate: boolean,
 ): EmbedBuilder {
   const fields = targetLanes
-    .filter((lane) => lane.value !== 'all')
+    .filter((lane) => lane.value !== LANES.all.value)
     .map((lane) => {
       const fieldValue = createPickRateField(lane, rank, isBanRate).toString();
       return {
-        name: t('champion:body.stats.pickrate.field', { lane: lane.name, emoji: lane.emoji }),
+        name: t('champion:body.stats.pickrate.field', {
+          lane: t(`constants:${lane.name}`),
+          emoji: lane.emoji,
+        }),
         value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`${t('champion:body.stats.pickrate.title')}${rank.emoji}${rank.name}`)
+    .setTitle(
+      `${t('champion:body.stats.pickrate.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+    )
     .setDescription(t('champion:body.stats.pickrate.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);
