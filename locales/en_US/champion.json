@@ -61,7 +61,12 @@
     },
     "lane": {
       "title": "Champions in {{lane}}",
-      "not_found": "❌ No champions found."
+      "not_found": "❌ No champions found.",
+      "button": {
+        "not_found": "❌ No matching champions found.",
+        "invalid_user": "❌ Only the command user can use these buttons.\nTo execute it yourself, please use **`/lanechamp`**.",
+        "time_out": "❌ Command timed out. Please try again."
+      }
     },
     "random": {
       "title": "🎲 Random Champion",
@@ -71,7 +76,6 @@
       "not_found": "❌ No champions found."
     },
     "team": {
-      "not_enough_champ": "Not enough champions in {{lane}}.",
       "title": "🎲 Random Team: 2 each",
       "not_selected": "❌ No champions selected.",
       "error": "❌ An error occurred while generating team."
