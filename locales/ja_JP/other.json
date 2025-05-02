@@ -1,0 +1,95 @@
+{
+  "command": {
+    "ping": {
+      "description": "現在のサーバー間(Discord⇔BOT)の遅延を表示します。"
+    },
+    "slot": {
+      "win": "**🎉 大当たり！3つ揃いました！ 🎉**",
+      "almost_win": "**😲 惜しい！2つ揃いました！**",
+      "miss": "**💀 残念！また挑戦してね！**",
+      "first_time": "1回目の挑戦",
+      "description": "スロットゲームをします",
+      "reroll": "🎰 Reroll!",
+      "button": {
+        "reroll": "🎰 Reroll!",
+        "count": "{{count}}回目の挑戦",
+        "time_out": "❌ タイムアウトしました。もう一度実行してください。\n再度実行するには**\\`/slot\\`**を実行して下さい。",
+        "invalid_user": "❌ 利用者以外はボタンは使用できません\n自分で実行するには**\\`/slot\\`**を実行して下さい。"
+      }
+    },
+    "dev": {
+      "description": "開発者向けのコマンドです。",
+      "ping": {
+        "description": "サーバーの応答を確認します。（開発者用）"
+      },
+      "message_del": {
+        "description": "使用したチャンネルで指定数のメッセージを削除します。",
+        "count": "削除するメッセージの数（最大100件）"
+      },
+      "fetch": {
+        "description": "各種APIのデータを更新します。"
+      },
+      "emoji": {
+        "description": "サーバーの絵文字を管理します。",
+        "action": "絵文字に対して実行するアクション（デフォルト：作成）",
+        "url": "追加絵文字のURL（作成・更新の際には必要です）",
+        "name": "絵文字の名前",
+        "create": "作成",
+        "delete": "削除",
+        "update": "更新"
+      }
+    },
+    "level": {
+      "leaderboard": {
+        "description": "XPランキングを表示します。"
+      }
+    },
+    "news": {
+      "description": "ニュース関連のコマンド",
+      "wildrift": {
+        "description": "ワイルドリフト公式ページから最新のニュースを最大10件を表示します。",
+        "count": "表示するニュースの数を指定します。"
+      }
+    },
+    "team": {
+      "description": "チームコマンド",
+      "random": {
+        "description": "TESTING:指定したVCでランダムでチーム分けを行います。(このコマンドはテスト中です。)",
+        "team_count": "分けるチーム数（デフォルト：２）",
+        "vc_channel": "チーム分けするVCチャンネル（デフォルト：参加中のVC）",
+        "is_bot": "ボットを含めるか（デフォルト：FALSE）",
+        "exclude": "除外するメンバーを選択"
+      }
+    }
+  },
+  "body": {
+    "dev": {
+      "fetch": {
+        "not_available": "❌ あなたはこのコマンドを利用できません。",
+        "start": "データの更新を開始します...",
+        "champion": "チャンピオンデータを更新中...",
+        "wildrift": "ワイルドリフトデータを更新中...",
+        "complete": "✅ すべてのデータの更新が完了しました！",
+        "error": "❌ データの更新中にエラーが発生しました。",
+        "check": "詳細はログを確認してください。"
+      },
+      "message_del": {
+        "failed": "❌ メッセージの削除に失敗しました。",
+        "complete": "✅ {{count}}件のメッセージを削除しました。"
+      },
+      "ping": { "repost": "📟リポスト" },
+      "emoji": {
+        "is_member": "❌ メンバー情報が見つかりませんでした。",
+        "is_guild": "❌ サーバー情報が見つかりませんでした。",
+        "exists": "❌ 絵文字 `{{emojiName}}` は既に存在します。こちらです：{{existingEmoji}}",
+        "added": "✅ 絵文字 `{{emojiName}}` を追加しました：{{newEmoji}}",
+        "updated": "✅ 絵文字 `{{emojiName}}` を更新しました：{{updatedEmoji}}",
+        "delete": "✅ 絵文字 `{{emojiName}}` を削除しました",
+        "not_exists": "❌ 絵文字 `{{emojiName}}` は存在しません。",
+        "invalid_action": "❌ 無効なアクション：{{action}}です。`create`、`update`、または `delete` から選んでください。",
+        "error": "❌ 絵文字の管理中にエラーが発生しました：",
+        "check": "詳細はログを確認してください。"
+      }
+    }
+  }
+}

@@ -1,4 +1,6 @@
+import { pingEmbed } from '@/embeds/pingEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
+import { t } from '@/utils/i18n.js';
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -6,7 +8,6 @@ import {
   MessageFlags,
   type ChatInputCommandInteraction,
 } from 'discord.js';
-import { pingEmbed } from '@/embeds/pingEmbed.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -15,7 +16,7 @@ export default new SubCommand({
     const button = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setCustomId(`devping-${ping}`)
-        .setLabel('📟リポスト')
+        .setLabel(t('other:body.dev.ping.repost'))
         .setStyle(ButtonStyle.Danger),
     );
 

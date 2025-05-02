@@ -1,91 +1,108 @@
 import { LANES } from '@/constants/game.js';
-import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/game.js';
-import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import type { Champion } from '@/types/champs.js';
+import { type LaneKey } from '@/types/game.js';
+import { getLanePositionSets } from '@/utils/constantsUtils.js';
+import { t } from '@/utils/i18n.js';
+import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
-type Team = {
-  [key in LaneKey]: string[];
-};
+const CHAMP_COUNT = 2;
+const THUMBNAIL_URL = 'https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion';
 
-const handleInsufficientChampions = (
-  interaction: ChatInputCommandInteraction,
-  lane: string,
-): Promise<void> => {
-  return interaction
-    .deleteReply()
-    .then(() =>
-      interaction.followUp({
-        embeds: [interactionErrorEmbed(`❌${lane.toUpperCase()} にチャンピオンが不足しています。`)],
-        flags: MessageFlags.Ephemeral,
-      }),
-    )
-    .then(() => undefined);
-};
+type Team = Record<LaneKey, Champion[]>;
 
-const generateTeam = (wrOnly: boolean, selectedChamps: Set<string>): Promise<Team> => {
-  return Promise.all(
-    Object.entries(LANES).map(([, lane]) => {
-      let champions = getChampionsByLane(lane.value);
-      if (wrOnly) {
-        champions = champions.filter((c) => c.is_wr);
+function getUniqueChampionsByLane(
+  lane: LaneKey,
+  wrOnly: boolean,
+  selectedChamps: Set<string>,
+): Champion[] | null {
+  let champions = getChampionsByLane(lane);
+  champions = wrOnly ? champions.filter((champ) => champ.is_wr) : champions;
+  champions = champions.filter((champ) => !selectedChamps.has(champ.id));
+
+  if (champions.length < CHAMP_COUNT) {
+    return null;
+  }
+
+  return champions
+    .sort(function () {
+      return 0.5 - Math.random();
+    })
+    .slice(0, CHAMP_COUNT);
+}
+
+function createTeam(wrOnly: boolean): Team | null {
+  const selectedChamps = new Set<string>();
+  const team: Team = {
+    all: [],
+    top: [],
+    jungle: [],
+    mid: [],
+    ad: [],
+    support: [],
+  };
+
+  for (const lane of Object.keys(team) as LaneKey[]) {
+    if (lane !== LANES.all.value) {
+      const champions = getUniqueChampionsByLane(lane, wrOnly, selectedChamps);
+      if (!champions) {
+        return null;
       }
+      champions.forEach((champ) => {
+        selectedChamps.add(champ.id);
+        team[lane].push(champ);
+      });
+    }
+  }
 
-      champions = champions.filter((c) => !selectedChamps.has(c.id));
+  return team;
+}
 
-      if (champions.length < 2) {
-        throw new Error(`Insufficient champions for ${lane.value}`);
-      }
+function createTeamFieldValue(champions: Champion[]): string {
+  return champions.map((champ) => `・**${champ.name}**`).join('\n');
+}
 
-      const selected = champions.sort(() => 0.5 - Math.random()).slice(0, 2);
-      selected.forEach((c) => selectedChamps.add(c.id));
-      return [lane.value, selected.map((c) => c.name)] as const;
-    }),
-  ).then(Object.fromEntries);
-};
+function createTeamFieldName(lane: LaneKey): string {
+  const laneSet = getLanePositionSets(lane);
+  return `${laneSet[0].emoji} ${t(`constants:${laneSet[0].name}`)}`;
+}
 
-const createTeamEmbed = (team: Team, wrOnly: boolean, firstChampionId: string): EmbedBuilder => {
-  return new EmbedBuilder()
+function createTeamEmbed(team: Team, wrOnly: boolean): EmbedBuilder {
+  const embed = new EmbedBuilder()
     .setTitle(
-      `🎲 ランダムチーム：各2体 ${wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'}`,
+      `${t('champion:body.team.title')} ${
+        wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'
+      }`,
     )
     .addFields(
-      Object.entries(team).map(([lane, champs]) => ({
-        name: getLaneEmoji(lane as LaneKey) + lane.toUpperCase(),
-        value: champs.map((c) => `・**${c}**`).join('\n'),
-      })),
+      Object.entries(team)
+        .filter(([lane]) => lane !== LANES.all.value)
+        .map(([lane, champs]) => ({
+          name: createTeamFieldName(lane as LaneKey),
+          value: createTeamFieldValue(champs),
+        })),
     )
     .setColor(Colors.Orange)
-    .setThumbnail(
-      `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${firstChampionId}.png`,
-    );
-};
+    .setThumbnail(`${THUMBNAIL_URL}/${team.top[0].id}.png`);
+  return embed;
+}
 
 export default new SubCommand({
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  execute: async function (interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;
-    const selectedChamps = new Set<string>();
 
-    try {
-      const team = await generateTeam(wrOnly, selectedChamps);
-      const firstChampionId = selectedChamps.values().next().value;
-      if (!firstChampionId) {
-        throw new Error('No champions were selected');
-      }
-      const embed = createTeamEmbed(team, wrOnly, firstChampionId);
-      await interaction.editReply({ embeds: [embed] });
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('Insufficient champions')) {
-        const lane = error.message.split('for ')[1];
-        await handleInsufficientChampions(interaction, lane);
-      } else {
-        await interaction.editReply({
-          embeds: [interactionErrorEmbed('❌ チーム生成中にエラーが発生しました。')],
-        });
-      }
+    const team = createTeam(wrOnly);
+    if (!team) {
+      await interaction.editReply({
+        embeds: [interactionErrorEmbed(t('champion:body.team.error'))],
+      });
+      return;
     }
+
+    await interaction.editReply({ embeds: [createTeamEmbed(team, wrOnly)] });
   },
 });

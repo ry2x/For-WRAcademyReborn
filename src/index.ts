@@ -1,7 +1,7 @@
+import config from '@/constants/config.js';
 import { fetchChampionData } from '@/data/championData.js';
 import { fetchWildRiftData } from '@/data/wildriftRss.js';
 import { fetchWinRateData } from '@/data/winRate.js';
-import { isValidFileExtension } from '@/deployGlobalCommands.js';
 import type ApplicationCommand from '@/templates/ApplicationCommand.js';
 import type Event from '@/templates/Event.js';
 import {
@@ -14,6 +14,7 @@ import {
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { CommandModule } from '@/types/type.js';
 import { handleError, notifyAdminWebhook } from '@/utils/errorHandler.js';
+import { initI18n, t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import { readdirSync } from 'fs';
@@ -25,6 +26,19 @@ const UPDATE_TIME = {
   MILLISECONDS: 0,
 } as const;
 
+/**
+ * Checks if a given filename has a supported file extension
+ * @param fileName The name of the file to check
+ * @returns True if the file has a supported extension, false otherwise
+ */
+export function isValidFileExtension(fileName: string): boolean {
+  return config.SUPPORTED_FILE_EXTENSIONS.some((ext) => fileName.endsWith(ext));
+}
+
+/**
+ * Calculates the next update time based on the configured UPDATE_TIME constants
+ * @returns {Date} The next scheduled update time
+ */
 function getNextUpdateTime(): Date {
   const now = new Date();
   const nextUpdate = new Date();
@@ -42,6 +56,10 @@ function getNextUpdateTime(): Date {
   return nextUpdate;
 }
 
+/**
+ * Schedules daily updates for fetching new data
+ * Recursively sets up the next update after completion
+ */
 function scheduleDailyUpdate(): void {
   const now = new Date();
   const nextUpdate = getNextUpdateTime();
@@ -53,29 +71,31 @@ function scheduleDailyUpdate(): void {
         await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
         scheduleDailyUpdate();
       } catch (error) {
-        handleError('Daily update failed', error);
+        handleError(t('initialization.failed.daily'), error);
       }
     })();
   }, timeUntilNextUpdate);
 }
 
-// Initialize and fetch all required data from external sources
+/**
+ * Initializes and fetches all required data from external sources
+ * @throws {Error} When data initialization fails
+ */
 async function initializeData(): Promise<void> {
-  logger.info('[INITIALIZING CONNECTIONS AND DATA]');
   try {
     await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
     scheduleDailyUpdate();
   } catch (error) {
-    handleError('Failed to initialize data', error);
+    handleError(t('initialization.failed.data'), error);
     process.exit(1);
   }
 }
 
-// Initialize Discord client with required intents and collections
+/**
+ * Initializes Discord client with required intents and collections
+ * Sets up the global client object with necessary collections for commands
+ */
 function initializeClient(): void {
-  logger.info('[INITIALIZING CLIENT]');
-  logger.info('Creating Discord Client Object...');
-
   global.client = Object.assign(
     new Client({
       intents: [
@@ -100,7 +120,13 @@ function initializeClient(): void {
   );
 }
 
-// Generic function to load commands from a directory into a collection
+/**
+ * Generic function to load commands from a specified directory into a collection
+ * @param {string} directory - The directory path containing command files
+ * @param {Collection<string, T>} collection - The collection to store commands
+ * @param {Function} filterFn - Optional function to filter valid files
+ * @throws {Error} When command loading fails
+ */
 async function loadCommands<T extends { data: { name: string } }>(
   directory: string,
   collection: Collection<string, T>,
@@ -114,12 +140,18 @@ async function loadCommands<T extends { data: { name: string } }>(
       collection.set(command.data.name, command);
     }
   } catch (error) {
-    handleError(`Failed to load commands from ${directory}`, error);
+    handleError(t('initialization.failed.commands', { directory: directory }), error);
     throw error;
   }
 }
 
-// Load message-based commands from a directory
+/**
+ * Loads message-based commands from a specified directory
+ * @param {string} directory - The directory path containing message command files
+ * @param {Collection<string, MessageCommand>} collection - The collection to store commands
+ * @param {Function} filterFn - Optional function to filter valid files
+ * @throws {Error} When message command loading fails
+ */
 async function loadMessageCommands(
   directory: string,
   collection: Collection<string, MessageCommand>,
@@ -133,33 +165,16 @@ async function loadMessageCommands(
       collection.set(command.name, command);
     }
   } catch (error) {
-    handleError(`Failed to load message commands from ${directory}`, error);
+    handleError(t('initialization.failed.messageCommands', { directory: directory }), error);
     throw error;
   }
 }
 
-// Set up event handler for Discord events
-function setupEventHandler(event: Event): void {
-  const handler = (...args: unknown[]) => {
-    void (async () => {
-      try {
-        await event.execute(...args);
-      } catch (error) {
-        handleError(`Error in event ${event.name}`, error);
-      }
-    })();
-  };
-
-  if (event.once) {
-    client.once(event.name, handler);
-  } else {
-    client.on(event.name, handler);
-  }
-}
-
-// Load component commands (buttons, selects, modals, autocomplete)
+/**
+ * Loads all component commands (buttons, selects, modals, autocomplete)
+ * @throws {Error} When component command loading fails
+ */
 async function loadComponentCommands(): Promise<void> {
-  logger.info('[LOADING COMPONENT COMMANDS]');
   try {
     for (const directory of readdirSync('./components')) {
       if (directory in client.components) {
@@ -175,14 +190,16 @@ async function loadComponentCommands(): Promise<void> {
       }
     }
   } catch (error) {
-    handleError('Failed to load component commands', error);
+    handleError(t('initialization.failed.component', { directory: './components' }), error);
     throw error;
   }
 }
 
-// Load all types of commands (application, context, message, and component commands)
+/**
+ * Loads all types of commands (application, context, message, and component commands)
+ * @throws {Error} When command loading fails
+ */
 async function loadAllCommands(): Promise<void> {
-  logger.info('[CREATING COMMANDS COLLECTIONS]');
   try {
     await Promise.all([
       loadCommands('commands', client.commands),
@@ -191,14 +208,38 @@ async function loadAllCommands(): Promise<void> {
       loadComponentCommands(),
     ]);
   } catch (error) {
-    handleError('Failed to load commands', error);
+    handleError(t('initialization.failed.allCommands'), error);
     process.exit(1);
   }
 }
 
-// Set up all event handlers from the events directory
+/**
+ * Sets up an event handler for Discord events
+ * @param {Event} event - The event object containing name and execution logic
+ */
+function setupEventHandler(event: Event): void {
+  const handler = (...args: unknown[]) => {
+    void (async () => {
+      try {
+        await event.execute(...args);
+      } catch (error) {
+        handleError(t('initialization.failed.event', { eventName: event.name }), error);
+      }
+    })();
+  };
+
+  if (event.once) {
+    client.once(event.name, handler);
+  } else {
+    client.on(event.name, handler);
+  }
+}
+
+/**
+ * Sets up all event handlers from the events directory
+ * @throws {Error} When event handler setup fails
+ */
 async function setupEventHandlers(): Promise<void> {
-  logger.info('Adding EventHandler...');
   try {
     const eventFiles = readdirSync('./events').filter(isValidFileExtension);
 
@@ -208,24 +249,24 @@ async function setupEventHandlers(): Promise<void> {
       setupEventHandler(event);
     }
   } catch (error) {
-    handleError('Failed to setup event handlers', error);
+    handleError(t('initialization.failed.eventHandler'), error);
     process.exit(1);
   }
 }
 
-// Set up process event handlers for graceful shutdown and error handling
+/**
+ * Sets up process event handlers for graceful shutdown and error handling
+ * Handles process exit, unhandled rejections, and uncaught exceptions
+ */
 function setupProcessExitHandler(): void {
-  logger.info('Adding ProcessExitHandler...');
-
   // Handle normal process exit
   process.on('exit', (code) => {
     void (async () => {
       try {
-        const message = `⚠️ プロセス終了 (コード: ${code})`;
-        logger.error(message);
-        await notifyAdminWebhook(message);
+        logger.error(t('initialization.failed.processError', { code: code }));
+        await notifyAdminWebhook(t('initialization.failed.processError', { code: code }));
       } catch (error) {
-        handleError('Process exit notification failed', error);
+        handleError(t('initialization.failed.process'), error);
       }
     })();
   });
@@ -233,36 +274,61 @@ function setupProcessExitHandler(): void {
   // Handle unhandled promise rejections
   process.on('unhandledRejection', (error) => {
     void (async () => {
-      handleError('Unhandled promise rejection', error);
-      await notifyAdminWebhook('⚠️ 未処理のPromise Rejectionが発生しました');
+      handleError(t('initialization.failed.unhandled'), error);
+      await notifyAdminWebhook(t('initialization.failed.unhandled'));
     })();
   });
 
   // Handle uncaught exceptions
   process.on('uncaughtException', (error) => {
-    handleError('Uncaught exception', error);
+    handleError(t('initialization.failed.uncaught'), error);
     void (async () => {
-      await notifyAdminWebhook('⚠️ 未処理の例外が発生しました');
+      await notifyAdminWebhook(t('initialization.failed.uncaught'));
       process.exit(1);
     })();
   });
 }
 
-// Main initialization function
+/**
+ * Main initialization function that bootstraps the application
+ * Initializes i18n, data, client, commands, and event handlers
+ * @throws {Error} When initialization fails
+ */
 async function initialize(): Promise<void> {
   const { TOKEN } = process.env;
 
   try {
+    logger.info('[START STARTING]');
+
+    await initI18n();
+
+    logger.info('i18n initialized');
+
     await initializeData();
+
+    logger.info('Data initialized');
+
     initializeClient();
+
+    logger.info('Client initialized');
+
     await loadAllCommands();
+
+    logger.info('Commands loaded');
+
     await setupEventHandlers();
+
+    logger.info('Event handlers setup');
+
     setupProcessExitHandler();
 
+    logger.info('Process exit handlers setup');
+
     await client.login(TOKEN);
+
     logger.info('[END STARTING]');
   } catch (error) {
-    handleError('Failed to initialize', error);
+    handleError('Failed to starting', error);
     process.exit(1);
   }
 }

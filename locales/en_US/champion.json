@@ -1,0 +1,116 @@
+{
+  "command": {
+    "description": "Commands related to champions",
+    "info": {
+      "description": "Display information about a specific champion",
+      "champion_name": "Champion name"
+    },
+    "lanechamps": {
+      "description": "Display a list of champions for a specific lane",
+      "lane": "Specify lane"
+    },
+    "random": {
+      "description": "Randomly display champions from specified lane or all lanes (1-10 champions: default 1)",
+      "lane": "Specify lane",
+      "count": "Number of champions to randomly select (1-10)",
+      "wr_only": "Limit to Wild Rift implemented champions only (default: true)"
+    },
+    "team": {
+      "description": "Randomly select 2 champions from each lanes, total 10 champions (no duplicates)",
+      "wr_only": "Limit to Wild Rift implemented champions only (default: true)"
+    },
+    "stats": {
+      "description": "Champion statistics",
+      "winrate": {
+        "description": "Check champion's win rate in WILD RIFT",
+        "champion_name": "Champion name",
+        "rank": "Target rank (default: Master+)",
+        "lane": "Specify lane (default: champion's default lane)"
+      },
+      "lanewinrate": {
+        "description": "Display top 5 win rates by lane",
+        "rank": "Target rank (default: Master+)",
+        "lane": "Specify lane (default: all)"
+      },
+      "pickrate": {
+        "description": "Display top 5 pick rates by lane",
+        "rank": "Target rank (default: Master+)",
+        "lane": "Specify lane (default: all)",
+        "banrate": "Consider ban rate (default: FALSE)"
+      },
+      "strength": {
+        "description": "Display champions as evaluated by the system",
+        "rank": "Target rank (default: Master+)",
+        "lane": "Specify lane (default: all)"
+      }
+    }
+  },
+  "body": {
+    "info": {
+      "not_specified": "❌ Champion name not specified.",
+      "not_found": "❌ Champion not found: {{name}}",
+      "free": "Free Champion",
+      "type": "Resource Type",
+      "lane": "Lane",
+      "role": "Role",
+      "difficulty": "Difficulty",
+      "damage": "Damage",
+      "survivability": "Survivability",
+      "utility": "Utility",
+      "description": "Description"
+    },
+    "lane": {
+      "title": "Champions in {{lane}}",
+      "not_found": "❌ No champions found.",
+      "button": {
+        "not_found": "❌ No matching champions found.",
+        "invalid_user": "❌ Only the command user can use these buttons.\nTo execute it yourself, please use **`/lanechamp`**.",
+        "time_out": "❌ Command timed out. Please try again."
+      }
+    },
+    "random": {
+      "title": "🎲 Random Champion",
+      "champion_count": "champions",
+      "allLane": "All Lanes",
+      "selected_count": "Selected count",
+      "not_found": "❌ No champions found."
+    },
+    "team": {
+      "title": "🎲 Random Team: 2 each",
+      "not_selected": "❌ No champions selected.",
+      "error": "❌ An error occurred while generating team."
+    },
+    "stats": {
+      "lanewinrate": {
+        "no_data": "❌ No data available.",
+        "description": "⚔️:Win Rate ⚒️:Pick Rate",
+        "field": "Win Rate in {{lane}}{{emoji}}",
+        "title": "Top Win Rates by Lane:",
+        "invalid_rank": "❌ Invalid rank specified."
+      },
+      "pickrate": {
+        "no_data": "❌ No data available.",
+        "description": "⚒️:Pick Rate ❌:Ban Rate",
+        "field": "Pick Rate in {{lane}}{{emoji}}",
+        "title": "Top Pick Rates by Lane:",
+        "invalid_rank": "❌ Invalid rank specified."
+      },
+      "strength": {
+        "point": "Points",
+        "field": "System Rating in {{lane}}{{emoji}}",
+        "title": "Top System Ratings by Lane:",
+        "description": "Champion ratings calculated by system by RIOT",
+        "no_data": "❌ No data available.",
+        "invalid_rank": "❌ Invalid rank specified."
+      },
+      "winrate": {
+        "no_data": "❌ No data available.",
+        "description": "⚔️:Win Rate ⚒️:Pick Rate ❌:Ban Rate",
+        "title": "{{name}}'s Win Rate: {{rank}}",
+        "invalid_rank": "❌ Invalid rank specified.",
+        "invalid_champion": "❌ Champion name not specified.",
+        "not_available": "❌ Champion is not available in Wild Rift."
+      }
+    }
+  }
+}

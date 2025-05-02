@@ -1,4 +1,3 @@
-import config from '@/constants/config.js';
 import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
@@ -8,6 +7,7 @@ import {
 } from '@/subCommands/champion/lanechamps.js';
 import { ButtonCommand } from '@/templates/InteractionCommands.js';
 import type { LaneKey } from '@/types/game.js';
+import { t } from '@/utils/i18n.js';
 import { MessageFlags } from 'discord.js';
 
 export default new ButtonCommand({
@@ -28,7 +28,7 @@ export default new ButtonCommand({
       });
 
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(config.ButtonError.timeOut)],
+        embeds: [interactionErrorEmbed(t('champion:body.lane.button.time_out'))],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -36,11 +36,7 @@ export default new ButtonCommand({
 
     if (interaction.message.member?.id === interaction.user.id) {
       await interaction.followUp({
-        embeds: [
-          interactionErrorEmbed(
-            `${config.ButtonError.invalidUser}\n自分で実行するには**\`/lanechamp\`**を実行して下さい。`,
-          ),
-        ],
+        embeds: [interactionErrorEmbed(t('champion:body.lane.button.invalid_user'))],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -49,7 +45,7 @@ export default new ButtonCommand({
     const champions = getChampionsByLane(lane);
     if (!champions || champions.length === 0) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(config.championError.notFound)],
+        embeds: [interactionErrorEmbed(t('champion:body.lane.button.not_found'))],
         flags: MessageFlags.Ephemeral,
       });
       return;

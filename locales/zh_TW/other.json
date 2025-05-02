@@ -1,0 +1,97 @@
+{
+  "command": {
+    "ping": {
+      "description": ""
+    },
+    "slot": {
+      "win": "",
+      "almost_win": "",
+      "miss": "",
+      "first_time": "",
+      "description": "",
+      "reroll": "",
+      "button": {
+        "reroll": "",
+        "count": "",
+        "time_out": "",
+        "invalid_user": ""
+      }
+    },
+    "dev": {
+      "description": "",
+      "ping": {
+        "description": ""
+      },
+      "message_del": {
+        "description": "",
+        "count": ""
+      },
+      "fetch": {
+        "description": ""
+      },
+      "emoji": {
+        "description": "",
+        "action": "",
+        "url": "",
+        "name": "",
+        "create": "",
+        "delete": "",
+        "update": ""
+      }
+    },
+    "level": {
+      "leaderboard": {
+        "description": ""
+      }
+    },
+    "news": {
+      "description": "",
+      "wildrift": {
+        "description": "",
+        "count": ""
+      }
+    },
+    "team": {
+      "description": "",
+      "random": {
+        "description": "",
+        "team_count": "",
+        "vc_channel": "",
+        "is_bot": "",
+        "exclude": ""
+      }
+    }
+  },
+  "body": {
+    "dev": {
+      "fetch": {
+        "not_available": "",
+        "start": "",
+        "champion": "",
+        "wildrift": "",
+        "complete": "",
+        "error": "",
+        "check": ""
+      },
+      "message_del": {
+        "failed": "",
+        "complete": ""
+      },
+      "ping": {
+        "repost": ""
+      },
+      "emoji": {
+        "is_member": "",
+        "is_guild": "",
+        "exists": "",
+        "added": "",
+        "updated": "",
+        "delete": "",
+        "not_exists": "",
+        "invalid_action": "",
+        "error": "",
+        "check": ""
+      }
+    }
+  }
+}

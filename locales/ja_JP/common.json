@@ -1,0 +1,76 @@
+{
+  "initialization": {
+    "failed": {
+      "daily": "❌ デイリーアップデートに失敗しました",
+      "data": "❌ データの初期化に失敗しました",
+      "commands": "❌ '{{directory}}' からコマンドの読み込みに失敗しました",
+      "message": "❌ '{{directory}}' からメッセージコマンドの読み込みに失敗しました",
+      "component": "❌ '{{directory}}' からコンポーネントコマンドの読み込みに失敗しました",
+      "allCommands": "❌ コマンドの読み込みに失敗しました",
+      "event": "❌ '{{eventName}}' でイベントハンドラーの設定に失敗しました",
+      "eventHandler": "❌ イベントハンドラーの読み込みに失敗しました",
+      "process": "❌ プロセス終了通知に失敗しました",
+      "processError": "⚠️ プロセスが終了しました (コード: '{{code}}')",
+      "unhandled": "⚠️ 未処理のPromise拒否が発生しました",
+      "uncaught": "⚠️ 未捕捉の例外が発生しました"
+    }
+  },
+  "template": {
+    "failed": {
+      "notFound": "❌ コマンドが見つかりません",
+      "noExecute": "❌ 実行関数が提供されていません"
+    }
+  },
+  "interaction": {
+    "failed": {
+      "create": "❌ interactionCreateイベントでエラーが発生しました",
+      "notFound": "❌ インタラクション '{{name}}' に対応するコマンドが見つかりません",
+      "error": "❌ コマンドの実行中にエラーが発生しました",
+      "sendingError": "❌ インタラクションレスポンスの送信中にエラーが発生しました"
+    }
+  },
+  "autoComplete": {
+    "failed": {
+      "notFound": "❌ オートコンプリート '{{name}}' が見つかりません",
+      "error": "❌ オートコンプリートの実行中にエラーが発生しました"
+    }
+  },
+  "messageCommand": {
+    "failed": {
+      "error": "❌ messageCreateの実行中にエラーが発生しました"
+    }
+  },
+  "ready": {
+    "failed": {
+      "noUserTag": "❌ クライアントユーザーが利用できません",
+      "error": "❌ readyイベントでエラーが発生しました"
+    },
+    "success": "✅ {{name}} としてログインしました！"
+  },
+  "webhook": {
+    "failed ": "❌ Webhookの通知送信に失敗しました"
+  },
+  "deploy": {
+    "unhandled": "⚠️ {{name}} による不正なデプロイ試行を検出しました",
+    "for_owner": "⚠️ コマンドのデプロイはBotのオーナーのみが実行できます！",
+    "starting": "{{name}} によるコマンドのデプロイを開始します",
+    "success": "✅ コマンドのデプロイに成功しました！",
+    "error": "❌ コマンドのデプロイに失敗しました！",
+    "check": "詳細はログを確認してください。",
+    "failed_load": "❌ ファイルからコマンドの読み込みに失敗しました：{{file}}",
+    "missing_env": "❌ 必要な環境変数が見つかりません：TOKEN または CLIENT_ID",
+    "pushing": "Discordにコマンドを反映中"
+  },
+  "undeploy": {
+    "unhandled": "⚠️ {{name}} による不正なアンデプロイ試行を検出しました",
+    "for_owner": "⚠️ コマンドのアンデプロイはBotのオーナーのみが実行できます！",
+    "success": "✅ {{target}} コマンドのアンデプロイに成功しました！",
+    "error": "❌ コマンドのアンデプロイに失敗しました！",
+    "check": "詳細はログを確認してください。",
+    "invalid_arg": "⚠️ 使用方法が間違っています！正しい形式は `{{prefix}}undeploy <guild/global>` です",
+    "invalid_target": "⚠️ 無効なスコープです！`guild` または `global` を指定してください",
+    "starting": "{{name}} による {{target}} コマンドのアンデプロイを開始します"
+  },
+  "errorEmbed": "❌ コマンドの実行中にエラーが発生しました",
+  "ping": "ping値は{{ping}}msです"
+}

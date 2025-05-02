@@ -1,0 +1,76 @@
+{
+  "initialization": {
+    "failed": {
+      "daily": "",
+      "data": "",
+      "commands": "",
+      "message": "",
+      "component": "",
+      "allCommands": "",
+      "event": "",
+      "eventHandler": "",
+      "process": "",
+      "processError": "",
+      "unhandled": "",
+      "uncaught": ""
+    }
+  },
+  "template": {
+    "failed": {
+      "notFound": "",
+      "noExecute": ""
+    }
+  },
+  "interaction": {
+    "failed": {
+      "create": "",
+      "notFound": "",
+      "error": "",
+      "sendingError": ""
+    }
+  },
+  "autoComplete": {
+    "failed": {
+      "notFound": "",
+      "error": ""
+    }
+  },
+  "messageCommand": {
+    "failed": {
+      "error": ""
+    }
+  },
+  "ready": {
+    "failed": {
+      "noUserTag": "",
+      "error": ""
+    },
+    "success": ""
+  },
+  "webhook": {
+    "failed ": ""
+  },
+  "deploy": {
+    "unhandled": "",
+    "for_owner": "",
+    "starting": "",
+    "success": "",
+    "error": "",
+    "check": "",
+    "failed_load": "",
+    "missing_env": "",
+    "pushing": ""
+  },
+  "undeploy": {
+    "unhandled": "",
+    "for_owner": "",
+    "success": "",
+    "error": "",
+    "check": "",
+    "invalid_arg": "",
+    "invalid_target": "",
+    "starting": ""
+  },
+  "errorEmbed": "",
+  "ping": ""
+}

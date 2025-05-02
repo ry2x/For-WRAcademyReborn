@@ -1,12 +1,12 @@
-import config from '@/constants/config.js';
 import { RANK_EMOJIS, WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
-import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
+import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByStrength } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
-import { getRankRange } from '@/utils/rankUtils.js';
+import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
+import { t } from '@/utils/i18n.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 function getRankEmojiByStrengthLevel(strLevel: string | null): string {
@@ -24,7 +24,8 @@ function formatChampionStats(stat: HeroStats, index: number): string {
 
   return (
     `${rankEmoji}:**${champion?.name}**\n` +
-    `┗ ⚔️:${stat.strength ?? '-'}ポイント ${getRankEmojiByStrengthLevel(stat?.strength_level ?? null)}`
+    `┗ ⚔️:${stat.strength ?? '-'}${t('champion:body.stats.strength.point')} ` +
+    ` ${getRankEmojiByStrengthLevel(stat?.strength_level ?? null)}`
   );
 }
 
@@ -45,13 +46,18 @@ function createLaneStrengthEmbed(
     .map((lane) => {
       const fieldValue = createStrengthField(lane, rank).toString();
       return {
-        name: `${lane.name}でのシステムの評価${lane.emoji}`,
-        value: fieldValue.length > 0 ? fieldValue : '❌データがありません。',
+        name: t('champion:body.stats.strength.field', {
+          lane: t(`constants:${lane.name}`),
+          emoji: lane.emoji,
+        }),
+        value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.strength.no_data'),
       };
     });
   return new EmbedBuilder()
-    .setTitle(`各レーンでの評価トップ:${rank.emoji}${rank.name}`)
-    .setDescription('システム的に計算されたチャンピオンの評価 by RIOT')
+    .setTitle(
+      `${t('champion:body.stats.strength.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+    )
+    .setDescription(t('champion:body.stats.strength.description'))
     .setColor(Colors.Aqua)
     .addFields(fields);
 }
@@ -67,7 +73,7 @@ export default new SubCommand({
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(config.championError.invalidRank)],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.strength.invalid_rank'))],
       });
       return;
     }

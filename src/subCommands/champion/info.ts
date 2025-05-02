@@ -1,9 +1,9 @@
-import config from '@/constants/config.js';
 import { LANES, ROLES } from '@/constants/game.js';
 import { getChampionByName } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
+import { t } from '@/utils/i18n.js';
 import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
 
 /**
@@ -17,14 +17,6 @@ const CHAMPION_LEVEL_DISPLAY = {
 } as const;
 
 /**
- * Champion information error messages
- */
-const CHAMPION_ERROR_MESSAGES = {
-  NO_NAME: config.championError.invalidChampion,
-  NOT_FOUND: (name: string) => `❌チャンピオン「${name}」は見つかりませんでした。`,
-} as const;
-
-/**
  * Gets the lanes a champion can play in
  * @param champion - The champion to get lanes for
  * @returns Formatted string of lanes
@@ -32,7 +24,7 @@ const CHAMPION_ERROR_MESSAGES = {
 export function getLanes(champion: Champion): string {
   return Object.entries(LANES)
     .filter(([, lane]) => champion.lanes.includes(lane.value))
-    .map(([, lane]) => `${lane.emoji}: ${lane.name}`)
+    .map(([, lane]) => `${lane.emoji}: ${t(`constants:${lane.name}`)}`)
     .join(', ');
 }
 
@@ -44,7 +36,7 @@ export function getLanes(champion: Champion): string {
 export function getTags(champion: Champion): string {
   return Object.entries(ROLES)
     .filter(([, tag]) => champion.roles.includes(tag.value))
-    .map(([, tag]) => `${tag.name}: ${tag.emoji}`)
+    .map(([, tag]) => `${t(`constants:${tag.name}`)}: ${tag.emoji}`)
     .join(', ');
 }
 
@@ -57,7 +49,9 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setColor(Colors.Orange)
     .setTitle(champion.name)
-    .setDescription(champion.is_free ? `${champion.title}   フリーチャンピオン✅` : champion.title)
+    .setDescription(
+      champion.is_free ? `${champion.title}   ${t('champion:body.info.free')}✅` : champion.title,
+    )
     .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`);
 
   const levelDisplay = (level: number) =>
@@ -68,16 +62,32 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
       name: champion.is_wr
         ? '<:Icon_WR:1342960956036218942> <:Icon_LOL:1342961477224497232>'
         : '<:Icon_LOL:1342961477224497232>',
-      value: `マナタイプ : ${champion.type}`,
+      value: `${t('champion:body.info.type')} : ${champion.type}`,
     },
-    { name: 'レーン', value: getLanes(champion), inline: true },
-    { name: 'ロール', value: getTags(champion), inline: true },
-    { name: '難易度', value: levelDisplay(champion.difficult), inline: true },
-    { name: 'ダメージ', value: levelDisplay(champion.damage), inline: true },
-    { name: '耐久性', value: levelDisplay(champion.survive), inline: true },
-    { name: '補助性能', value: levelDisplay(champion.utility), inline: true },
+    { name: `${t('champion:body.info.lane')}`, value: getLanes(champion), inline: true },
+    { name: `${t('champion:body.info.role')}`, value: getTags(champion), inline: true },
     {
-      name: '説明',
+      name: `${t('champion:body.info.difficulty')}`,
+      value: levelDisplay(champion.difficult),
+      inline: true,
+    },
+    {
+      name: `${t('champion:body.info.damage')}`,
+      value: levelDisplay(champion.damage),
+      inline: true,
+    },
+    {
+      name: `${t('champion:body.info.survivability')}`,
+      value: levelDisplay(champion.survive),
+      inline: true,
+    },
+    {
+      name: `${t('champion:body.info.utility')}`,
+      value: levelDisplay(champion.utility),
+      inline: true,
+    },
+    {
+      name: `${t('champion:body.info.description')}`,
       value: champion.describe.length > 1024 ? champion.describe.slice(0, 1024) : champion.describe,
     },
   );
@@ -89,7 +99,7 @@ export default new SubCommand({
 
     if (!championName) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed(CHAMPION_ERROR_MESSAGES.NO_NAME)],
+        embeds: [interactionErrorEmbed(t('champion:body.info.not_specified'))],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -98,7 +108,7 @@ export default new SubCommand({
     const champion = getChampionByName(championName);
     if (!champion) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed(CHAMPION_ERROR_MESSAGES.NOT_FOUND(championName))],
+        embeds: [interactionErrorEmbed(t('champion:body.info.not_found', { name: championName }))],
         flags: MessageFlags.Ephemeral,
       });
       return;

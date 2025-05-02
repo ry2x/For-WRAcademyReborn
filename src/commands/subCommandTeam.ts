@@ -1,5 +1,6 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
+import { t } from '@/utils/i18n.js';
 import { SlashCommandBuilder, SlashCommandSubcommandBuilder } from 'discord.js';
 
 const { ENABLE_SUBCOMMAND_TEAM } = process.env;
@@ -7,17 +8,15 @@ const { ENABLE_SUBCOMMAND_TEAM } = process.env;
 const teamCommand = new ApplicationCommand({
   data: new SlashCommandBuilder()
     .setName('team')
-    .setDescription('Team commands')
+    .setDescription(t('other:command.team.description'))
     .addSubcommand(
       new SlashCommandSubcommandBuilder()
         .setName('random')
-        .setDescription(
-          'TESTING:指定したVCでランダムでチーム分けを行います。(このコマンドはテスト中です。)',
-        )
+        .setDescription(t('other:command.team.random.description'))
         .addNumberOption((option) =>
           option
             .setName('team_count')
-            .setDescription('分けるチーム数（デフォルト：２）')
+            .setDescription(t('other:command.team.random.team_count'))
             .setRequired(false)
             .setMinValue(2)
             .setMaxValue(5),
@@ -25,17 +24,20 @@ const teamCommand = new ApplicationCommand({
         .addChannelOption((option) =>
           option
             .setName('vc_channel')
-            .setDescription('チーム分けするVCチャンネル（デフォルト：参加中のVC）')
+            .setDescription(t('other:command.team.random.vc_channel'))
             .setRequired(false),
         )
         .addBooleanOption((option) =>
           option
             .setName('is_bot')
-            .setDescription('ボットを含めるか（デフォルト：FALSE）')
+            .setDescription(t('other:command.team.random.is_bot'))
             .setRequired(false),
         )
         .addUserOption((option) =>
-          option.setName('exclude').setDescription('除外するメンバーを選択').setRequired(false),
+          option
+            .setName('exclude')
+            .setDescription(t('other:command.team.random.exclude'))
+            .setRequired(false),
         ),
     ),
   hasSubCommands: true,

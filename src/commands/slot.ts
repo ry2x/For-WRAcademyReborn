@@ -1,5 +1,6 @@
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
+import { t } from '@/utils/i18n.js';
 
 import {
   ActionRowBuilder,
@@ -40,7 +41,7 @@ function getRandomSlot() {
 export function rollSlots() {
   const result = [getRandomSlot(), getRandomSlot(), getRandomSlot()];
 
-  // 3つのスロットの結果が全て同じかどうかを判定する BARはすべての絵柄と合致する
+  // Check if all three slots show the same symbol. BAR matches with any symbol
   const nonBarSymbols = result.filter((emoji) => emoji !== '<:bar:1344792101384228975>');
   const uniqueCount = new Set(nonBarSymbols).size;
 
@@ -48,16 +49,18 @@ export function rollSlots() {
   const isAlmostWin = uniqueCount === 2;
 
   const message = isWin
-    ? '**🎉 大当たり！3つ揃いました！ 🎉**'
+    ? t('other:command.slot.win')
     : isAlmostWin
-      ? '**😲 惜しい！2つ揃いました！**'
-      : '**💀 残念！また挑戦してね！**';
+      ? t('other:command.slot.almost_win')
+      : t('other:command.slot.miss');
 
   return { result, isWin, message };
 }
 
 const slotCommand = new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('slot').setDescription('スロットゲームをします'),
+  data: new SlashCommandBuilder()
+    .setName('slot')
+    .setDescription(t('other:command.slot.description')),
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
@@ -65,7 +68,7 @@ const slotCommand = new ApplicationCommand({
     const embed = new EmbedBuilder()
       .setDescription(message)
       .setColor(isWin ? Colors.Yellow : Colors.Grey)
-      .setFooter({ text: '1回目の挑戦' });
+      .setFooter({ text: t('other:command.slot.first_time') });
 
     const reRollButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
