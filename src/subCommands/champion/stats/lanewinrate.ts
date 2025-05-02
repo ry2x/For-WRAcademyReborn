@@ -1,13 +1,13 @@
 import { type LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
-import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
+import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
+import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
-import { getRankRange } from '@/utils/rankUtils.js';
 import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
 
 /**

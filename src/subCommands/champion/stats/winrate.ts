@@ -1,12 +1,12 @@
 import { WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
-import { getChampionByName, getChampionLanes, getLanePositionSets } from '@/data/championData.js';
+import { getChampionByName, getChampionLanes } from '@/data/championData.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
+import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
-import { getRankRange } from '@/utils/rankUtils.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 /**

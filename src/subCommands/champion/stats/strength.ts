@@ -1,12 +1,12 @@
 import { RANK_EMOJIS, WIN_RATE_DEFAULTS, type LANES, type RANK_RANGES } from '@/constants/game.js';
-import { getChampByHeroId, getLanePositionSets } from '@/data/championData.js';
+import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByStrength } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
+import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { t } from '@/utils/i18n.js';
-import { getRankRange } from '@/utils/rankUtils.js';
 import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
 
 function getRankEmojiByStrengthLevel(strLevel: string | null): string {

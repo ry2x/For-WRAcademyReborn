@@ -1,7 +1,8 @@
-import { getChampionsByLane, getLaneEmoji } from '@/data/championData.js';
+import { getChampionsByLane } from '@/data/championData.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
+import { getLaneEmoji } from '@/utils/constantsUtils.js';
 import { t } from '@/utils/i18n.js';
 import {
   ActionRowBuilder,
