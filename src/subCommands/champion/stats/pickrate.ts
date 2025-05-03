@@ -1,4 +1,4 @@
-import { LANES, RANK_EMOJIS, type RANK_RANGES, WIN_RATE_DEFAULTS } from '@/constants/game.js';
+import { LANES, RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
@@ -22,8 +22,8 @@ function formatChampionStats(stat: HeroStats, index: number): string {
 }
 
 function createPickRateField(
-  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
-  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
+  lane: { apiParam: Lane },
+  rank: { apiParam: RankRange },
   isBanRate: boolean,
 ): string {
   const stats = getTopChampionsByPickRate(lane.apiParam, rank.apiParam, 5, isBanRate);

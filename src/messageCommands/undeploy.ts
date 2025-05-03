@@ -11,14 +11,14 @@ export default new MessageCommand({
       // Check if the user has permission to undeploy commands
       if (message.author.id !== client.application?.owner?.id) {
         logger.warn(t('undeploy.unhandled', { name: message.author.tag }), message.author);
-        await message.reply(t('deploy.for_owner'));
+        await message.reply(t('undeploy.for_owner'));
         return;
       }
 
       // Validate arguments
       if (!args[0]) {
         await message.reply(
-          t('undeploy.invalid_args', {
+          t('undeploy.invalid_arg', {
             prefix: config.prefix,
           }),
         );
