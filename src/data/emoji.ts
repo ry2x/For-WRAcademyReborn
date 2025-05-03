@@ -16,8 +16,10 @@ export async function fetchEmoji(): Promise<void> {
     return;
   }
 
+  const validEmojiNames = EMOJIS.map(emoji => emoji.code);
+
   res.forEach((emoji) => {
-    if (emoji.name) {
+    if (emoji.name && validEmojiNames.includes(emoji.name)) {
       emojis[emoji.name] = emoji;
     }
   });
@@ -34,10 +36,9 @@ export async function uploadEmojis(): Promise<void> {
   let deployedEmojis = [];
 
   if (existingEmojis) {
+    const existingEmojisMap = new Map(existingEmojis.map(emoji => [emoji.name, emoji]));
     for (const { code, url } of EMOJIS) {
-      const existingEmoji = existingEmojis.find(emoji => emoji.name === code);
-
-      if (existingEmoji) {
+      if (existingEmojisMap.has(code)) {
         logger.info(`Emoji already exists: ${code}`);
       } else {
         const newEmoji = await global.client.application?.emojis.create({ attachment: url, name: code });
