@@ -40,7 +40,7 @@ function getRandomSlot() {
 }
 
 export function rollSlots() {
-  const result = [getEmoji(getRandomSlot())!, getEmoji(getRandomSlot())!, getEmoji(getRandomSlot())!];
+  const result = [getEmoji(getRandomSlot()), getEmoji(getRandomSlot()), getEmoji(getRandomSlot())];
 
   // Check if all three slots show the same symbol. BAR matches with any symbol
   const nonBarSymbols = result.filter((emoji) => !emoji.includes('bar'));
