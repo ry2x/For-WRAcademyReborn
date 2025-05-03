@@ -7,37 +7,37 @@ export const LANES: Record<LaneKey, PositionSet<LaneKey> & { apiParam: Lane }> =
   all: {
     name: 'lane.all',
     value: 'all',
-    emoji: '<:Lane_All:1343842075464175616>',
+    emoji: 'Lane_All',
     apiParam: '0',
   },
   top: {
     name: 'lane.top',
     value: 'top',
-    emoji: '<:Lane_Top:1343276732194750485>',
+    emoji: 'Lane_Top',
     apiParam: '2',
   },
   jungle: {
     name: 'lane.jungle',
     value: 'jungle',
-    emoji: '<:Lane_Jungle:1343276691853934647>',
+    emoji: 'Lane_Jungle',
     apiParam: '5',
   },
   mid: {
     name: 'lane.mid',
     value: 'mid',
-    emoji: '<:Lane_Mid:1343276706143932447>',
+    emoji: 'Lane_Mid',
     apiParam: '1',
   },
   ad: {
     name: 'lane.ad',
     value: 'ad',
-    emoji: '<:Lane_Bot:1343276674044792974>',
+    emoji: 'Lane_Bot',
     apiParam: '3',
   },
   support: {
     name: 'lane.support',
     value: 'support',
-    emoji: '<:Lane_Support:1343276719049543803>',
+    emoji: 'Lane_Support',
     apiParam: '4',
   },
 } as const;
@@ -52,31 +52,31 @@ export const RANK_RANGES: Record<
   all: {
     name: 'rank.all',
     value: 'all',
-    emoji: '<:Rank_Challenger:1356509666527416462>',
+    emoji: 'Rank_Challenger',
     apiParam: '0',
   },
   diamondPlus: {
     name: 'rank.diamondPlus',
     value: 'diamondPlus',
-    emoji: '<:Rank_Diamond:1356509630251008103>',
+    emoji: 'Rank_Diamond',
     apiParam: '1',
   },
   masterPlus: {
     name: 'rank.masterPlus',
     value: 'masterPlus',
-    emoji: '<:Rank_Master:1356509641562919032>',
+    emoji: 'Rank_Master',
     apiParam: '2',
   },
   challengerPlus: {
     name: 'rank.challengerPlus',
     value: 'challengerPlus',
-    emoji: '<:Rank_Challenger:1356509666527416462>',
+    emoji: 'Rank_Challenger',
     apiParam: '3',
   },
   superServer: {
     name: 'rank.superServer',
     value: 'superServer',
-    emoji: '<:LRank_Legend:1356510180057284719>',
+    emoji: 'LRank_Legend',
     apiParam: '4',
   },
 } as const;
@@ -88,32 +88,32 @@ export const ROLES: Record<RoleKey, PositionSet<RoleKey>> = {
   fighter: {
     name: 'role.fighter',
     value: 'fighter',
-    emoji: '<:fighter:1343296794343247985>',
+    emoji: 'fighter',
   },
   mage: {
     name: 'role.mage',
     value: 'mage',
-    emoji: '<:mage:1343296818775326780>',
+    emoji: 'mage',
   },
   assassin: {
     name: 'role.assassin',
     value: 'assassin',
-    emoji: '<:assassin:1343296727712530494>',
+    emoji: 'assassin',
   },
   marksman: {
     name: 'role.marksman',
     value: 'marksman',
-    emoji: '<:marksman:1343296831781605376>',
+    emoji: 'marksman',
   },
   support: {
     name: 'role.support',
     value: 'support',
-    emoji: '<:support:1343296844586946681>',
+    emoji: 'support',
   },
   tank: {
     name: 'role.tank',
     value: 'tank',
-    emoji: '<:tank:1343296805575589939>',
+    emoji: 'tank',
   },
 } as const;
 

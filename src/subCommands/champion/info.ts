@@ -1,5 +1,6 @@
 import { LANES, ROLES } from '@/constants/game.js';
 import { getChampionByName } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
@@ -24,7 +25,7 @@ const CHAMPION_LEVEL_DISPLAY = {
 export function getLanes(champion: Champion): string {
   return Object.entries(LANES)
     .filter(([, lane]) => champion.lanes.includes(lane.value))
-    .map(([, lane]) => `${lane.emoji}: ${t(`constants:${lane.name}`)}`)
+    .map(([, lane]) => `${getEmoji(lane.emoji)}: ${t(`constants:${lane.name}`)}`)
     .join(', ');
 }
 
@@ -36,7 +37,7 @@ export function getLanes(champion: Champion): string {
 export function getTags(champion: Champion): string {
   return Object.entries(ROLES)
     .filter(([, tag]) => champion.roles.includes(tag.value))
-    .map(([, tag]) => `${t(`constants:${tag.name}`)}: ${tag.emoji}`)
+    .map(([, tag]) => `${t(`constants:${tag.name}`)}: ${getEmoji(tag.emoji)}`)
     .join(', ');
 }
 
@@ -60,8 +61,8 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
   return embed.addFields(
     {
       name: champion.is_wr
-        ? '<:Icon_WR:1342960956036218942> <:Icon_LOL:1342961477224497232>'
-        : '<:Icon_LOL:1342961477224497232>',
+        ? `${getEmoji("WR")} ${getEmoji("SR")}`
+        : getEmoji("SR"),
       value: `${t('champion:body.info.type')} : ${champion.type}`,
     },
     { name: `${t('champion:body.info.lane')}`, value: getLanes(champion), inline: true },

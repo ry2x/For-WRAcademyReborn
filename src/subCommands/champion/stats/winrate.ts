@@ -1,5 +1,6 @@
 import { WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
@@ -59,7 +60,7 @@ function createChampionWinRateEmbed(
     .setTitle(
       t('champion:body.stats.winrate.title', {
         name: champion.name,
-        rank: rank.emoji + t(`constants:${rank.name}`),
+        rank: getEmoji(rank.emoji) + t(`constants:${rank.name}`),
       }),
     )
     .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`)
@@ -68,7 +69,7 @@ function createChampionWinRateEmbed(
       targetLanes
         .filter((lane) => lane.value !== 'all')
         .map((lane) => ({
-          name: `${t(`constants:${lane.name}`)} ${lane.emoji}`,
+          name: `${t(`constants:${lane.name}`)} ${getEmoji(lane.emoji)}`,
           value: createChampionStatsField(
             champion.hero_id,
             { apiParam: lane.apiParam },

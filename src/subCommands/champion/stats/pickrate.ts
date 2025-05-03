@@ -1,5 +1,6 @@
 import { LANES, RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
@@ -46,14 +47,14 @@ function createLanePickRateEmbed(
       return {
         name: t('champion:body.stats.pickrate.field', {
           lane: t(`constants:${lane.name}`),
-          emoji: lane.emoji,
+          emoji: getEmoji(lane.emoji),
         }),
         value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.no_data'),
       };
     });
   return new EmbedBuilder()
     .setTitle(
-      `${t('champion:body.stats.pickrate.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+      `${t('champion:body.stats.pickrate.title')}${getEmoji(rank.emoji)}${t(`constants:${rank.name}`)}`,
     )
     .setDescription(t('champion:body.stats.pickrate.description'))
     .setColor(Colors.Aqua)

@@ -60,6 +60,9 @@ const devCommand = new ApplicationCommand({
         .addStringOption((option) =>
           option.setName('url').setDescription(t('other:command.dev.emoji.url')).setRequired(false),
         ),
+    )
+    .addSubcommand(
+      new SlashCommandSubcommandBuilder().setName('testemoji').setDescription('test subcommand'),
     ),
   hasSubCommands: true,
 });
