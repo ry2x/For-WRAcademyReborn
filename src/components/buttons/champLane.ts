@@ -1,4 +1,5 @@
 import { getChampionsByLane } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import {
   CHAMP_PER_PAGE,
@@ -53,8 +54,8 @@ export default new ButtonCommand({
 
     const championNames = champions.map(
       (champ) =>
-        '<:SR:1343276485942841485>' +
-        (champ.is_wr ? ' <:WR:1343276543945740298>' : ' ❌ ') +
+        getEmoji('SR') +
+        (champ.is_wr ? ` ${getEmoji("WR")}` : ' ❌ ') +
         champ.name,
     );
     const totalPages = Math.ceil(championNames.length / CHAMP_PER_PAGE);

@@ -1,4 +1,5 @@
 import { getChampionsByLane } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
@@ -32,7 +33,7 @@ export default new SubCommand({
 
     const embed = new EmbedBuilder()
       .setTitle(
-        `${t('champion:body.random.title')}${wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'}：` +
+        `${t('champion:body.random.title')}${wrOnly ? getEmoji('WR') : getEmoji('SR')}：` +
           `${count}${t('champion:body.random.champion_count')}` +
           ` (${lane === 'all' ? t('champion:body.random.allLane') : lane.toUpperCase()}${getLaneEmoji(lane)})`,
       )

@@ -1,4 +1,5 @@
 import { getChampionsByLane } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
@@ -63,8 +64,8 @@ export default new SubCommand({
 
     const championNames = champions.map(
       (champ) =>
-        '<:SR:1343276485942841485>' +
-        (champ.is_wr ? ' <:WR:1343276543945740298>' : ' ❌ ') +
+        getEmoji('SR') +
+        (champ.is_wr ? ` ${getEmoji("WR")}` : ' ❌ ') +
         champ.name,
     );
     const totalPages = Math.ceil(championNames.length / CHAMP_PER_PAGE);

@@ -1,5 +1,6 @@
 import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
@@ -59,14 +60,14 @@ function createLaneWinRateEmbed(
       return {
         name: t('champion:body.stats.lanewinrate.field', {
           lane: t(`constants:${lane.name}`),
-          emoji: lane.emoji,
+          emoji: getEmoji(lane.emoji),
         }),
         value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.lanewinrate.no_data'),
       };
     });
   return new EmbedBuilder()
     .setTitle(
-      `${t('champion:body.stats.lanewinrate.title')}${rank.emoji}${t(`constants:${rank.name}`)}`,
+      `${t('champion:body.stats.lanewinrate.title')}${getEmoji(rank.emoji)}${t(`constants:${rank.name}`)}`,
     )
     .setDescription(t('champion:body.stats.lanewinrate.description'))
     .setColor(Colors.Aqua)

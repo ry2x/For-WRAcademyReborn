@@ -1,4 +1,5 @@
 import { LANES, RANK_RANGES } from '@/constants/game.js';
+import { getEmoji } from '@/data/emoji.js';
 import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
 
 /**
@@ -20,7 +21,7 @@ export function getRankRange(rankValue: string):
  * @returns The emoji string for the lane
  */
 export function getLaneEmoji(lane: LaneKey): string {
-  return LANES[lane]?.emoji ?? '';
+  return getEmoji(LANES[lane]?.emoji);
 }
 
 /**

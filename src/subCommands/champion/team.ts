@@ -1,5 +1,6 @@
 import { LANES } from '@/constants/game.js';
 import { getChampionsByLane } from '@/data/championData.js';
+import { getEmoji } from '@/data/emoji.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { Champion } from '@/types/champs.js';
@@ -66,14 +67,14 @@ function createTeamFieldValue(champions: Champion[]): string {
 
 function createTeamFieldName(lane: LaneKey): string {
   const laneSet = getLanePositionSets(lane);
-  return `${laneSet[0].emoji} ${t(`constants:${laneSet[0].name}`)}`;
+  return `${getEmoji(laneSet[0].emoji)} ${t(`constants:${laneSet[0].name}`)}`;
 }
 
 function createTeamEmbed(team: Team, wrOnly: boolean): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle(
       `${t('champion:body.team.title')} ${
-        wrOnly ? '<:WR:1343276543945740298>' : '<:SR:1343276485942841485>'
+        wrOnly ? getEmoji('WR') : getEmoji('SR')
       }`,
     )
     .addFields(
