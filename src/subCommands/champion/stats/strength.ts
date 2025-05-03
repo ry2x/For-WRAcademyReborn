@@ -3,7 +3,7 @@ import { getChampByHeroId } from '@/data/championData.js';
 import { getTopChampionsByStrength } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { LaneKey } from '@/types/game.js';
+import type { Lane, LaneKey, RankRange } from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { t } from '@/utils/i18n.js';
@@ -29,10 +29,7 @@ function formatChampionStats(stat: HeroStats, index: number): string {
   );
 }
 
-function createStrengthField(
-  lane: { apiParam: (typeof LANES)[keyof typeof LANES]['apiParam'] },
-  rank: { apiParam: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'] },
-): string {
+function createStrengthField(lane: { apiParam: Lane }, rank: { apiParam: RankRange }): string {
   const stats = getTopChampionsByStrength(lane.apiParam, rank.apiParam, 5);
   return stats.map((stat, index) => formatChampionStats(stat, index)).join('\n');
 }
