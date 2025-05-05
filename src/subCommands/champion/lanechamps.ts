@@ -56,7 +56,7 @@ export default new SubCommand({
     const champions = getChampionsByLane(lane);
     if (champions.length === 0) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed(t('champion:body.lane.notFound'))],
+        embeds: [interactionErrorEmbed(t('champion:body.lane.not_found'))],
         flags: MessageFlags.Ephemeral,
       });
       return;

@@ -91,7 +91,7 @@ export default new SubCommand({
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.invalidRank'))],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.invalid_rank'))],
       });
       return;
     }
@@ -100,7 +100,7 @@ export default new SubCommand({
     if (!champ) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.invalid_champion'))],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.invalid_champion'))],
       });
       return;
     }
@@ -108,7 +108,7 @@ export default new SubCommand({
     if (!champ.is_wr) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.not_available'))],
+        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.not_available'))],
       });
       return;
     }
