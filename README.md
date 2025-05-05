@@ -59,14 +59,33 @@ pnpm prettier
 2. 以下の環境変数を設定してください：
 
 ```env
-TOKEN="your_discord_bot_token"
-CLIENT_ID="your_discord_client_id"
-DEFAULT_GUILD_ID="your_default_guild_id"
-DEFAULT_CHANNEL_ID="your_default_channel_id"
-LOGTAIL_TOKEN="your_logtail_token"
-LOGTAIL_HOST="your_logtail_host"
-ADMIN_WEBHOOK="your_admin_webhook_url"
-DATABASE_URL="your_database_url"
+# Discord application credential (required)
+TOKEN=""
+CLIENT_ID=""
+
+# Discord server Leaderboard (optional)
+DEFAULT_GUILD_ID=""
+DEFAULT_CHANNEL_ID=""
+DATABASE_URL=""
+
+# Logtail (optional)
+LOGTAIL_TOKEN=""
+LOGTAIL_HOST=""
+
+# Admin Webhook (optional)
+ADMIN_WEBHOOK=""
+
+# i18n Language ex:ja_JP (optional:default = en_US)
+DEFAULT_LOCALE=""
+
+# Enable / Disable command in discord server (required, true/false)
+ENABLE_SUBCOMMAND_PING=""
+ENABLE_SUBCOMMAND_SLOT=""
+ENABLE_SUBCOMMAND_CHAMPION=""
+ENABLE_SUBCOMMAND_DEV=""
+ENABLE_SUBCOMMAND_LEVEL=""
+ENABLE_SUBCOMMAND_NEWS=""
+ENABLE_SUBCOMMAND_TEAM=""
 ```
 
 ## 📁 プロジェクト構造
