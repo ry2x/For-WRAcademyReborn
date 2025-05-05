@@ -1,115 +1,115 @@
 {
   "command": {
-    "description": "",
+    "description": "英雄相關命令",
     "info": {
-      "description": "",
-      "champion_name": ""
+      "description": "顯示特定英雄的資訊",
+      "champion_name": "英雄名稱 "
     },
     "lanechamps": {
-      "description": "",
-      "lane": ""
+      "description": "顯示特定路線的英雄清單",
+      "lane": "指定路線"
     },
     "random": {
-      "description": "",
-      "lane": "",
-      "count": "",
-      "wr_only": ""
+      "description": "隨機顯示特定路線的英雄（1-10 位英雄：預設 1 位）",
+      "lane": "指定路線",
+      "count": "隨機英雄數量（1-10）",
+      "wr_only": "限定已於激鬥峽谷上線的英雄（預設：是）"
     },
     "team": {
-      "description": "",
-      "wr_only": ""
+      "description": "每條路線選擇 2 位英雄，總共 10 位（不重複）",
+      "wr_only": "限定已於激鬥峽谷上線的英雄（預設：是）"
     },
     "stats": {
-      "description": "",
+      "description": "英雄數據",
       "winrate": {
-        "description": "",
-        "champion_name": "",
-        "rank": "",
-        "lane": ""
+        "description": "查看個別英雄的勝率",
+        "champion_name": "英雄名稱",
+        "rank": "目標段位（預設：大師+）",
+        "lane": "指定路線（預設：英雄預設路線）"
       },
       "lanewinrate": {
-        "description": "",
-        "rank": "",
-        "lane": ""
+        "description": "顯示各路線勝率前五名",
+        "rank": "目標段位（預設：大師+）",
+        "lane": "指定路線（預設：全路線）"
       },
       "pickrate": {
-        "description": "",
-        "rank": "",
-        "lane": "",
-        "banrate": ""
+        "description": "顯示各路線選取率前五名",
+        "rank": "目標段位（預設：大師+）",
+        "lane": "指定路線（預設：全路線）",
+        "banrate": "考慮禁用率（預設：否）"
       },
       "strength": {
-        "description": "",
-        "rank": "",
-        "lane": ""
+        "description": "顯示各路線系統評估強度前五名",
+        "rank": "目標段位（預設：大師+）",
+        "lane": "指定路線（預設：全路線）"
       }
     }
   },
   "body": {
     "info": {
-      "not_specified": "",
-      "not_found": "",
-      "free": "",
-      "type": "",
-      "lane": "",
-      "role": "",
-      "difficulty": "",
-      "damage": "",
-      "survivability": "",
-      "utility": "",
-      "description": ""
+      "not_specified": "❌ 尚未指定英雄名稱。",
+      "not_found": "❌ 指定英雄不存在：{{name}}",
+      "free": "當周免費英雄",
+      "type": "施放技能消耗資源類別",
+      "lane": "適用路線",
+      "role": "角色",
+      "difficulty": "操作難度 ",
+      "damage": "傷害",
+      "survivability": "耐戰力",
+      "utility": "功能性",
+      "description": "描述"
     },
     "lane": {
-      "title": "",
-      "not_found": "",
+      "title": "{{lane}} 英雄",
+      "not_found": "❌ 找不到任何英雄。",
       "button": {
-        "not_found": "",
-        "invalid_user": "",
-        "time_out": ""
+        "not_found": "❌ 不存在對應英雄。",
+        "invalid_user": "❌ 只有命令使用者才能使用這些按鈕。若要自己執行，請使用 **`/lanechamp`**。",
+        "time_out": "❌ 命令超時，請重新嘗試。"
       }
     },
     "random": {
-      "title": "",
-      "champion_count": "",
-      "allLane": "",
-      "selected_count": "",
-      "not_found": ""
+      "title": "🎲 隨機英雄",
+      "champion_count": "位",
+      "allLane": "全路線",
+      "selected_count": "選擇數量",
+      "not_found": "❌ 指定英雄不存在。"
     },
     "team": {
-      "title": "",
-      "not_selected": "",
-      "error": ""
+      "title": "🎲 隨機隊伍：各兩位",
+      "not_selected": "❌ 尚未選擇英雄",
+      "error": "❌ 在產生隨機隊伍時發生錯誤。"
     },
     "stats": {
       "lanewinrate": {
-        "no_data": "",
-        "description": "",
-        "field": "",
-        "title": "",
-        "invalid_rank": ""
+        "no_data": "❌ 找不到任何資料。",
+        "description": "⚔️：勝率 ⚒️：選取率",
+        "field": "{{lane}}{{emoji}}的勝率",
+        "title": "各路線勝率前五名",
+        "invalid_rank": "❌ 目標段位不存在。"
       },
       "pickrate": {
-        "no_data": "",
-        "description": "",
-        "field": "",
-        "title": "",
-        "invalid_rank": ""
+        "no_data": "❌ 找不到任何資料。",
+        "description": "⚒️：選取率 ❌：禁用率",
+        "field": "{{lane}}{{emoji}}的選取率",
+        "title": "各路線選取率前五名",
+        "invalid_rank": "❌ 目標段位不存在。"
       },
       "strength": {
-        "point": "",
-        "field": "",
-        "title": "",
-        "description": "",
-        "no_data": "",
-        "invalid_rank": ""
+        "point": "點",
+        "field": "{{lane}}{{emoji}}的系統評估強度",
+        "title": "各路線系統評估強度前五名",
+        "description": "騰訊系統評估的英雄強度",
+        "no_data": "❌ 找不到任何資料。",
+        "invalid_rank": "❌ 目標段位不存在。"
       },
       "winrate": {
-        "no_data": "",
-        "description": "",
-        "title": "",
-        "invalid_rank": "",
-        "invalid_champion": "",
-        "not_available": ""
+        "no_data": "❌ 找不到任何資料。",
+        "description": "⚔️：勝率 ⚒️：選取率 ❌：禁用率",
+        "title": "{{name}}的勝率： {{rank}}",
+        "invalid_rank": "❌ 目標段位不存在。",
+        "invalid_champion": "❌ 指定英雄不存在。",
+        "not_available": "❌ 指定英雄尚未上線於激鬥峽谷。"
       }
     }
   }
