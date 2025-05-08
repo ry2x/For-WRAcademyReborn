@@ -21,7 +21,7 @@ export default new SubCommand({
 
         delCnt++;
       } catch (err) {
-        logger.warn(t('other:message_del.failed'), err);
+        logger.warn(t('other:body.dev.message_del.failed'), err);
         continue;
       }
     }
@@ -30,7 +30,7 @@ export default new SubCommand({
       embeds: [
         new EmbedBuilder()
           .setColor(Colors.Aqua)
-          .setDescription(t('other:message_del.complete', { count: delCnt })),
+          .setDescription(t('other:body.dev.message_del.complete', { count: delCnt })),
       ],
     });
   },
