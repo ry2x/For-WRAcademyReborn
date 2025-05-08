@@ -26,7 +26,7 @@ export function getLanes(champion: Champion): string {
   return Object.entries(LANES)
     .filter(([, lane]) => champion.lanes.includes(lane.value))
     .map(([, lane]) => `${getEmoji(lane.emoji)}: ${t(`constants:${lane.name}`)}`)
-    .join(', ');
+    .join('\n');
 }
 
 /**
@@ -38,7 +38,7 @@ export function getTags(champion: Champion): string {
   return Object.entries(ROLES)
     .filter(([, tag]) => champion.roles.includes(tag.value))
     .map(([, tag]) => `${t(`constants:${tag.name}`)}: ${getEmoji(tag.emoji)}`)
-    .join(', ');
+    .join('\n');
 }
 
 /**

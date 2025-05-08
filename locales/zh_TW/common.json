@@ -1,76 +1,76 @@
 {
   "initialization": {
     "failed": {
-      "daily": "",
-      "data": "",
-      "commands": "",
-      "message": "",
-      "component": "",
-      "allCommands": "",
-      "event": "",
-      "eventHandler": "",
-      "process": "",
-      "processError": "",
-      "unhandled": "",
-      "uncaught": ""
+      "daily": "❌ 每日更新失敗",
+      "data": "❌ 初始化資料失敗",
+      "commands": "❌ 無法從 ‘{{directory}}’ 加載命令",
+      "message": "❌ 無法從 ‘{{directory}}’ 加載 MessageCommand",
+      "component": "❌ 無法從 '{{directory}}' 加載 CommandModule",
+      "allCommands": "❌ 無法加載命令",
+      "event": "❌ 無法在 ‘{{eventName}}’ 中設置 EventHandler",
+      "eventHandler": "❌ 無法加載 EventHandler",
+      "process": "❌ 進程退出通知失敗",
+      "processError": "⚠️ 進程結束 (代碼：'{{code}}')",
+      "unhandled": "⚠️ Unhandled promise rejection",
+      "uncaught": "⚠️ Uncaught exception"
     }
   },
   "template": {
     "failed": {
-      "notFound": "",
-      "noExecute": ""
+      "notFound": "❌ 命令不存在",
+      "noExecute": "❌ 未提供執行函數"
     }
   },
   "interaction": {
     "failed": {
-      "create": "",
-      "notFound": "",
-      "error": "",
-      "sendingError": ""
+      "create": "❌ interactionCreate 事件中出現錯誤",
+      "notFound": "❌ 互動命令不存在：'{{name}}'",
+      "error": "❌ 執行命令時發生錯誤",
+      "sendingError": "❌ 發送互動響應時發生錯誤"
     }
   },
   "autoComplete": {
     "failed": {
-      "notFound": "",
-      "error": ""
+      "notFound": "❌ 找不到自動完成項目：'{{name}}'",
+      "error": "❌ 執行自動完成時發生錯誤"
     }
   },
   "messageCommand": {
     "failed": {
-      "error": ""
+      "error": "❌ 執行 messageCreate 時發生錯誤"
     }
   },
   "ready": {
     "failed": {
-      "noUserTag": "",
-      "error": ""
+      "noUserTag": "❌ 客戶端使用者不可用",
+      "error": "❌ ready 事件中出現錯誤"
     },
-    "success": ""
+    "success": "✅ 已登入為 {{name}}！"
   },
   "webhook": {
-    "failed ": ""
+    "failed ": "❌ 發送 Webhook 通知失敗"
   },
   "deploy": {
-    "unhandled": "",
-    "for_owner": "",
-    "starting": "",
-    "success": "",
-    "error": "",
-    "check": "",
-    "failed_load": "",
-    "missing_env": "",
-    "pushing": ""
+    "unhandled": "⚠️ 未授權的 {{name}} 用戶試圖安裝",
+    "for_owner": "⚠️ 抱歉，只有機器人擁有者可以安裝命令！",
+    "starting": "{{name}} 開始安裝命令",
+    "success": "✅ 命令安裝成功！",
+    "error": "❌ 命令安裝失敗！",
+    "check": "檢查 logs 以了解詳情。",
+    "failed_load": "❌ 無法從 {{file}} 文件加載命令",
+    "missing_env": "❌ 缺少必需的環境變數：TOKEN 或 CLIENT_ID",
+    "pushing": "正在將命令推送到 Discord"
   },
   "undeploy": {
-    "unhandled": "",
-    "for_owner": "",
-    "success": "",
-    "error": "",
-    "check": "",
-    "invalid_arg": "",
-    "invalid_target": "",
-    "starting": ""
+    "unhandled": "⚠️ 未授權的 {{name}} 用戶試圖解安裝",
+    "for_owner": "⚠️ 抱歉，只有機器人擁有者可以解安裝命令！",
+    "success": "✅ {{target}} 命令已成功解安裝！",
+    "error": "❌ 命令解安裝失敗！",
+    "check": "檢查 logs 以了解詳情。",
+    "invalid_arg": "⚠️ 用法錯誤！正確的格式是 `{{prefix}}undeploy <guild/global>`",
+    "invalid_target": "⚠️ 無效的參數！請使用`guild`或`global`",
+    "starting": "{{name}} 開始解安裝命令"
   },
-  "errorEmbed": "",
-  "ping": ""
+  "errorEmbed": "❌ 執行命令時發生錯誤",
+  "ping": "延遲為 {{ping}} 毫秒"
 }

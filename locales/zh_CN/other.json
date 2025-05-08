@@ -1,96 +1,96 @@
 {
   "command": {
     "ping": {
-      "description": ""
+      "description": "Displays the current latency between the server (Discord⇔BOT)."
     },
     "slot": {
-      "win": "",
-      "almost_win": "",
-      "miss": "",
-      "first_time": "",
-      "description": "",
-      "reroll": "",
+      "win": "**🎉 Jackpot! All three matched! 🎉**",
+      "almost_win": "**😲 So close! Two matched!**",
+      "miss": "**💀 Better luck next time!**",
+      "first_time": "First attempt",
+      "description": "Play a slot machine game",
+      "reroll": "🎰 Reroll!",
       "button": {
-        "reroll": "",
-        "count": "",
-        "time_out": "",
-        "invalid_user": ""
+        "reroll": "🎰 Reroll!",
+        "count": "Attempt #{{count}}",
+        "time_out": "❌ Timed out. Please try again.\nTo play again, use **\\`/slot\\`**.",
+        "invalid_user": "❌ Only the command user can use these buttons.\nTo play yourself, use **\\`/slot\\`**."
       }
     },
     "dev": {
-      "description": "",
+      "description": "Commands for developers.",
       "ping": {
-        "description": ""
+        "description": "Check server response. (For developers)"
       },
       "message_del": {
-        "description": "",
-        "count": ""
+        "description": "Delete a specified number of messages in the current channel.",
+        "count": "Number of messages to delete (maximum 100)"
       },
       "fetch": {
-        "description": ""
+        "description": "Updates data from various APIs."
       },
       "emoji": {
-        "description": "",
-        "action": "",
-        "url": "",
-        "name": "",
-        "create": "",
-        "delete": "",
-        "update": ""
+        "description": "Manage server emojis.",
+        "action": "Action to perform on emoji (default: create)",
+        "url": "URL for the emoji (required for create/update)",
+        "name": "Name of the emoji",
+        "create": "Create",
+        "delete": "Delete",
+        "update": "Update"
       }
     },
     "level": {
       "leaderboard": {
-        "description": ""
+        "description": "Display XP leaderboard."
       }
     },
     "news": {
-      "description": "",
+      "description": "News related commands",
       "wildrift": {
-        "description": "",
-        "count": ""
+        "description": "Display up to 10 latest news items from the Wild Rift official page.",
+        "count": "Specify the number of news items to display."
       }
     },
     "team": {
-      "description": "",
+      "description": "Team commands",
       "random": {
-        "description": "",
-        "team_count": "",
-        "vc_channel": "",
-        "is_bot": "",
-        "exclude": ""
+        "description": "TESTING: Randomly divide members in the specified VC into teams. (This command is in testing)",
+        "team_count": "Number of teams to create (default: 2)",
+        "vc_channel": "Voice channel to divide teams (default: your current VC)",
+        "is_bot": "Include bots or not (default: FALSE)",
+        "exclude": "Select members to exclude"
       }
     }
   },
   "body": {
     "dev": {
       "fetch": {
-        "not_available": "",
-        "start": "",
-        "champion": "",
-        "wildrift": "",
-        "complete": "",
-        "error": "",
-        "check": ""
+        "not_available": "❌ You do not have permission to use this command.",
+        "start": "Starting data update process...",
+        "champion": "Updating champion data...",
+        "wildrift": "Updating Wild Rift data...",
+        "complete": "✅ All data updates completed!",
+        "error": "❌ An error occurred during data update.",
+        "check": "Please check the logs for details."
       },
       "message_del": {
-        "failed": "",
-        "complete": ""
+        "failed": "❌ Failed to delete messages.",
+        "complete": "✅ Deleted {{count}} messages."
       },
       "ping": {
-        "repost": ""
+        "repost": "📟Repost"
       },
       "emoji": {
-        "is_member": "",
-        "is_guild": "",
-        "exists": "",
-        "added": "",
-        "updated": "",
-        "delete": "",
-        "not_exists": "",
-        "invalid_action": "",
-        "error": "",
-        "check": ""
+        "is_member": "❌ Could not find member info.",
+        "is_guild": "❌ Could not find server info.",
+        "exists": "❌ Emoji `{{emojiName}}` already exists. Here it is: {{existingEmoji}}",
+        "added": "✅ Successfully added emoji `{{emojiName}}`: {{newEmoji}}",
+        "updated": "✅ Successfully updated emoji `{{emojiName}}` to {{updatedEmoji}}",
+        "delete": "✅ Successfully deleted emoji:`{{emojiName}}`",
+        "not_exists": "❌ Emoji `{{emojiName}}` does not exist.",
+        "invalid_action": "❌ Invalid action : {{action}}. Please choose from `create`, `update`, or `delete`.",
+        "error": "❌ Error occurred while managing emoji:",
+        "check": "Please check the logs for details."
       }
     }
   }

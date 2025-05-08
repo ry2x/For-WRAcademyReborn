@@ -1,25 +1,25 @@
 {
   "lane": {
-    "all": "",
-    "top": "",
-    "jungle": "",
-    "mid": "",
-    "ad": "",
-    "support": ""
+    "all": "全部路線",
+    "top": "上路",
+    "jungle": "打野",
+    "mid": "中路",
+    "ad": "下路",
+    "support": "輔助"
   },
   "rank": {
-    "all": "",
-    "diamondPlus": "",
-    "masterPlus": "",
-    "challengerPlus": "",
-    "superServer": ""
+    "all": "全段位",
+    "diamondPlus": "鑽石+",
+    "masterPlus": "大師+",
+    "challengerPlus": "菁英+",
+    "superServer": "峽谷之巔"
   },
   "role": {
-    "fighter": "",
-    "mage": "",
-    "assassin": "",
-    "marksman": "",
-    "support": "",
-    "tank": ""
+    "fighter": "鬥士",
+    "mage": "法師",
+    "assassin": "刺客",
+    "marksman": "射手",
+    "support": "輔助",
+    "tank": "坦克"
   }
 }
