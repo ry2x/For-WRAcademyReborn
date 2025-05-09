@@ -74,6 +74,16 @@
         "panel": "new"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Check Docker",
+      "type": "shell",
+      "command": "docker build --check . -f Dockerfile.prod",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
     }
   ]
 }
