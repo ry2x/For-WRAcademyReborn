@@ -27,25 +27,25 @@ WORKDIR /app
 
 # Copy package files and dist from builder
 COPY package.json pnpm-lock.yaml ./
-COPY --from=builder /app/dist ./dist
 
 # Install pnpm and production dependencies
 RUN npm install -g pnpm && \
-  pnpm install --prod --frozen-lockfile
+  pnpm install --prod --frozen-lockfile && \
+  npm uninstall -g pnpm
 
 # Stage 3: Create the production image
-FROM gcr.io/distroless/nodejs22-debian12
-
-# Set working directory for the copy commands
-WORKDIR /app
+FROM gcr.io/distroless/nodejs22-debian12:nonroot
 
 # Copy node_modules and dist contents
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/dist ./dist
-COPY /locales ./locales/
+COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=builder /app/dist /app/dist
+COPY /locales /app/locales/
+
+# Set environment variables
+ENV NODE_ENV=production
 
 # Set working directory for the Application
 WORKDIR /app/dist
 
 # Start the application
-CMD ["index.js"]
+ENTRYPOINT  ["/nodejs/bin/node", "index.js"]
