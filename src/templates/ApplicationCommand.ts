@@ -15,7 +15,10 @@ import {
  * Represents an Slash Command
  */
 export default class ApplicationCommand {
-  data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
+  data:
+    | SlashCommandBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | SlashCommandOptionsOnlyBuilder;
   hasSubCommands: boolean;
   execute: (interaction: ChatInputCommandInteraction) => Promise<void> | void;
 
@@ -27,9 +30,14 @@ export default class ApplicationCommand {
    *  }} options - The options for the slash command
    */
   constructor(options: {
-    data: SlashCommandBuilder | SlashCommandSubcommandsOnlyBuilder | SlashCommandOptionsOnlyBuilder;
+    data:
+      | SlashCommandBuilder
+      | SlashCommandSubcommandsOnlyBuilder
+      | SlashCommandOptionsOnlyBuilder;
     hasSubCommands?: boolean;
-    execute?: (interaction: ChatInputCommandInteraction) => Promise<void> | void;
+    execute?: (
+      interaction: ChatInputCommandInteraction,
+    ) => Promise<void> | void;
   }) {
     if (options.hasSubCommands) {
       this.execute = async (interaction: ChatInputCommandInteraction) => {

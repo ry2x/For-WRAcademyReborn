@@ -7,7 +7,9 @@ import { SlashCommandBuilder } from 'discord.js';
  * @type {ApplicationCommand}
  */
 export const emptyCommand = new ApplicationCommand({
-  data: new SlashCommandBuilder().setName('empty').setDescription('empty command'),
+  data: new SlashCommandBuilder()
+    .setName('empty')
+    .setDescription('empty command'),
   hasSubCommands: false,
   execute: async () => {
     // empty execute-function

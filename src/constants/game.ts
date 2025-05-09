@@ -1,46 +1,54 @@
-import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey, RoleKey } from '@/types/game.js';
+import type {
+  Lane,
+  LaneKey,
+  PositionSet,
+  RankRange,
+  RankRangeKey,
+  RoleKey,
+} from '@/types/game.js';
 
 /**
  * Lane position configurations with API parameters
  */
-export const LANES: Record<LaneKey, PositionSet<LaneKey> & { apiParam: Lane }> = {
-  all: {
-    name: 'lane.all',
-    value: 'all',
-    emoji: 'Lane_All',
-    apiParam: '0',
-  },
-  top: {
-    name: 'lane.top',
-    value: 'top',
-    emoji: 'Lane_Top',
-    apiParam: '2',
-  },
-  jungle: {
-    name: 'lane.jungle',
-    value: 'jungle',
-    emoji: 'Lane_Jungle',
-    apiParam: '5',
-  },
-  mid: {
-    name: 'lane.mid',
-    value: 'mid',
-    emoji: 'Lane_Mid',
-    apiParam: '1',
-  },
-  ad: {
-    name: 'lane.ad',
-    value: 'ad',
-    emoji: 'Lane_Bot',
-    apiParam: '3',
-  },
-  support: {
-    name: 'lane.support',
-    value: 'support',
-    emoji: 'Lane_Support',
-    apiParam: '4',
-  },
-} as const;
+export const LANES: Record<LaneKey, PositionSet<LaneKey> & { apiParam: Lane }> =
+  {
+    all: {
+      name: 'lane.all',
+      value: 'all',
+      emoji: 'Lane_All',
+      apiParam: '0',
+    },
+    top: {
+      name: 'lane.top',
+      value: 'top',
+      emoji: 'Lane_Top',
+      apiParam: '2',
+    },
+    jungle: {
+      name: 'lane.jungle',
+      value: 'jungle',
+      emoji: 'Lane_Jungle',
+      apiParam: '5',
+    },
+    mid: {
+      name: 'lane.mid',
+      value: 'mid',
+      emoji: 'Lane_Mid',
+      apiParam: '1',
+    },
+    ad: {
+      name: 'lane.ad',
+      value: 'ad',
+      emoji: 'Lane_Bot',
+      apiParam: '3',
+    },
+    support: {
+      name: 'lane.support',
+      value: 'support',
+      emoji: 'Lane_Support',
+      apiParam: '4',
+    },
+  } as const;
 
 /**
  * Rank range configurations with API parameters

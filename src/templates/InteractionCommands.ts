@@ -28,14 +28,23 @@ export class ButtonCommand extends BaseCommand<dummyData, ButtonInteraction> {}
 /**
  * Represents a Select Command
  */
-export class SelectCommand extends BaseCommand<dummyData, AnySelectMenuInteraction> {}
+export class SelectCommand extends BaseCommand<
+  dummyData,
+  AnySelectMenuInteraction
+> {}
 
 /**
  * Represents a Modal Command
  */
-export class ModalCommand extends BaseCommand<dummyData, ModalSubmitInteraction> {}
+export class ModalCommand extends BaseCommand<
+  dummyData,
+  ModalSubmitInteraction
+> {}
 
 /**
  * Represents a Autocomplete Command
  */
-export class AutocompleteCommand extends BaseCommand<dummyData, AutocompleteInteraction> {}
+export class AutocompleteCommand extends BaseCommand<
+  dummyData,
+  AutocompleteInteraction
+> {}

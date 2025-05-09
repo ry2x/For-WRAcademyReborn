@@ -5,7 +5,12 @@ import SubCommand from '@/templates/SubCommand.js';
 import type { LaneKey } from '@/types/game.js';
 import { getLaneEmoji } from '@/utils/constantsUtils.js';
 import { t } from '@/utils/i18n.js';
-import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  Colors,
+  EmbedBuilder,
+  MessageFlags,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
 
 export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -29,7 +34,9 @@ export default new SubCommand({
     }
 
     count = Math.min(count, champions.length);
-    const randomChampions = champions.sort(() => 0.5 - Math.random()).slice(0, count);
+    const randomChampions = champions
+      .sort(() => 0.5 - Math.random())
+      .slice(0, count);
 
     const embed = new EmbedBuilder()
       .setTitle(
@@ -38,12 +45,16 @@ export default new SubCommand({
           ` (${lane === 'all' ? t('champion:body.random.allLane') : lane.toUpperCase()}${getLaneEmoji(lane)})`,
       )
       .setDescription(
-        randomChampions.map((champ) => `**・${champ.name}** - *${champ.title}*`).join('\n'),
+        randomChampions
+          .map((champ) => `**・${champ.name}** - *${champ.title}*`)
+          .join('\n'),
       )
       .setThumbnail(
         `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${randomChampions[0].id}.png`,
       )
-      .setFooter({ text: `${t('champion:body.random.selected_count')}: ${count}` })
+      .setFooter({
+        text: `${t('champion:body.random.selected_count')}: ${count}`,
+      })
       .setColor(Colors.Orange);
 
     await interaction.editReply({ embeds: [embed] });

@@ -44,7 +44,11 @@ export function getChampionStats(
   rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
 ): HeroStats | null {
   const laneData = WinRates.data[rankRange]?.[lane];
-  return laneData?.find((hero) => hero.hero_id.toString() === championId.toString()) || null;
+  return (
+    laneData?.find(
+      (hero) => hero.hero_id.toString() === championId.toString(),
+    ) || null
+  );
 }
 
 /**
@@ -75,7 +79,9 @@ export function getTopChampionsByWinRate(
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
   return laneData
-    .sort((a, b) => parseFloat(b.win_rate_percent) - parseFloat(a.win_rate_percent))
+    .sort(
+      (a, b) => parseFloat(b.win_rate_percent) - parseFloat(a.win_rate_percent),
+    )
     .slice(0, limit);
 }
 
@@ -92,7 +98,9 @@ export function getTopChampionsByStrength(
   limit = 10,
 ): HeroStats[] {
   const laneData = getLaneStats(lane, rankRange);
-  return laneData.sort((a, b) => parseFloat(b.strength) - parseFloat(a.strength)).slice(0, limit);
+  return laneData
+    .sort((a, b) => parseFloat(b.strength) - parseFloat(a.strength))
+    .slice(0, limit);
 }
 
 /**
@@ -113,7 +121,9 @@ export function getTopChampionsByPickRate(
   return laneData
     .sort((a, b) => {
       if (!considerBanRate) {
-        return parseFloat(b.appear_rate_percent) - parseFloat(a.appear_rate_percent);
+        return (
+          parseFloat(b.appear_rate_percent) - parseFloat(a.appear_rate_percent)
+        );
       }
 
       // Weighted calculation considering both pick rate and ban rate

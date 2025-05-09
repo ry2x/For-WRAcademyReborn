@@ -28,14 +28,22 @@ export function createPageEmbed(
   const currentChamps = championNames.slice(start, start + perPage);
   return new EmbedBuilder()
     .setTitle(
-      t('champion:body.lane.title', { lane: ` ${getLaneEmoji(lane)}${lane.toUpperCase()}` }),
+      t('champion:body.lane.title', {
+        lane: ` ${getLaneEmoji(lane)}${lane.toUpperCase()}`,
+      }),
     )
     .setDescription(currentChamps.map((name) => `・**${name}**`).join('\n'))
-    .setFooter({ text: `${page + 1} / ${totalPages} (${championNames.length})` })
+    .setFooter({
+      text: `${page + 1} / ${totalPages} (${championNames.length})`,
+    })
     .setColor(Colors.Orange);
 }
 
-export function createPageButton(page: number, lane: LaneKey, totalPages: number) {
+export function createPageButton(
+  page: number,
+  lane: LaneKey,
+  totalPages: number,
+) {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setCustomId(`champLane-${lane}-${page - 1}`)
@@ -65,13 +73,15 @@ export default new SubCommand({
     const championNames = champions.map(
       (champ) =>
         getEmoji('SR') +
-        (champ.is_wr ? ` ${getEmoji("WR")}` : ' ❌ ') +
+        (champ.is_wr ? ` ${getEmoji('WR')}` : ' ❌ ') +
         champ.name,
     );
     const totalPages = Math.ceil(championNames.length / CHAMP_PER_PAGE);
 
     await interaction.reply({
-      embeds: [createPageEmbed(0, championNames, lane, totalPages, CHAMP_PER_PAGE)],
+      embeds: [
+        createPageEmbed(0, championNames, lane, totalPages, CHAMP_PER_PAGE),
+      ],
       components: [createPageButton(0, lane, totalPages)],
     });
   },

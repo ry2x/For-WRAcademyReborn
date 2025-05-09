@@ -22,7 +22,9 @@ export default class SubCommand {
    * @param {(interaction: ChatInputCommandInteraction) => Promise<void> | void} executeFunction - The function
    */
   setExecute(
-    executeFunction: (interaction: ChatInputCommandInteraction) => Promise<void> | void,
+    executeFunction: (
+      interaction: ChatInputCommandInteraction,
+    ) => Promise<void> | void,
   ): void {
     this.execute = executeFunction;
   }

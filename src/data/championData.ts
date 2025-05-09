@@ -15,10 +15,16 @@ let champions: Champions = [];
 export async function fetchChampionData(): Promise<void> {
   try {
     const res: AxiosResponse<Champions> = await axios.get(
-      config.urlChampions.replace('{{locale}}', process.env.DEFAULT_LOCALE ?? 'en_US'),
+      config.urlChampions.replace(
+        '{{locale}}',
+        process.env.DEFAULT_LOCALE ?? 'en_US',
+      ),
     );
     champions = res.data;
-    logger.info('Champion data updated successfully:', process.env.DEFAULT_LOCALE ?? 'en_US');
+    logger.info(
+      'Champion data updated successfully:',
+      process.env.DEFAULT_LOCALE ?? 'en_US',
+    );
   } catch (error) {
     logger.error('Failed to fetch champion data:', error);
     throw error;
@@ -31,7 +37,9 @@ export async function fetchChampionData(): Promise<void> {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampionByName(name: string): Champion | undefined {
-  return champions.find((champ: Champion) => champ.name.toLowerCase().includes(name.toLowerCase()));
+  return champions.find((champ: Champion) =>
+    champ.name.toLowerCase().includes(name.toLowerCase()),
+  );
 }
 
 /**
@@ -40,7 +48,9 @@ export function getChampionByName(name: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampById(id: string): Champion | undefined {
-  return champions.find((champ: Champion) => champ.id.toLowerCase() === id.toLowerCase());
+  return champions.find(
+    (champ: Champion) => champ.id.toLowerCase() === id.toLowerCase(),
+  );
 }
 
 /**
@@ -49,7 +59,9 @@ export function getChampById(id: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampByHeroId(heroId: number): Champion | undefined {
-  return champions.find((champ: Champion) => champ.hero_id.toString() === heroId.toString());
+  return champions.find(
+    (champ: Champion) => champ.hero_id.toString() === heroId.toString(),
+  );
 }
 
 /**
@@ -86,7 +98,9 @@ export function getChampionsByLane(lane: LaneKey): Champion[] {
  * @param champ - The champion to get lanes for
  * @returns Array of lane configurations that the champion can be played in
  */
-export function getChampionLanes(champ: Champion): (PositionSet<LaneKey> & { apiParam: Lane })[] {
+export function getChampionLanes(
+  champ: Champion,
+): (PositionSet<LaneKey> & { apiParam: Lane })[] {
   return champ.lanes.map((lane) => ({
     ...LANES[lane],
   }));

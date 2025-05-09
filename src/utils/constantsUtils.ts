@@ -1,6 +1,12 @@
 import { LANES, RANK_RANGES } from '@/constants/game.js';
 import { getEmoji } from '@/data/emoji.js';
-import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
+import type {
+  Lane,
+  LaneKey,
+  PositionSet,
+  RankRange,
+  RankRangeKey,
+} from '@/types/game.js';
 
 /**
  * Gets the rank range configuration from a value

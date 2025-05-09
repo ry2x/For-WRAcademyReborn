@@ -4,12 +4,22 @@ import { getEmoji } from '@/data/emoji.js';
 import { getTopChampionsByWinRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
+import type {
+  Lane,
+  LaneKey,
+  PositionSet,
+  RankRange,
+  RankRangeKey,
+} from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import {
+  type ChatInputCommandInteraction,
+  Colors,
+  EmbedBuilder,
+} from 'discord.js';
 
 /**
  * Creates a formatted string for a champion's win rate statistics
@@ -34,9 +44,14 @@ function formatChampionStats(stat: HeroStats, index: number): string {
  * @param rank - The rank configuration
  * @returns Formatted field value with top 5 champions
  */
-function createWinRateField(lane: { apiParam: Lane }, rank: { apiParam: RankRange }): string {
+function createWinRateField(
+  lane: { apiParam: Lane },
+  rank: { apiParam: RankRange },
+): string {
   const stats = getTopChampionsByWinRate(lane.apiParam, rank.apiParam, 5);
-  return stats.map((stat, index) => formatChampionStats(stat, index)).join('\n');
+  return stats
+    .map((stat, index) => formatChampionStats(stat, index))
+    .join('\n');
 }
 
 /**
@@ -62,7 +77,10 @@ function createLaneWinRateEmbed(
           lane: t(`constants:${lane.name}`),
           emoji: getEmoji(lane.emoji),
         }),
-        value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.lanewinrate.no_data'),
+        value:
+          fieldValue.length > 0
+            ? fieldValue
+            : t('champion:body.stats.lanewinrate.no_data'),
       };
     });
   return new EmbedBuilder()
@@ -78,14 +96,20 @@ export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
-    const rankValue = interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
-    const laneValue = interaction.options.getString('lane', false) ?? WIN_RATE_DEFAULTS.LANE;
+    const rankValue =
+      interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
+    const laneValue =
+      interaction.options.getString('lane', false) ?? WIN_RATE_DEFAULTS.LANE;
 
     const rank = getRankRange(rankValue);
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.lanewinrate.invalid_rank'))],
+        embeds: [
+          interactionErrorEmbed(
+            t('champion:body.stats.lanewinrate.invalid_rank'),
+          ),
+        ],
       });
       return;
     }

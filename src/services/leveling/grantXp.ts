@@ -30,7 +30,10 @@ async function sendLevelUP(nickname: string, newLevel: number): Promise<void> {
 }
 
 // Create a new user record in the database
-async function createNewUser(userId: string, gMember: GuildMember): Promise<User> {
+async function createNewUser(
+  userId: string,
+  gMember: GuildMember,
+): Promise<User> {
   const newUser: NewUser = {
     id: userId,
     level: 1,
@@ -108,12 +111,17 @@ export async function grantXP(gMember: GuildMember): Promise<void> {
     if (!db) {
       throw new Error('Database not initialized');
     }
-    let user = (await db.select().from(users).where(eq(users.id, userId)).limit(1))[0];
+    let user = (
+      await db.select().from(users).where(eq(users.id, userId)).limit(1)
+    )[0];
 
     // Create new user if not exists
     if (!user) {
       user = await createNewUser(userId, gMember);
-      await sendLevelUP(gMember.nickname || gMember.displayName || '', user.level);
+      await sendLevelUP(
+        gMember.nickname || gMember.displayName || '',
+        user.level,
+      );
       return;
     }
 
@@ -124,13 +132,23 @@ export async function grantXP(gMember: GuildMember): Promise<void> {
 
     // Calculate and update XP
     const xpGained = calculateXPGain();
-    const { newXP, newLevel, nextLevelXP } = calculateNewLevelAndXP(user, xpGained);
+    const { newXP, newLevel, nextLevelXP } = calculateNewLevelAndXP(
+      user,
+      xpGained,
+    );
 
-    await updateUserXP(userId, { xp: newXP, level: newLevel, nextLevelXp: nextLevelXP });
+    await updateUserXP(userId, {
+      xp: newXP,
+      level: newLevel,
+      nextLevelXp: nextLevelXP,
+    });
 
     // Send level up notification if leveled up
     if (newLevel > user.level) {
-      await sendLevelUP(gMember.nickname || gMember.displayName || '', newLevel);
+      await sendLevelUP(
+        gMember.nickname || gMember.displayName || '',
+        newLevel,
+      );
     }
   } catch (error) {
     logger.error('Failed to process XP:', error);

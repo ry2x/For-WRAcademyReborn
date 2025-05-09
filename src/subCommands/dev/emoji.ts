@@ -48,7 +48,10 @@ export default new SubCommand({
             name: emojiName,
           });
           await interaction.reply(
-            t('other:body.dev.emoji.added', { emojiName, newEmoji: newEmoji.toString() }),
+            t('other:body.dev.emoji.added', {
+              emojiName,
+              newEmoji: newEmoji.toString(),
+            }),
           );
         }
       } else if (action === 'update') {
@@ -59,26 +62,39 @@ export default new SubCommand({
             name: emojiName,
           });
           await interaction.reply(
-            t('other:body.dev.emoji.updated', { emojiName, newEmoji: newEmoji.toString() }),
+            t('other:body.dev.emoji.updated', {
+              emojiName,
+              newEmoji: newEmoji.toString(),
+            }),
           );
         } else {
-          await interaction.reply(t('other:body.dev.emoji.not_exists', { emojiName: emojiName }));
+          await interaction.reply(
+            t('other:body.dev.emoji.not_exists', { emojiName: emojiName }),
+          );
         }
       } else if (action === 'delete') {
         if (existingEmoji) {
           await existingEmoji.delete();
-          await interaction.reply(t('other:body.dev.emoji.delete', { emojiName: emojiName }));
+          await interaction.reply(
+            t('other:body.dev.emoji.delete', { emojiName: emojiName }),
+          );
         } else {
-          await interaction.reply(t('other:body.dev.emoji.not_exists', { emojiName: emojiName }));
+          await interaction.reply(
+            t('other:body.dev.emoji.not_exists', { emojiName: emojiName }),
+          );
         }
       } else {
-        await interaction.reply(t('other:body.dev.emoji.invalid_action', { action: action }));
+        await interaction.reply(
+          t('other:body.dev.emoji.invalid_action', { action: action }),
+        );
       }
     } catch (error) {
       logger.error(t('other:body.dev.emoji.error'), error);
       await interaction.reply({
         embeds: [
-          interactionErrorEmbed(t('other:body.dev.emoji.error') + t('other:body.dev.emoji.check')),
+          interactionErrorEmbed(
+            t('other:body.dev.emoji.error') + t('other:body.dev.emoji.check'),
+          ),
         ],
       });
     }

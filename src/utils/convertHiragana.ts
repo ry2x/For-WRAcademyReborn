@@ -8,5 +8,7 @@ const hiraganaRegex = /[\u3041-\u3096]/g;
  * toKatakana("ひらがな") // returns "ヒラガナ"
  */
 export function toKatakana(t: string): string {
-  return t.replace(hiraganaRegex, (x) => String.fromCharCode(x.charCodeAt(0) + 0x60));
+  return t.replace(hiraganaRegex, (x) =>
+    String.fromCharCode(x.charCodeAt(0) + 0x60),
+  );
 }

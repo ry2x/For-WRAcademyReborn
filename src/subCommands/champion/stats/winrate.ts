@@ -4,18 +4,30 @@ import { getEmoji } from '@/data/emoji.js';
 import { getChampionStats } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
+import type {
+  Lane,
+  LaneKey,
+  PositionSet,
+  RankRange,
+  RankRangeKey,
+} from '@/types/game.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  Colors,
+  EmbedBuilder,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
 
 /**
  * Creates a formatted string for a champion's statistics
  * @param stats - The champion's statistics
  * @returns Formatted string with win rate, pick rate, and ban rate
  */
-function formatChampionStats(stats: ReturnType<typeof getChampionStats>): string {
+function formatChampionStats(
+  stats: ReturnType<typeof getChampionStats>,
+): string {
   return (
     `⚔️:${stats?.win_rate_percent ?? '-'}% ${getIsFloating(stats?.win_rate_float ?? null)}\n` +
     `⚒️:${stats?.appear_rate_percent ?? '-'}% ${getIsFloating(stats?.appear_rate_float ?? null)}\n` +
@@ -63,7 +75,9 @@ function createChampionWinRateEmbed(
         rank: getEmoji(rank.emoji) + t(`constants:${rank.name}`),
       }),
     )
-    .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`)
+    .setThumbnail(
+      `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`,
+    )
     .setDescription(t('champion:body.stats.winrate.description'))
     .addFields(
       targetLanes
@@ -84,14 +98,17 @@ export default new SubCommand({
     await interaction.deferReply();
 
     const champName = interaction.options.getString('champion_name', true);
-    const rankValue = interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
+    const rankValue =
+      interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
     const laneValue = interaction.options.getString('lane', false);
 
     const rank = getRankRange(rankValue);
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.invalid_rank'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.stats.winrate.invalid_rank')),
+        ],
       });
       return;
     }
@@ -100,7 +117,11 @@ export default new SubCommand({
     if (!champ) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.invalid_champion'))],
+        embeds: [
+          interactionErrorEmbed(
+            t('champion:body.stats.winrate.invalid_champion'),
+          ),
+        ],
       });
       return;
     }
@@ -108,7 +129,9 @@ export default new SubCommand({
     if (!champ.is_wr) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.winrate.not_available'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.stats.winrate.not_available')),
+        ],
       });
       return;
     }

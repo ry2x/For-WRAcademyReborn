@@ -17,9 +17,16 @@ export default new ButtonCommand({
   },
   async execute(interaction): Promise<void> {
     await interaction.deferUpdate();
-    const [, lane, strPage] = interaction.customId.split('-') as [string, LaneKey, string];
+    const [, lane, strPage] = interaction.customId.split('-') as [
+      string,
+      LaneKey,
+      string,
+    ];
 
-    if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
+    if (
+      interaction.createdTimestamp - interaction.message.createdTimestamp >
+      3 * 60 * 1000
+    ) {
       const msg = interaction.message;
       const embed = msg.embeds[0];
 
@@ -29,7 +36,9 @@ export default new ButtonCommand({
       });
 
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(t('champion:body.lane.button.time_out'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.lane.button.time_out')),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -37,7 +46,9 @@ export default new ButtonCommand({
 
     if (interaction.message.member?.id === interaction.user.id) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(t('champion:body.lane.button.invalid_user'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.lane.button.invalid_user')),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -46,7 +57,9 @@ export default new ButtonCommand({
     const champions = getChampionsByLane(lane);
     if (!champions || champions.length === 0) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(t('champion:body.lane.button.not_found'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.lane.button.not_found')),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -55,13 +68,15 @@ export default new ButtonCommand({
     const championNames = champions.map(
       (champ) =>
         getEmoji('SR') +
-        (champ.is_wr ? ` ${getEmoji("WR")}` : ' ❌ ') +
+        (champ.is_wr ? ` ${getEmoji('WR')}` : ' ❌ ') +
         champ.name,
     );
     const totalPages = Math.ceil(championNames.length / CHAMP_PER_PAGE);
 
     await interaction.editReply({
-      embeds: [createPageEmbed(page, championNames, lane, totalPages, CHAMP_PER_PAGE)],
+      embeds: [
+        createPageEmbed(page, championNames, lane, totalPages, CHAMP_PER_PAGE),
+      ],
       components: [createPageButton(page, lane, totalPages)],
     });
   },

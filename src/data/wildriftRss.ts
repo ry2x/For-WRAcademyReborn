@@ -18,7 +18,9 @@ let data: RssWildRift = {
  */
 export async function fetchWildRiftData(): Promise<void> {
   try {
-    const res: AxiosResponse<RssWildRift> = await axios.get(config.urlRssWildRift);
+    const res: AxiosResponse<RssWildRift> = await axios.get(
+      config.urlRssWildRift,
+    );
     data = res.data;
     logger.info('WildRift RSS data updated successfully');
   } catch (error) {
@@ -67,7 +69,11 @@ export function getTipsFromContent(content: string): string {
   try {
     const dom = new JSDOM(content);
     const document = dom.window.document;
-    return document.querySelector('[data-testid="rich-text-html"] div')?.textContent?.trim() || '';
+    return (
+      document
+        .querySelector('[data-testid="rich-text-html"] div')
+        ?.textContent?.trim() || ''
+    );
   } catch (error) {
     logger.error('Failed to parse content:', error);
     return '';

@@ -6,7 +6,12 @@ import {
 } from '@/data/wildriftRss.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { Colors, MessageFlags, type APIEmbed, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  Colors,
+  MessageFlags,
+  type APIEmbed,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
 
 // Constants
 const DEFAULT_NEWS_COUNT = 6;

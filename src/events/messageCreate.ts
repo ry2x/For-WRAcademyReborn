@@ -19,7 +19,11 @@ export default new Event({
       if (message.author.bot) return;
 
       // Grant XP for messages in the default guild
-      if (ENABLE_SUBCOMMAND_LEVEL && message.member && message.guildId === DEFAULT_GUILD_ID) {
+      if (
+        ENABLE_SUBCOMMAND_LEVEL &&
+        message.member &&
+        message.guildId === DEFAULT_GUILD_ID
+      ) {
         await grantXP(message.member);
       }
 
@@ -32,7 +36,10 @@ export default new Event({
       }
 
       // Parse command and arguments
-      const args = message.content.slice(COMMAND_PREFIX.length).trim().split(/ +/);
+      const args = message.content
+        .slice(COMMAND_PREFIX.length)
+        .trim()
+        .split(/ +/);
       const commandName = args.shift()?.toLowerCase();
 
       if (!commandName) return;
