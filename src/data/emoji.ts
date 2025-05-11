@@ -7,6 +7,12 @@ type Emoji = Record<string, ApplicationEmoji>;
 // Initialize empty emoji storage
 const emojis: Emoji = {};
 
+/**
+ * Fetches emojis from the Discord client and stores valid ones in memory
+ * Valid emojis are those whose names match the codes defined in EMOJIS constant
+ * @throws {Error} If fetching emojis from Discord fails
+ * @returns Promise that resolves when emojis are fetched and stored
+ */
 export async function fetchEmoji(): Promise<void> {
   const res = await global.client.application?.emojis.fetch();
   logger.info('Fetched emojis...', res);
@@ -27,10 +33,12 @@ export async function fetchEmoji(): Promise<void> {
   logger.info('Emojis fetched successfully:', emojiNames);
 }
 
-export function getEmoji(name: string): string {
-  return `<:${emojis[name].name}:${emojis[name].id}>`;
-}
-
+/**
+ * Uploads new emojis to the Discord server if they don't already exist
+ * Only uploads emojis defined in the EMOJIS constant that aren't already on the server
+ * @throws {Error} If uploading emojis to Discord fails
+ * @returns Promise that resolves when all new emojis are uploaded
+ */
 export async function uploadEmojis(): Promise<void> {
   const existingEmojis = await global.client.application?.emojis.fetch();
   const deployedEmojis = [];
@@ -62,4 +70,14 @@ export async function uploadEmojis(): Promise<void> {
         : `Emojis deployed successfully, new emojis: ${emojiList}`,
     );
   }
+}
+
+/**
+ * Gets the Discord formatted emoji string for the given emoji name
+ * @param name - The name/code of the emoji to retrieve
+ * @returns Discord formatted emoji string in the format <:name:id>
+ * @throws {Error} If the emoji with the given name doesn't exist
+ */
+export function getEmoji(name: string): string {
+  return `<:${emojis[name].name}:${emojis[name].id}>`;
 }
