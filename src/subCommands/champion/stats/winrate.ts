@@ -1,7 +1,7 @@
 import { WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes } from '@/data/championData.js';
 import { getEmoji } from '@/data/emoji.js';
-import { getChampionStats } from '@/data/winRate.js';
+import { getChampionStats, getWinRateData } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type {
@@ -12,7 +12,7 @@ import type {
   RankRangeKey,
 } from '@/types/game.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
-import { getIsFloating } from '@/utils/formatUtils.js';
+import { formatDateWithSlash, getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
 import {
   Colors,
@@ -67,6 +67,16 @@ function createChampionWinRateEmbed(
     apiParam: RankRange;
   },
 ): EmbedBuilder {
+  const field = targetLanes
+    .filter((lane) => lane.value !== 'all')
+    .map((lane) => ({
+      name: `${t(`constants:${lane.name}`)} ${getEmoji(lane.emoji)}`,
+      value: createChampionStatsField(
+        champion.hero_id,
+        { apiParam: lane.apiParam },
+        { apiParam: rank.apiParam },
+      ),
+    }));
   return new EmbedBuilder()
     .setColor(Colors.Aqua)
     .setTitle(
@@ -79,18 +89,8 @@ function createChampionWinRateEmbed(
       `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`,
     )
     .setDescription(t('champion:body.stats.winrate.description'))
-    .addFields(
-      targetLanes
-        .filter((lane) => lane.value !== 'all')
-        .map((lane) => ({
-          name: `${t(`constants:${lane.name}`)} ${getEmoji(lane.emoji)}`,
-          value: createChampionStatsField(
-            champion.hero_id,
-            { apiParam: lane.apiParam },
-            { apiParam: rank.apiParam },
-          ),
-        })),
-    );
+    .addFields(field)
+    .setFooter({ text: formatDateWithSlash(getWinRateData()) });
 }
 
 export default new SubCommand({

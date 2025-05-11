@@ -142,3 +142,11 @@ export function getTopChampionsByPickRate(
     })
     .slice(0, limit);
 }
+
+/**
+ * Gets the date when win rate data was last updated
+ * @returns The date string in YYYYMMDD format, or empty string if not available
+ */
+export function getWinRateData(): string {
+  return WinRates.data[0]?.[1]?.[0]?.dtstatdate || '';
+}
