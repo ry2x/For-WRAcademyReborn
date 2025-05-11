@@ -5,7 +5,12 @@ import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { type Champion } from '@/types/champs.js';
 import { t } from '@/utils/i18n.js';
-import { Colors, EmbedBuilder, MessageFlags, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  Colors,
+  EmbedBuilder,
+  MessageFlags,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
 
 /**
  * Champion level display configuration
@@ -25,7 +30,9 @@ const CHAMPION_LEVEL_DISPLAY = {
 export function getLanes(champion: Champion): string {
   return Object.entries(LANES)
     .filter(([, lane]) => champion.lanes.includes(lane.value))
-    .map(([, lane]) => `${getEmoji(lane.emoji)}: ${t(`constants:${lane.name}`)}`)
+    .map(
+      ([, lane]) => `${getEmoji(lane.emoji)}: ${t(`constants:${lane.name}`)}`,
+    )
     .join('\n');
 }
 
@@ -51,9 +58,13 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
     .setColor(Colors.Orange)
     .setTitle(champion.name)
     .setDescription(
-      champion.is_free ? `${champion.title}   ${t('champion:body.info.free')}✅` : champion.title,
+      champion.is_free
+        ? `${champion.title}   ${t('champion:body.info.free')}✅`
+        : champion.title,
     )
-    .setThumbnail(`https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`);
+    .setThumbnail(
+      `https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion/${champion.id}.png`,
+    );
 
   const levelDisplay = (level: number) =>
     CHAMPION_LEVEL_DISPLAY[level as keyof typeof CHAMPION_LEVEL_DISPLAY];
@@ -61,12 +72,20 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
   return embed.addFields(
     {
       name: champion.is_wr
-        ? `${getEmoji("WR")} ${getEmoji("SR")}`
-        : getEmoji("SR"),
+        ? `${getEmoji('WR')} ${getEmoji('SR')}`
+        : getEmoji('SR'),
       value: `${t('champion:body.info.type')} : ${champion.type}`,
     },
-    { name: `${t('champion:body.info.lane')}`, value: getLanes(champion), inline: true },
-    { name: `${t('champion:body.info.role')}`, value: getTags(champion), inline: true },
+    {
+      name: `${t('champion:body.info.lane')}`,
+      value: getLanes(champion),
+      inline: true,
+    },
+    {
+      name: `${t('champion:body.info.role')}`,
+      value: getTags(champion),
+      inline: true,
+    },
     {
       name: `${t('champion:body.info.difficulty')}`,
       value: levelDisplay(champion.difficult),
@@ -89,7 +108,10 @@ export function createChampionEmbed(champion: Champion): EmbedBuilder {
     },
     {
       name: `${t('champion:body.info.description')}`,
-      value: champion.describe.length > 1024 ? champion.describe.slice(0, 1024) : champion.describe,
+      value:
+        champion.describe.length > 1024
+          ? champion.describe.slice(0, 1024)
+          : champion.describe,
     },
   );
 }
@@ -109,7 +131,11 @@ export default new SubCommand({
     const champion = getChampionByName(championName);
     if (!champion) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed(t('champion:body.info.not_found', { name: championName }))],
+        embeds: [
+          interactionErrorEmbed(
+            t('champion:body.info.not_found', { name: championName }),
+          ),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;

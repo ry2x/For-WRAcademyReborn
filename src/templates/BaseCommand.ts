@@ -11,7 +11,10 @@ export default class BaseCommand<T, K> {
    *   execute: (interaction: K) => Promise<void> | void;
    * }} options
    */
-  constructor(options: { data: T; execute: (interaction: K) => Promise<void> | void }) {
+  constructor(options: {
+    data: T;
+    execute: (interaction: K) => Promise<void> | void;
+  }) {
     if (options.execute) {
       this.execute = async (interaction: K) => {
         try {

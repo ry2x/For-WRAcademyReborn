@@ -3,7 +3,12 @@ import { db } from '@/db/index.js';
 import * as schema from '@/db/schema.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder, MessageFlags } from 'discord.js';
+import {
+  type ChatInputCommandInteraction,
+  Colors,
+  EmbedBuilder,
+  MessageFlags,
+} from 'discord.js';
 import { desc } from 'drizzle-orm';
 
 const { DEFAULT_GUILD_ID } = process.env;
@@ -18,12 +23,18 @@ const LEADERBOARD_CONFIG = {
  * @param limit - Maximum number of users to fetch
  * @returns Array of user data sorted by level and XP
  */
-async function getLeaderboard(limit: number = LEADERBOARD_CONFIG.DEFAULT_LIMIT) {
+async function getLeaderboard(
+  limit: number = LEADERBOARD_CONFIG.DEFAULT_LIMIT,
+) {
   const users = schema.users;
   if (!db) {
     throw new Error('Database not initialized');
   }
-  return await db.select().from(users).orderBy(desc(users.level), desc(users.xp)).limit(limit);
+  return await db
+    .select()
+    .from(users)
+    .orderBy(desc(users.level), desc(users.xp))
+    .limit(limit);
 }
 
 /**
@@ -71,7 +82,9 @@ function getRankEmoji(rank: number): string {
  * @param leaderboard - Array of user data
  * @returns Formatted leaderboard content
  */
-function createLeaderboardContent(leaderboard: (typeof schema.users.$inferSelect)[]): string {
+function createLeaderboardContent(
+  leaderboard: (typeof schema.users.$inferSelect)[],
+): string {
   return leaderboard
     .map((user, index) => {
       const percentage = Math.round((user.xp / user.nextLevelXp) * 100);

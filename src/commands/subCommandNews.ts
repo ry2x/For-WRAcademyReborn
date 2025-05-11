@@ -25,6 +25,7 @@ const newsCommand = new ApplicationCommand({
   hasSubCommands: true,
 });
 
-const command = ENABLE_SUBCOMMAND_NEWS?.toLowerCase() === 'true' ? newsCommand : emptyCommand;
+const command =
+  ENABLE_SUBCOMMAND_NEWS?.toLowerCase() === 'true' ? newsCommand : emptyCommand;
 
 export default command;

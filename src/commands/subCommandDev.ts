@@ -58,14 +58,20 @@ const devCommand = new ApplicationCommand({
             ),
         )
         .addStringOption((option) =>
-          option.setName('url').setDescription(t('other:command.dev.emoji.url')).setRequired(false),
+          option
+            .setName('url')
+            .setDescription(t('other:command.dev.emoji.url'))
+            .setRequired(false),
         ),
     )
     .addSubcommand(
-      new SlashCommandSubcommandBuilder().setName('testemoji').setDescription('test subcommand'),
+      new SlashCommandSubcommandBuilder()
+        .setName('testemoji')
+        .setDescription('test subcommand'),
     ),
   hasSubCommands: true,
 });
 
-const command = ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? devCommand : emptyCommand;
+const command =
+  ENABLE_SUBCOMMAND_DEV?.toLowerCase() === 'true' ? devCommand : emptyCommand;
 export default command;

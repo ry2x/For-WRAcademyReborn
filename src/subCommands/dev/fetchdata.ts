@@ -4,7 +4,11 @@ import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
-import { Colors, EmbedBuilder, type ChatInputCommandInteraction } from 'discord.js';
+import {
+  Colors,
+  EmbedBuilder,
+  type ChatInputCommandInteraction,
+} from 'discord.js';
 
 // Subcommand to fetch and update game data
 export default new SubCommand({
@@ -14,7 +18,9 @@ export default new SubCommand({
 
       if (interaction.user.id !== client.application?.owner?.id) {
         await interaction.editReply({
-          embeds: [interactionErrorEmbed(t('other:body.dev.fetch.not_available'))],
+          embeds: [
+            interactionErrorEmbed(t('other:body.dev.fetch.not_available')),
+          ],
         });
         return;
       }
@@ -50,7 +56,9 @@ export default new SubCommand({
       await interaction.editReply({
         embeds: [
           interactionErrorEmbed(
-            t('other:body.dev.fetch.error') + '\n' + t('other:body.dev.fetch.check'),
+            t('other:body.dev.fetch.error') +
+              '\n' +
+              t('other:body.dev.fetch.check'),
           ),
         ],
       });

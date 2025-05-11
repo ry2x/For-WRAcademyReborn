@@ -13,10 +13,14 @@ import {
  * Retrieves the target voice channel from the interaction.
  * If no channel is specified, it defaults to the user's current voice channel.
  */
-function getTargetChannel(interaction: ChatInputCommandInteraction): VoiceChannel | null {
+function getTargetChannel(
+  interaction: ChatInputCommandInteraction,
+): VoiceChannel | null {
   return (
     (interaction.options.getChannel('vc_channel', false) as VoiceChannel) ||
-    (interaction.member instanceof GuildMember ? interaction.member.voice.channel : null)
+    (interaction.member instanceof GuildMember
+      ? interaction.member.voice.channel
+      : null)
   );
 }
 
@@ -27,7 +31,10 @@ function splitIntoTeams(members: GuildMember[], teamCount: number): string[][] {
   const shuffledMembers = [...members]; // Create a copy to avoid modifying the original array
   for (let i = shuffledMembers.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffledMembers[i], shuffledMembers[j]] = [shuffledMembers[j], shuffledMembers[i]];
+    [shuffledMembers[i], shuffledMembers[j]] = [
+      shuffledMembers[j],
+      shuffledMembers[i],
+    ];
   }
   const teams: string[][] = Array.from({ length: teamCount }, () => []);
   shuffledMembers.forEach((member, index) => {
@@ -58,7 +65,9 @@ export default new SubCommand({
     const teamCount = interaction.options.getNumber('team_count', false) ?? 2;
     const targetChannel = getTargetChannel(interaction);
     const includeBot = interaction.options.getBoolean('is_bot', false) ?? false;
-    const excludeMember = interaction.options.getMember('exclude') as GuildMember | null;
+    const excludeMember = interaction.options.getMember(
+      'exclude',
+    ) as GuildMember | null;
 
     // Validate team count
     if (teamCount <= 1) {
@@ -72,7 +81,9 @@ export default new SubCommand({
     // Validate target channel
     if (!targetChannel || !targetChannel.isVoiceBased()) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed('有効なVCチャンネルを指定してください。')],
+        embeds: [
+          interactionErrorEmbed('有効なVCチャンネルを指定してください。'),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -94,7 +105,9 @@ export default new SubCommand({
     // Validate if there are enough members
     if (filteredMembers.length < 2) {
       await interaction.reply({
-        embeds: [interactionErrorEmbed('チャンネルに有効なメンバーがいません。')],
+        embeds: [
+          interactionErrorEmbed('チャンネルに有効なメンバーがいません。'),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;

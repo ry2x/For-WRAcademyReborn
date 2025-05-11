@@ -19,7 +19,10 @@ const { LOGTAIL_TOKEN, LOGTAIL_HOST } = process.env;
 
 // Create console transport configuration
 const winstonTransports = new winston.transports.Console({
-  format: winston.format.combine(winston.format.colorize(), winston.format.simple()),
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.simple(),
+  ),
 });
 
 // Create an array of transports

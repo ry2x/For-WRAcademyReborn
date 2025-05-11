@@ -17,6 +17,9 @@ const levelCommand = new ApplicationCommand({
   hasSubCommands: true,
 });
 
-const command = ENABLE_SUBCOMMAND_LEVEL?.toLowerCase() === 'true' ? levelCommand : emptyCommand;
+const command =
+  ENABLE_SUBCOMMAND_LEVEL?.toLowerCase() === 'true'
+    ? levelCommand
+    : emptyCommand;
 
 export default command;

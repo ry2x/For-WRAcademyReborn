@@ -7,10 +7,15 @@ import type { Champion } from '@/types/champs.js';
 import { type LaneKey } from '@/types/game.js';
 import { getLanePositionSets } from '@/utils/constantsUtils.js';
 import { t } from '@/utils/i18n.js';
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import {
+  type ChatInputCommandInteraction,
+  Colors,
+  EmbedBuilder,
+} from 'discord.js';
 
 const CHAMP_COUNT = 2;
-const THUMBNAIL_URL = 'https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion';
+const THUMBNAIL_URL =
+  'https://ddragon.leagueoflegends.com/cdn/15.4.1/img/champion';
 
 type Team = Record<LaneKey, Champion[]>;
 
@@ -73,9 +78,7 @@ function createTeamFieldName(lane: LaneKey): string {
 function createTeamEmbed(team: Team, wrOnly: boolean): EmbedBuilder {
   const embed = new EmbedBuilder()
     .setTitle(
-      `${t('champion:body.team.title')} ${
-        wrOnly ? getEmoji('WR') : getEmoji('SR')
-      }`,
+      `${t('champion:body.team.title')} ${wrOnly ? getEmoji('WR') : getEmoji('SR')}`,
     )
     .addFields(
       Object.entries(team)
@@ -91,7 +94,9 @@ function createTeamEmbed(team: Team, wrOnly: boolean): EmbedBuilder {
 }
 
 export default new SubCommand({
-  execute: async function (interaction: ChatInputCommandInteraction): Promise<void> {
+  execute: async function (
+    interaction: ChatInputCommandInteraction,
+  ): Promise<void> {
     await interaction.deferReply();
 
     const wrOnly = interaction.options.getBoolean('wr_only') ?? true;

@@ -36,7 +36,9 @@ export async function uploadEmojis(): Promise<void> {
   const deployedEmojis = [];
 
   if (existingEmojis) {
-    const existingEmojisMap = new Map(existingEmojis.map((emoji) => [emoji.name, emoji]));
+    const existingEmojisMap = new Map(
+      existingEmojis.map((emoji) => [emoji.name, emoji]),
+    );
     for (const { code, url } of EMOJIS) {
       if (existingEmojisMap.has(code)) {
         logger.info(`Emoji already exists: ${code}`);

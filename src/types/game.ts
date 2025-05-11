@@ -23,12 +23,23 @@ export type LaneKey = 'all' | 'mid' | 'jungle' | 'top' | 'support' | 'ad';
 /**
  * Available rank ranges for statistics
  */
-export type RankRangeKey = 'all' | 'diamondPlus' | 'masterPlus' | 'challengerPlus' | 'superServer';
+export type RankRangeKey =
+  | 'all'
+  | 'diamondPlus'
+  | 'masterPlus'
+  | 'challengerPlus'
+  | 'superServer';
 
 /**
  * Available champion roles
  */
-export type RoleKey = 'fighter' | 'mage' | 'assassin' | 'marksman' | 'support' | 'tank';
+export type RoleKey =
+  | 'fighter'
+  | 'mage'
+  | 'assassin'
+  | 'marksman'
+  | 'support'
+  | 'tank';
 
 /**
  * Lane positions in the game (API format)

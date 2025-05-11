@@ -30,9 +30,14 @@ export default new ButtonCommand({
     const msg = interaction.message;
     const originalEmbed = msg.embeds[0];
     await interaction.update({ embeds: [originalEmbed], components: [] });
-    if (interaction.createdTimestamp - interaction.message.createdTimestamp > 3 * 60 * 1000) {
+    if (
+      interaction.createdTimestamp - interaction.message.createdTimestamp >
+      3 * 60 * 1000
+    ) {
       await interaction.followUp({
-        embeds: [interactionErrorEmbed(t('other:command.slot.button.time_out'))],
+        embeds: [
+          interactionErrorEmbed(t('other:command.slot.button.time_out')),
+        ],
         flags: MessageFlags.Ephemeral,
       });
       return;
@@ -42,7 +47,9 @@ export default new ButtonCommand({
     const embed = new EmbedBuilder()
       .setDescription(message)
       .setColor(isWin ? Colors.Yellow : Colors.Grey)
-      .setFooter({ text: t('other:command.slot.button.count', { count: current }) });
+      .setFooter({
+        text: t('other:command.slot.button.count', { count: current }),
+      });
 
     current = isWin ? 0 : current;
     const reRollButton = new ActionRowBuilder<ButtonBuilder>().addComponents(

@@ -43,6 +43,7 @@ const teamCommand = new ApplicationCommand({
   hasSubCommands: true,
 });
 
-const command = ENABLE_SUBCOMMAND_TEAM?.toLowerCase() === 'true' ? teamCommand : emptyCommand;
+const command =
+  ENABLE_SUBCOMMAND_TEAM?.toLowerCase() === 'true' ? teamCommand : emptyCommand;
 
 export default command;

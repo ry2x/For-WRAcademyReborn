@@ -47,8 +47,10 @@ export default async function deployGlobalCommands() {
 
   try {
     // Load both types of commands
-    const standardCommands = await loadCommandFiles<ApplicationCommand>('./commands');
-    const contextCommands = await loadCommandFiles<ContextCommand>('./contexts');
+    const standardCommands =
+      await loadCommandFiles<ApplicationCommand>('./commands');
+    const contextCommands =
+      await loadCommandFiles<ContextCommand>('./contexts');
     const allCommands = [...standardCommands, ...contextCommands];
 
     // Initialize REST client

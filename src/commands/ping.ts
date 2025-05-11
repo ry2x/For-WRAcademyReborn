@@ -2,7 +2,11 @@ import { pingEmbed } from '@/embeds/pingEmbed.js';
 import ApplicationCommand from '@/templates/ApplicationCommand.js';
 import { emptyCommand } from '@/utils/emptyCommand.js';
 import { t } from '@/utils/i18n.js';
-import { type ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import {
+  type ChatInputCommandInteraction,
+  MessageFlags,
+  SlashCommandBuilder,
+} from 'discord.js';
 
 const { ENABLE_SUBCOMMAND_PING } = process.env;
 
@@ -18,6 +22,7 @@ const pingCommand = new ApplicationCommand({
   },
 });
 
-const command = ENABLE_SUBCOMMAND_PING?.toLowerCase() === 'true' ? pingCommand : emptyCommand;
+const command =
+  ENABLE_SUBCOMMAND_PING?.toLowerCase() === 'true' ? pingCommand : emptyCommand;
 
 export default command;

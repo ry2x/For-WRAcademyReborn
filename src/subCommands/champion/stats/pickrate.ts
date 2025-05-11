@@ -4,12 +4,22 @@ import { getEmoji } from '@/data/emoji.js';
 import { getTopChampionsByPickRate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
-import type { Lane, LaneKey, PositionSet, RankRange, RankRangeKey } from '@/types/game.js';
+import type {
+  Lane,
+  LaneKey,
+  PositionSet,
+  RankRange,
+  RankRangeKey,
+} from '@/types/game.js';
 import type { HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
 import { getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
-import { type ChatInputCommandInteraction, Colors, EmbedBuilder } from 'discord.js';
+import {
+  type ChatInputCommandInteraction,
+  Colors,
+  EmbedBuilder,
+} from 'discord.js';
 
 function formatChampionStats(stat: HeroStats, index: number): string {
   const champion = getChampByHeroId(stat.hero_id);
@@ -27,8 +37,15 @@ function createPickRateField(
   rank: { apiParam: RankRange },
   isBanRate: boolean,
 ): string {
-  const stats = getTopChampionsByPickRate(lane.apiParam, rank.apiParam, 5, isBanRate);
-  return stats.map((stat, index) => formatChampionStats(stat, index)).join('\n');
+  const stats = getTopChampionsByPickRate(
+    lane.apiParam,
+    rank.apiParam,
+    5,
+    isBanRate,
+  );
+  return stats
+    .map((stat, index) => formatChampionStats(stat, index))
+    .join('\n');
 }
 
 function createLanePickRateEmbed(
@@ -49,7 +66,8 @@ function createLanePickRateEmbed(
           lane: t(`constants:${lane.name}`),
           emoji: getEmoji(lane.emoji),
         }),
-        value: fieldValue.length > 0 ? fieldValue : t('champion:body.stats.no_data'),
+        value:
+          fieldValue.length > 0 ? fieldValue : t('champion:body.stats.no_data'),
       };
     });
   return new EmbedBuilder()
@@ -65,15 +83,19 @@ export default new SubCommand({
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     await interaction.deferReply();
 
-    const rankValue = interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
-    const laneValue = interaction.options.getString('lane', false) ?? WIN_RATE_DEFAULTS.LANE;
+    const rankValue =
+      interaction.options.getString('rank', false) ?? WIN_RATE_DEFAULTS.RANK;
+    const laneValue =
+      interaction.options.getString('lane', false) ?? WIN_RATE_DEFAULTS.LANE;
     const isBanRate = interaction.options.getBoolean('banrate', false) ?? false;
 
     const rank = getRankRange(rankValue);
     if (!rank) {
       await interaction.editReply({
         content: '',
-        embeds: [interactionErrorEmbed(t('champion:body.stats.pickrate.invalid_rank'))],
+        embeds: [
+          interactionErrorEmbed(t('champion:body.stats.pickrate.invalid_rank')),
+        ],
       });
       return;
     }

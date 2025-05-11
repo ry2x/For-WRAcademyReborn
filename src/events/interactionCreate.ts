@@ -37,7 +37,9 @@ type Command =
 
 export default new Event({
   name: Events.InteractionCreate,
-  async execute(interaction: CommandInteraction | AutocompleteInteraction): Promise<void> {
+  async execute(
+    interaction: CommandInteraction | AutocompleteInteraction,
+  ): Promise<void> {
     try {
       // Handle different interaction types
       if (isCommandInteraction(interaction)) {
@@ -84,16 +86,22 @@ function isModalCommand(command: Command): command is ModalCommand {
   return 'execute' in command && command.execute.length === 1;
 }
 
-function isAutocompleteCommand(command: Command): command is AutocompleteCommand {
+function isAutocompleteCommand(
+  command: Command,
+): command is AutocompleteCommand {
   return 'execute' in command && command.execute.length === 1;
 }
 
-async function handleCommandInteraction(interaction: CommandInteraction): Promise<void> {
+async function handleCommandInteraction(
+  interaction: CommandInteraction,
+): Promise<void> {
   try {
     let command: Command | undefined;
 
     if (interaction.isButton()) {
-      command = client.components.buttons.get(interaction.customId.split('-')[0]);
+      command = client.components.buttons.get(
+        interaction.customId.split('-')[0],
+      );
       if (command && isButtonCommand(command)) {
         await command.execute(interaction);
       }
@@ -120,7 +128,10 @@ async function handleCommandInteraction(interaction: CommandInteraction): Promis
     }
 
     if (!command) {
-      logger.warn(t('interaction.failed.notFound', { name: interaction.id }), interaction);
+      logger.warn(
+        t('interaction.failed.notFound', { name: interaction.id }),
+        interaction,
+      );
     }
   } catch (error) {
     logger.error(t('interaction.failed.error'), error);
@@ -128,7 +139,9 @@ async function handleCommandInteraction(interaction: CommandInteraction): Promis
   }
 }
 
-async function handleAutocompleteInteraction(interaction: AutocompleteInteraction): Promise<void> {
+async function handleAutocompleteInteraction(
+  interaction: AutocompleteInteraction,
+): Promise<void> {
   try {
     const command = client.components.autocomplete.get(interaction.commandName);
 
@@ -154,7 +167,9 @@ async function handleAutocompleteInteraction(interaction: AutocompleteInteractio
   }
 }
 
-async function handleInteractionError(interaction: CommandInteraction): Promise<void> {
+async function handleInteractionError(
+  interaction: CommandInteraction,
+): Promise<void> {
   try {
     if (interaction.deferred || interaction.replied) {
       await interaction.followUp(interactionError);

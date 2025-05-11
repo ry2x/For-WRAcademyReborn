@@ -96,7 +96,9 @@ const championCommand = new ApplicationCommand({
             .addStringOption((option) =>
               option
                 .setName('champion_name')
-                .setDescription(t('champion:command.stats.winrate.champion_name'))
+                .setDescription(
+                  t('champion:command.stats.winrate.champion_name'),
+                )
                 .setRequired(true)
                 .setAutocomplete(true),
             )
@@ -223,6 +225,8 @@ const championCommand = new ApplicationCommand({
 });
 
 const command =
-  ENABLE_SUBCOMMAND_CHAMPION?.toLowerCase() === 'true' ? championCommand : emptyCommand;
+  ENABLE_SUBCOMMAND_CHAMPION?.toLowerCase() === 'true'
+    ? championCommand
+    : emptyCommand;
 
 export default command;

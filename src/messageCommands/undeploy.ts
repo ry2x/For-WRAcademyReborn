@@ -10,7 +10,10 @@ export default new MessageCommand({
     try {
       // Check if the user has permission to undeploy commands
       if (message.author.id !== client.application?.owner?.id) {
-        logger.warn(t('undeploy.unhandled', { name: message.author.tag }), message.author);
+        logger.warn(
+          t('undeploy.unhandled', { name: message.author.tag }),
+          message.author,
+        );
         await message.reply(t('undeploy.for_owner'));
         return;
       }

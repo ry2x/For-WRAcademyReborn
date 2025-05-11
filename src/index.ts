@@ -69,7 +69,11 @@ function scheduleDailyUpdate(): void {
   setTimeout(() => {
     void (async () => {
       try {
-        await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
+        await Promise.all([
+          fetchChampionData(),
+          fetchWildRiftData(),
+          fetchWinRateData(),
+        ]);
         scheduleDailyUpdate();
       } catch (error) {
         handleError(t('initialization.failed.daily'), error);
@@ -84,7 +88,11 @@ function scheduleDailyUpdate(): void {
  */
 async function initializeData(): Promise<void> {
   try {
-    await Promise.all([fetchChampionData(), fetchWildRiftData(), fetchWinRateData()]);
+    await Promise.all([
+      fetchChampionData(),
+      fetchWildRiftData(),
+      fetchWinRateData(),
+    ]);
     scheduleDailyUpdate();
   } catch (error) {
     handleError(t('initialization.failed.data'), error);
@@ -136,12 +144,17 @@ async function loadCommands<T extends { data: { name: string } }>(
   try {
     const files = readdirSync(directory).filter(filterFn);
     for (const file of files) {
-      const module = (await import(`./${directory}/${file}`)) as CommandModule<T>;
+      const module = (await import(
+        `./${directory}/${file}`
+      )) as CommandModule<T>;
       const command = module.default;
       collection.set(command.data.name, command);
     }
   } catch (error) {
-    handleError(t('initialization.failed.commands', { directory: directory }), error);
+    handleError(
+      t('initialization.failed.commands', { directory: directory }),
+      error,
+    );
     throw error;
   }
 }
@@ -161,12 +174,17 @@ async function loadMessageCommands(
   try {
     const files = readdirSync(directory).filter(filterFn);
     for (const file of files) {
-      const module = (await import(`./${directory}/${file}`)) as CommandModule<MessageCommand>;
+      const module = (await import(
+        `./${directory}/${file}`
+      )) as CommandModule<MessageCommand>;
       const command = module.default;
       collection.set(command.name, command);
     }
   } catch (error) {
-    handleError(t('initialization.failed.messageCommands', { directory: directory }), error);
+    handleError(
+      t('initialization.failed.messageCommands', { directory: directory }),
+      error,
+    );
     throw error;
   }
 }
@@ -191,7 +209,10 @@ async function loadComponentCommands(): Promise<void> {
       }
     }
   } catch (error) {
-    handleError(t('initialization.failed.component', { directory: './components' }), error);
+    handleError(
+      t('initialization.failed.component', { directory: './components' }),
+      error,
+    );
     throw error;
   }
 }
@@ -224,7 +245,10 @@ function setupEventHandler(event: Event): void {
       try {
         await event.execute(...args);
       } catch (error) {
-        handleError(t('initialization.failed.event', { eventName: event.name }), error);
+        handleError(
+          t('initialization.failed.event', { eventName: event.name }),
+          error,
+        );
       }
     })();
   };
@@ -265,7 +289,9 @@ function setupProcessExitHandler(): void {
     void (async () => {
       try {
         logger.error(t('initialization.failed.processError', { code: code }));
-        await notifyAdminWebhook(t('initialization.failed.processError', { code: code }));
+        await notifyAdminWebhook(
+          t('initialization.failed.processError', { code: code }),
+        );
       } catch (error) {
         handleError(t('initialization.failed.process'), error);
       }
