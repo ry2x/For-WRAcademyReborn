@@ -1,7 +1,7 @@
 import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getEmoji } from '@/data/emoji.js';
-import { getTopChampionsByWinRate } from '@/data/winRate.js';
+import { getTopChampionsByWinRate, getWinRateData } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type {
@@ -13,7 +13,7 @@ import type {
 } from '@/types/game.js';
 import { type HeroStats } from '@/types/winRate.js';
 import { getLanePositionSets, getRankRange } from '@/utils/constantsUtils.js';
-import { getIsFloating } from '@/utils/formatUtils.js';
+import { formatDateWithSlash, getIsFloating } from '@/utils/formatUtils.js';
 import { t } from '@/utils/i18n.js';
 import {
   type ChatInputCommandInteraction,
@@ -89,7 +89,8 @@ function createLaneWinRateEmbed(
     )
     .setDescription(t('champion:body.stats.lanewinrate.description'))
     .setColor(Colors.Aqua)
-    .addFields(fields);
+    .addFields(fields)
+    .setFooter({ text: formatDateWithSlash(getWinRateData()) });
 }
 
 export default new SubCommand({
