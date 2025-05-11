@@ -42,33 +42,43 @@ export async function fetchEmoji(): Promise<void> {
 export async function uploadEmojis(): Promise<void> {
   const existingEmojis = await global.client.application?.emojis.fetch();
   const deployedEmojis = [];
+  const existingEmojiCodes = [];
 
   if (existingEmojis) {
     const existingEmojisMap = new Map(
       existingEmojis.map((emoji) => [emoji.name, emoji]),
     );
+
     for (const { code, url } of EMOJIS) {
       if (existingEmojisMap.has(code)) {
-        logger.info(`Emoji already exists: ${code}`);
+        existingEmojiCodes.push(code);
       } else {
         const newEmoji = await global.client.application?.emojis.create({
           attachment: url,
           name: code,
         });
-        logger.info(`Added new emoji: ${code}`);
-        deployedEmojis.push(newEmoji);
+        if (newEmoji) {
+          deployedEmojis.push(newEmoji);
+        }
       }
     }
 
-    const emojiList = deployedEmojis
-      .filter((emoji) => emoji !== undefined)
-      .map((emoji) => emoji.toString())
-      .join(' ');
-    logger.info(
-      emojiList.length === 0
-        ? 'No new emojis deployed'
-        : `Emojis deployed successfully, new emojis: ${emojiList}`,
-    );
+    // Log summary of emoji deployment
+    if (existingEmojiCodes.length > 0) {
+      logger.info(
+        `Found ${existingEmojiCodes.length} existing emojis:`,
+        existingEmojiCodes,
+      );
+    }
+
+    if (deployedEmojis.length > 0) {
+      logger.info(
+        `Successfully deployed ${deployedEmojis.length} new emojis:`,
+        deployedEmojis,
+      );
+    } else {
+      logger.info('No new emojis needed to be deployed');
+    }
   }
 }
 
