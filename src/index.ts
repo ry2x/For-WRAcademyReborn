@@ -355,8 +355,12 @@ async function initialize(): Promise<void> {
 
     logger.info('[END STARTING]');
 
+    logger.info('[EMOJI FETCH STARTING]');
+
     await uploadEmojis();
     await fetchEmoji();
+
+    logger.info('[EMOJI FETCH END]');
   } catch (error) {
     handleError('Failed to starting', error);
     process.exit(1);
