@@ -1,15 +1,26 @@
 import config from '@/constants/config.js';
 import { LANES } from '@/constants/game.js';
+import {
+  CACHE_KEYS,
+  getCachedData,
+  setCachedData,
+} from '@/services/cache/cacheService.js';
 import type { Champion, Champions } from '@/types/champs.js';
 import type { Lane, LaneKey, PositionSet } from '@/types/game.js';
 import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
 
-// Cache for champion data
-let champions: Champions = [];
+// Champion data will be cached instead of using a global variable
+/**
+ * Gets cached champion data
+ * @returns Champion data from cache or empty array if not found
+ */
+function getChampionData(): Champions {
+  return getCachedData<Champions>(CACHE_KEYS.CHAMPION_DATA) || [];
+}
 
 /**
- * Fetches champion data from the API and updates the local cache
+ * Fetches champion data from the API and updates the cache
  * @throws Error if API request fails
  */
 export async function fetchChampionData(): Promise<void> {
@@ -20,7 +31,7 @@ export async function fetchChampionData(): Promise<void> {
         process.env.DEFAULT_LOCALE ?? 'en_US',
       ),
     );
-    champions = res.data;
+    setCachedData(CACHE_KEYS.CHAMPION_DATA, res.data);
     logger.info(
       'Champion data updated successfully:',
       process.env.DEFAULT_LOCALE ?? 'en_US',
@@ -37,6 +48,7 @@ export async function fetchChampionData(): Promise<void> {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampionByName(name: string): Champion | undefined {
+  const champions = getChampionData();
   return champions.find((champ: Champion) =>
     champ.name.toLowerCase().includes(name.toLowerCase()),
   );
@@ -48,6 +60,7 @@ export function getChampionByName(name: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampById(id: string): Champion | undefined {
+  const champions = getChampionData();
   return champions.find(
     (champ: Champion) => champ.id.toLowerCase() === id.toLowerCase(),
   );
@@ -59,6 +72,7 @@ export function getChampById(id: string): Champion | undefined {
  * @returns The champion if found, undefined otherwise
  */
 export function getChampByHeroId(heroId: number): Champion | undefined {
+  const champions = getChampionData();
   return champions.find(
     (champ: Champion) => champ.hero_id.toString() === heroId.toString(),
   );
@@ -69,6 +83,7 @@ export function getChampByHeroId(heroId: number): Champion | undefined {
  * @returns Array of champion names
  */
 export function getChampionNames(): string[] {
+  const champions = getChampionData();
   return champions.map((champ: Champion) => champ.name);
 }
 
@@ -77,6 +92,7 @@ export function getChampionNames(): string[] {
  * @returns Array of champion IDs
  */
 export function getChampionIds(): string[] {
+  const champions = getChampionData();
   return champions.map((champ: Champion) => champ.id);
 }
 
@@ -86,6 +102,7 @@ export function getChampionIds(): string[] {
  * @returns Array of champions that can be played in the specified lane
  */
 export function getChampionsByLane(lane: LaneKey): Champion[] {
+  const champions = getChampionData();
   if (lane === LANES.all.value) {
     return champions;
   }
