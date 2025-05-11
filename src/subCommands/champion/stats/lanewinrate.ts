@@ -1,7 +1,7 @@
 import { RANK_EMOJIS, WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getEmoji } from '@/data/emoji.js';
-import { getTopChampionsByWinRate, getWinRateData } from '@/data/winRate.js';
+import { getTopChampionsByWinRate, getWinRateDate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type {
@@ -90,7 +90,7 @@ function createLaneWinRateEmbed(
     .setDescription(t('champion:body.stats.lanewinrate.description'))
     .setColor(Colors.Aqua)
     .addFields(fields)
-    .setFooter({ text: formatDateWithSlash(getWinRateData()) });
+    .setFooter({ text: formatDateWithSlash(getWinRateDate()) });
 }
 
 export default new SubCommand({

@@ -6,7 +6,7 @@ import {
 } from '@/constants/game.js';
 import { getChampByHeroId } from '@/data/championData.js';
 import { getEmoji } from '@/data/emoji.js';
-import { getTopChampionsByStrength, getWinRateData } from '@/data/winRate.js';
+import { getTopChampionsByStrength, getWinRateDate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type { Lane, LaneKey, RankRange } from '@/types/game.js';
@@ -76,7 +76,7 @@ function createLaneStrengthEmbed(
     .setDescription(t('champion:body.stats.strength.description'))
     .setColor(Colors.Aqua)
     .addFields(fields)
-    .setFooter({ text: formatDateWithSlash(getWinRateData()) });
+    .setFooter({ text: formatDateWithSlash(getWinRateDate()) });
 }
 
 export default new SubCommand({
