@@ -1,7 +1,7 @@
 import { WIN_RATE_DEFAULTS } from '@/constants/game.js';
 import { getChampionByName, getChampionLanes } from '@/data/championData.js';
 import { getEmoji } from '@/data/emoji.js';
-import { getChampionStats, getWinRateData } from '@/data/winRate.js';
+import { getChampionStats, getWinRateDate } from '@/data/winRate.js';
 import { interactionErrorEmbed } from '@/embeds/errorEmbed.js';
 import SubCommand from '@/templates/SubCommand.js';
 import type {
@@ -90,7 +90,7 @@ function createChampionWinRateEmbed(
     )
     .setDescription(t('champion:body.stats.winrate.description'))
     .addFields(field)
-    .setFooter({ text: formatDateWithSlash(getWinRateData()) });
+    .setFooter({ text: formatDateWithSlash(getWinRateDate()) });
 }
 
 export default new SubCommand({

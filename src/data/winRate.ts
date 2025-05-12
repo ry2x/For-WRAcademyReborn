@@ -1,11 +1,16 @@
 import config from '@/constants/config.js';
 import { type LANES, type RANK_RANGES } from '@/constants/game.js';
+import {
+  CACHE_KEYS,
+  getCachedData,
+  setCachedData,
+} from '@/services/cache/cacheService.js';
 import { type HeroStats, type WinRates } from '@/types/winRate.js';
 import logger from '@/utils/logger.js';
 import axios, { type AxiosResponse } from 'axios';
 
-// Cache for win rate data
-let WinRates: WinRates = {
+// Default empty win rate data structure
+const defaultWinRates: WinRates = {
   result: 0,
   data: {
     0: {},
@@ -17,13 +22,21 @@ let WinRates: WinRates = {
 };
 
 /**
- * Fetches win rate data from the API and updates the local cache
+ * Gets cached win rate data
+ * @returns Win rate data from cache or default empty structure if not found
+ */
+function getWinRateData(): WinRates {
+  return getCachedData<WinRates>(CACHE_KEYS.WIN_RATE_DATA) || defaultWinRates;
+}
+
+/**
+ * Fetches win rate data from the API and updates the cache
  * @throws Error if API request fails
  */
 export async function fetchWinRateData(): Promise<void> {
   try {
     const res: AxiosResponse<WinRates> = await axios.get(config.urlWinRate);
-    WinRates = res.data;
+    setCachedData(CACHE_KEYS.WIN_RATE_DATA, res.data);
     logger.info('WinRate data updated successfully');
   } catch (error) {
     logger.error('Failed to fetch winRate data:', error);
@@ -43,6 +56,7 @@ export function getChampionStats(
   lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
   rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
 ): HeroStats | null {
+  const WinRates = getWinRateData();
   const laneData = WinRates.data[rankRange]?.[lane];
   return (
     laneData?.find(
@@ -61,6 +75,7 @@ export function getLaneStats(
   lane: (typeof LANES)[keyof typeof LANES]['apiParam'],
   rankRange: (typeof RANK_RANGES)[keyof typeof RANK_RANGES]['apiParam'],
 ): HeroStats[] {
+  const WinRates = getWinRateData();
   const laneData = WinRates.data[rankRange][lane];
   return laneData ? laneData : [];
 }
@@ -133,7 +148,6 @@ export function getTopChampionsByPickRate(
         const banRate = parseFloat(hero.forbid_rate_percent);
         const banBenchmark = parseFloat(hero.forbid_bzc);
 
-        // Higher ban benchmark value increases the impact of ban rate
         const banWeight = 1 + banBenchmark / 100; // Normalize benchmark value to 0-1 range
         return pickRate + banRate * banWeight;
       };
@@ -147,6 +161,7 @@ export function getTopChampionsByPickRate(
  * Gets the date when win rate data was last updated
  * @returns The date string in YYYYMMDD format, or empty string if not available
  */
-export function getWinRateData(): string {
+export function getWinRateDate(): string {
+  const WinRates = getWinRateData();
   return WinRates.data[0]?.[1]?.[0]?.dtstatdate || '';
 }

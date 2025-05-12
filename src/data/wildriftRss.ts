@@ -1,16 +1,29 @@
 import config from '@/constants/config.js';
+import {
+  CACHE_KEYS,
+  getCachedData,
+  setCachedData,
+} from '@/services/cache/cacheService.js';
 import { type RssWildRift, type RssWildRiftItem } from '@/types/news.js';
 import logger from '@/utils/logger.js';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
 
-// Cache for WildRift RSS data
-let data: RssWildRift = {
+// Default empty RSS data structure
+const defaultRssData: RssWildRift = {
   title: '',
   favicon: '',
   elements: [],
 };
+
+/**
+ * Gets cached RSS data
+ * @returns RSS data from cache or default empty structure if not found
+ */
+function getRssData(): RssWildRift {
+  return getCachedData<RssWildRift>(CACHE_KEYS.NEWS_DATA) || defaultRssData;
+}
 
 /**
  * Fetches WildRift RSS data from the API and updates the local cache
@@ -21,7 +34,7 @@ export async function fetchWildRiftData(): Promise<void> {
     const res: AxiosResponse<RssWildRift> = await axios.get(
       config.urlRssWildRift,
     );
-    data = res.data;
+    setCachedData(CACHE_KEYS.NEWS_DATA, res.data);
     logger.info('WildRift RSS data updated successfully');
   } catch (error) {
     logger.error('Failed to fetch WildRift RSS data:', error);
@@ -35,6 +48,7 @@ export async function fetchWildRiftData(): Promise<void> {
  * @returns Array of news items
  */
 export function getWildriftNews(count: number): RssWildRiftItem[] {
+  const data = getRssData();
   return data.elements.slice(0, count);
 }
 
@@ -43,6 +57,7 @@ export function getWildriftNews(count: number): RssWildRiftItem[] {
  * @returns The favicon URL
  */
 export function getWildriftFaivcon(): string {
+  const data = getRssData();
   return data.favicon;
 }
 
