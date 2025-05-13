@@ -1,6 +1,5 @@
-import { t } from '@/utils/i18n.js';
-import logger from '@/utils/logger.js';
-import { WebhookClient } from 'discord.js';
+import { ErrorHandler } from '@/utils/errors/errorHandler.js';
+import { BaseError } from '@/utils/errors/errors.js';
 
 /**
  * Logs errors with context information using the logger utility
@@ -9,7 +8,17 @@ import { WebhookClient } from 'discord.js';
  * @param {unknown} error - The error object or message to be logged
  */
 export function handleError(context: string, error: unknown): void {
-  logger.error(`${context}:`, error);
+  const errorHandler = ErrorHandler.getInstance();
+  const baseError =
+    error instanceof BaseError
+      ? error
+      : new BaseError(
+          context,
+          ErrorHandler.createContext({
+            metadata: { originalError: error },
+          }),
+        );
+  void errorHandler.handle(baseError);
 }
 
 /**
@@ -19,13 +28,15 @@ export function handleError(context: string, error: unknown): void {
  * @throws Will log an error if webhook sending fails
  */
 export async function notifyAdminWebhook(message: string): Promise<void> {
-  const { ADMIN_WEBHOOK } = process.env;
-  if (!ADMIN_WEBHOOK) return;
-
+  const errorHandler = ErrorHandler.getInstance();
   try {
-    const webhook = new WebhookClient({ url: ADMIN_WEBHOOK });
-    await webhook.send(message);
+    const context = ErrorHandler.createContext({
+      severity: 'INFO',
+      metadata: { message },
+    });
+    const notification = new BaseError(message, context);
+    await errorHandler.handle(notification);
   } catch (error) {
-    handleError(t('webhook.failed'), error);
+    handleError('webhook.failed', error);
   }
 }
