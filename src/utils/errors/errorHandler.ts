@@ -1,21 +1,60 @@
-import type { ErrorContext, ErrorRecoveryStrategy } from '@/types/error.js';
+import type { ErrorContext } from '@/types/error.js';
 import type { BaseError } from '@/utils/errors/errors.js';
-import { t } from '@/utils/i18n.js';
+import { NotificationManager } from '@/utils/errors/notificationManager.js';
 import logger from '@/utils/logger.js';
-import { WebhookClient } from 'discord.js';
 
 /**
  * Error handler implementation for managing error handling across the application
  */
 export class ErrorHandler {
   private static instance: ErrorHandler;
-  private webhookClient?: WebhookClient;
+  private notificationManager: NotificationManager;
 
   private constructor() {
+    this.notificationManager = NotificationManager.getInstance();
+    this.setupNotificationChannels();
+  } /**
+   * Sets up notification channels based on environment variables
+   */
+  private setupNotificationChannels(): void {
     const { ADMIN_WEBHOOK } = process.env;
-    if (ADMIN_WEBHOOK) {
-      this.webhookClient = new WebhookClient({ url: ADMIN_WEBHOOK });
+
+    // Skip notification setup if webhook URL is not configured
+    if (!ADMIN_WEBHOOK) {
+      return;
     }
+
+    // Critical errors - sent immediately
+    this.notificationManager.registerChannel('critical', {
+      webhookUrl: ADMIN_WEBHOOK,
+      severity: ['CRITICAL'],
+      batchSize: 1,
+      batchInterval: 0,
+    });
+
+    // Regular errors - small batches, quick sending
+    this.notificationManager.registerChannel('error', {
+      webhookUrl: ADMIN_WEBHOOK,
+      severity: ['ERROR'],
+      batchSize: 3,
+      batchInterval: 3000,
+    });
+
+    // Warnings - medium batches
+    this.notificationManager.registerChannel('warning', {
+      webhookUrl: ADMIN_WEBHOOK,
+      severity: ['WARNING'],
+      batchSize: 5,
+      batchInterval: 5000,
+    });
+
+    // Info messages - larger batches, less frequent
+    this.notificationManager.registerChannel('info', {
+      webhookUrl: ADMIN_WEBHOOK,
+      severity: ['INFO'],
+      batchSize: 10,
+      batchInterval: 10000,
+    });
   }
 
   /**
@@ -43,36 +82,15 @@ export class ErrorHandler {
   }
 
   /**
-   * Sends error notification through configured channels
+   * Handles the error by logging and sending notifications
    */
-  private async notify(error: BaseError): Promise<void> {
-    if (!this.webhookClient) return;
+  public async handle(error: BaseError): Promise<void> {
+    this.logError(error);
+    this.notificationManager.queueNotification(error);
 
-    try {
-      const message = this.formatErrorMessage(error);
-      await this.webhookClient.send(message);
-    } catch (notifyError) {
-      logger.error(t('webhook.failed'), notifyError);
+    if (error.recovery?.shouldRetry) {
+      await this.attemptRecovery(error);
     }
-  }
-
-  /**
-   * Formats error message for notification
-   */
-  private formatErrorMessage(error: BaseError): string {
-    const { context } = error;
-    const parts = [
-      `**${error.name}**: ${error.message}`,
-      `**Severity**: ${context.severity}`,
-      context.command && `**Command**: ${context.command}`,
-      context.userId && `**User ID**: ${context.userId}`,
-      context.guildId && `**Guild ID**: ${context.guildId}`,
-      context.metadata &&
-        `**Metadata**: \`\`\`json\n${JSON.stringify(context.metadata, null, 2)}\`\`\``,
-      error.stack && `**Stack**: \`\`\`\n${error.stack}\`\`\``,
-    ].filter(Boolean);
-
-    return parts.join('\n');
   }
 
   /**
@@ -83,54 +101,46 @@ export class ErrorHandler {
     retryCount = 0,
   ): Promise<void> {
     const { recovery } = error;
-    if (
-      !recovery ||
-      !recovery.shouldRetry ||
-      retryCount >= recovery.maxRetries
-    ) {
-      if (recovery?.fallbackAction) {
-        await recovery.fallbackAction();
+    if (!recovery || !recovery.shouldRetry) return;
+
+    if (retryCount >= (recovery.maxRetries || 3)) {
+      if (recovery.fallbackAction) {
+        try {
+          await recovery.fallbackAction();
+        } catch (fallbackError) {
+          this.logError(fallbackError as BaseError);
+        }
       }
       return;
     }
 
-    const delay = this.calculateBackoff(retryCount, recovery);
-    await new Promise((resolve) => setTimeout(resolve, delay));
+    const delay = this.calculateBackoffDelay(
+      retryCount,
+      recovery.backoffStrategy || 'exponential',
+    );
 
+    await new Promise((resolve) => setTimeout(resolve, delay));
     try {
       if (recovery.fallbackAction) {
         await recovery.fallbackAction();
       }
     } catch (retryError) {
-      await this.handle(error, retryCount + 1);
+      await this.attemptRecovery(error, retryCount + 1);
     }
   }
 
   /**
    * Calculates backoff delay based on strategy
    */
-  private calculateBackoff(
+  private calculateBackoffDelay(
     retryCount: number,
-    recovery: ErrorRecoveryStrategy,
+    strategy: 'fixed' | 'exponential',
   ): number {
     const baseDelay = 1000; // 1 second
-    if (recovery.backoffStrategy === 'fixed') {
+    if (strategy === 'fixed') {
       return baseDelay;
     }
-    // Exponential backoff: 1s, 2s, 4s, 8s, ...
-    return baseDelay * Math.pow(2, retryCount);
-  }
-
-  /**
-   * Main error handling method
-   */
-  public async handle(error: BaseError, retryCount = 0): Promise<void> {
-    this.logError(error);
-    await this.notify(error);
-
-    if (error.recovery?.shouldRetry) {
-      await this.attemptRecovery(error, retryCount);
-    }
+    return Math.min(baseDelay * Math.pow(2, retryCount), 30000); // Max 30 seconds
   }
 
   /**
@@ -144,5 +154,13 @@ export class ErrorHandler {
       severity: 'ERROR',
       ...partial,
     };
+  }
+
+  /**
+   * Disposes of resources
+   */
+  public dispose(): void {
+    const manager = NotificationManager.getInstance();
+    manager.dispose();
   }
 }
