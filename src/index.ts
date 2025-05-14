@@ -288,10 +288,8 @@ function setupProcessExitHandler(): void {
   process.on('exit', (code) => {
     void (async () => {
       try {
-        logger.error(t('initialization.failed.processError', { code: code }));
-        await notifyAdminWebhook(
-          t('initialization.failed.processError', { code: code }),
-        );
+        const message = t('initialization.failed.processError', { code: code });
+        await notifyAdminWebhook(message, 'CRITICAL');
       } catch (error) {
         handleError(t('initialization.failed.process'), error);
       }
@@ -302,7 +300,10 @@ function setupProcessExitHandler(): void {
   process.on('unhandledRejection', (error) => {
     void (async () => {
       handleError(t('initialization.failed.unhandled'), error);
-      await notifyAdminWebhook(t('initialization.failed.unhandled'));
+      await notifyAdminWebhook(
+        t('initialization.failed.unhandled'),
+        'CRITICAL',
+      );
     })();
   });
 
@@ -310,7 +311,7 @@ function setupProcessExitHandler(): void {
   process.on('uncaughtException', (error) => {
     handleError(t('initialization.failed.uncaught'), error);
     void (async () => {
-      await notifyAdminWebhook(t('initialization.failed.uncaught'));
+      await notifyAdminWebhook(t('initialization.failed.uncaught'), 'CRITICAL');
       process.exit(1);
     })();
   });

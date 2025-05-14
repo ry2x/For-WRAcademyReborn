@@ -1,4 +1,6 @@
 import Event from '@/templates/Event.js';
+import { handleError } from '@/utils/errorHandler.js';
+import { DiscordError } from '@/utils/errors/errors.js';
 import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Events } from 'discord.js';
@@ -10,11 +12,34 @@ export default new Event({
     try {
       const userTag = client.user?.tag;
       if (!userTag) {
-        throw new Error(t('ready.failed.noUserTag'));
+        throw new DiscordError(t('ready.failed.noUserTag'), {
+          timestamp: new Date(),
+
+          metadata: {
+            clientId: client.user?.id,
+            applicationId: client.application?.id,
+          },
+        });
       }
+
       logger.info(t('ready.success', { name: userTag }));
     } catch (error) {
-      logger.error(t('ready.failed.error'), error);
+      handleError(
+        'ready.failed.error',
+        error instanceof DiscordError
+          ? error
+          : new DiscordError(
+              error instanceof Error ? error.message : t('ready.failed.error'),
+              {
+                timestamp: new Date(),
+                metadata: {
+                  clientId: client.user?.id,
+                  applicationId: client.application?.id,
+                },
+              },
+              error instanceof Error ? error : undefined,
+            ),
+      );
     }
   },
 });

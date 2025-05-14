@@ -1,10 +1,10 @@
-import { interactionError } from '@/embeds/errorEmbed.js';
 import type SubCommand from '@/templates/SubCommand.js';
 import type { CommandModule } from '@/types/type.js';
+import { handleError } from '@/utils/errorHandler.js';
+import { DiscordError } from '@/utils/errors/errors.js';
+import { sendErrorToInteraction } from '@/utils/errors/helpers.js';
 import { t } from '@/utils/i18n.js';
-import logger from '@/utils/logger.js';
 import {
-  MessageFlags,
   type ChatInputCommandInteraction,
   type SlashCommandBuilder,
   type SlashCommandOptionsOnlyBuilder,
@@ -39,31 +39,54 @@ export default class ApplicationCommand {
       interaction: ChatInputCommandInteraction,
     ) => Promise<void> | void;
   }) {
+    this.data = options.data;
+    this.hasSubCommands = options.hasSubCommands ?? false;
+
     if (options.hasSubCommands) {
       this.execute = async (interaction: ChatInputCommandInteraction) => {
         const subCommandGroup = interaction.options.getSubcommandGroup();
         const commandName = interaction.options.getSubcommand();
 
         if (!commandName) {
-          await interaction.reply({
-            content: t('template.failed.notFound'),
-            flags: MessageFlags.Ephemeral,
+          throw new DiscordError(t('template.failed.notFound'), {
+            timestamp: new Date(),
+            userId: interaction.user.id,
+            guildId: interaction.guildId ?? undefined,
+            command: this.data.name,
           });
-        } else {
-          try {
-            const module = (await import(
-              `../subCommands/${this.data.name}/${subCommandGroup ? `${subCommandGroup}/` : ''}${commandName}.js`
-            )) as CommandModule<SubCommand>;
-            const command: SubCommand = module.default;
-            await command.execute(interaction);
-          } catch (error) {
-            logger.error(error);
-            if (interaction.deferred || interaction.replied) {
-              await interaction.followUp(interactionError);
-            } else {
-              await interaction.reply(interactionError);
-            }
-          }
+        }
+
+        try {
+          const module = (await import(
+            `../subCommands/${this.data.name}/${subCommandGroup ? `${subCommandGroup}/` : ''}${commandName}.js`
+          )) as CommandModule<SubCommand>;
+          const command: SubCommand = module.default;
+          await command.execute(interaction);
+        } catch (error) {
+          const errorContext = {
+            timestamp: new Date(),
+            userId: interaction.user.id,
+            guildId: interaction.guildId ?? undefined,
+            command: `${this.data.name}/${subCommandGroup ? `${subCommandGroup}/` : ''}${commandName}`,
+            metadata: {
+              options: interaction.options.data,
+            },
+          };
+
+          handleError(
+            'command.subcommand.error',
+            error instanceof DiscordError
+              ? error
+              : new DiscordError(
+                  error instanceof Error
+                    ? error.message
+                    : t('command.subcommand.error'),
+                  errorContext,
+                  error instanceof Error ? error : undefined,
+                ),
+          );
+
+          await sendErrorToInteraction(interaction);
         }
       };
     } else if (options.execute) {
@@ -71,19 +94,37 @@ export default class ApplicationCommand {
         try {
           await options.execute?.(interaction);
         } catch (error) {
-          logger.error(error);
-          if (interaction.deferred || interaction.replied) {
-            await interaction.followUp(interactionError);
-          } else {
-            await interaction.reply(interactionError);
-          }
+          const errorContext = {
+            timestamp: new Date(),
+            userId: interaction.user.id,
+            guildId: interaction.guildId ?? undefined,
+            command: this.data.name,
+            metadata: {
+              options: interaction.options.data,
+            },
+          };
+
+          handleError(
+            'command.execution.error',
+            error instanceof DiscordError
+              ? error
+              : new DiscordError(
+                  error instanceof Error
+                    ? error.message
+                    : t('command.execution.error'),
+                  errorContext,
+                  error instanceof Error ? error : undefined,
+                ),
+          );
+
+          await sendErrorToInteraction(interaction);
         }
       };
     } else {
-      throw new Error(t('template.failed.noExecute'));
+      throw new DiscordError(t('template.failed.noExecute'), {
+        timestamp: new Date(),
+        command: this.data.name,
+      });
     }
-
-    this.data = options.data;
-    this.hasSubCommands = options.hasSubCommands ?? false;
   }
 }

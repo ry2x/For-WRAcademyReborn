@@ -8,6 +8,12 @@ import {
   type ModalCommand,
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
+import { handleError } from '@/utils/errorHandler.js';
+import {
+  BaseError,
+  DiscordError,
+  ValidationError,
+} from '@/utils/errors/errors.js';
 import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import {
@@ -146,18 +152,44 @@ async function handleAutocompleteInteraction(
     const command = client.components.autocomplete.get(interaction.commandName);
 
     if (!command) {
-      logger.warn(
+      throw new ValidationError(
         t('autoComplete.failed.notFound', { name: interaction.commandName }),
-        interaction,
+        {
+          timestamp: new Date(),
+          command: interaction.commandName,
+          userId: interaction.user.id,
+          guildId: interaction.guildId ?? undefined,
+        },
+        { command: ['Command not found'] },
       );
-      return;
     }
 
     if (isAutocompleteCommand(command)) {
       await command.execute(interaction);
     }
   } catch (error) {
-    logger.error(t('autoComplete.failed.error'), error);
+    // Handle the error using our new error system
+    if (error instanceof BaseError) {
+      handleError('autoComplete.execution', error);
+    } else {
+      handleError(
+        'autoComplete.failed.error',
+        new DiscordError(
+          error instanceof Error
+            ? error.message
+            : t('autoComplete.failed.error'),
+          {
+            timestamp: new Date(),
+            command: interaction.commandName,
+            userId: interaction.user.id,
+            guildId: interaction.guildId ?? undefined,
+          },
+          error instanceof Error ? error : undefined,
+        ),
+      );
+    }
+
+    // Always respond to the interaction to prevent Discord timeout
     await interaction.respond([
       {
         name: t('autoComplete.failed.error'),
