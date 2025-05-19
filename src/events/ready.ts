@@ -1,5 +1,5 @@
 import Event from '@/templates/Event.js';
-import { handleError } from '@/utils/errorHandler.js';
+import { handleError } from '@/utils/errors/errorManager.js';
 import { DiscordError } from '@/utils/errors/errors.js';
 import { t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';

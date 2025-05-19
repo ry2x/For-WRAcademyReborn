@@ -8,7 +8,7 @@ import {
   type ModalCommand,
   type SelectCommand,
 } from '@/templates/InteractionCommands.js';
-import { handleError } from '@/utils/errorHandler.js';
+import { handleError } from '@/utils/errors/errorManager.js';
 import {
   BaseError,
   DiscordError,

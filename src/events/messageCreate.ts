@@ -2,7 +2,7 @@ import config from '@/constants/config.js';
 import { grantXP } from '@/services/leveling/grantXp.js';
 import Event from '@/templates/Event.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
-import { handleError } from '@/utils/errorHandler.js';
+import { handleError } from '@/utils/errors/errorManager.js';
 import { DiscordError } from '@/utils/errors/errors.js';
 import { t } from '@/utils/i18n.js';
 import { Events, type Message } from 'discord.js';

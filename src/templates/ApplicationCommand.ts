@@ -1,8 +1,11 @@
 import type SubCommand from '@/templates/SubCommand.js';
 import type { CommandModule } from '@/types/type.js';
-import { handleError } from '@/utils/errorHandler.js';
+import {
+  handleError,
+  sendErrorToInteraction,
+} from '@/utils/errors/errorManager.js';
 import { DiscordError } from '@/utils/errors/errors.js';
-import { sendErrorToInteraction } from '@/utils/errors/helpers.js';
+
 import { t } from '@/utils/i18n.js';
 import {
   type ChatInputCommandInteraction,

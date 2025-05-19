@@ -14,7 +14,10 @@ import {
 } from '@/templates/InteractionCommands.js';
 import type MessageCommand from '@/templates/MessageCommand.js';
 import type { CommandModule } from '@/types/type.js';
-import { handleError, notifyAdminWebhook } from '@/utils/errorHandler.js';
+import {
+  handleError,
+  notifyAdminWebhook,
+} from '@/utils/errors/errorManager.js';
 import { initI18n, t } from '@/utils/i18n.js';
 import logger from '@/utils/logger.js';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
